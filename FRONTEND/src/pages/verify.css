@@ -1,0 +1,149 @@
+/* Verify.css
+.verify-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .verify-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #007bff;
+  }
+  
+  .verify-container form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .verify-container label {
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #333;
+  }
+  
+  .verify-container input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    outline: none;
+  }
+  
+  .verify-container input:focus {
+    border-color: #007bff;
+  }
+  
+  .verify-container button {
+    padding: 10px;
+    font-size: 16px;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .verify-container button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+  
+  .verify-container button:hover:not(:disabled) {
+    background-color: #0056b3;
+  }
+  
+  .verify-container p {
+    text-align: center;
+    margin-top: 15px;
+    color: #ff5e57;
+    font-weight: bold;
+  }
+   */
+
+   /* Center the form container */
+.verify-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    text-align: center;
+    font-family: Arial, sans-serif;
+  }
+  
+  .verify-container h2 {
+    color: #d32f2f; /* Red color for the header */
+    margin-bottom: 20px;
+  }
+  
+  .verify-container form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .verify-container label {
+    margin-top: 10px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .verify-container input[type="text"],
+  .verify-container input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0 15px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+  }
+  
+  /* Focus state for inputs */
+  .verify-container input[type="text"]:focus,
+  .verify-container input[type="password"]:focus {
+    border-color: #d32f2f;
+    outline: none;
+  }
+  
+  /* Submit button styling */
+  .verify-container button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: #d32f2f;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .verify-container button[type="submit"]:hover {
+    background-color: #b71c1c;
+  }
+  
+  .verify-container button[type="submit"]:disabled {
+    background-color: #f5f5f5;
+    color: #9e9e9e;
+    cursor: not-allowed;
+  }
+  
+  /* Message styling */
+  .verify-container p {
+    margin-top: 15px;
+    color: #d32f2f; /* Red color for error or success message */
+    font-weight: bold;
+  }
+  

@@ -1,0 +1,262 @@
+/* auth.css */
+/* * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  background-color: #f4f7f9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.auth-container {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  text-align: center;
+}
+
+.auth-container h2 {
+  font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.auth-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-container input, .auth-container select {
+  margin: 10px 0;
+  padding: 12px 16px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: border-color 0.3s ease-in-out;
+} */
+/* 
+.auth-container input:focus, .auth-container select:focus {
+  border-color: #4285f4;
+  outline: none;
+}
+
+button.submit {
+  background-color: #4285f4;
+  color: #fff;
+  border: none;
+  padding: 12px 16px;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+  margin-top: 15px;
+}
+
+button.submit:hover {
+  background-color: #357ae8;
+}
+
+p {
+  margin-top: 15px;
+  color: #555;
+}
+
+p span {
+  color: #4285f4;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+p span:hover {
+  text-decoration: underline;
+}
+
+.login-with-google-btn {
+  background-color: #db4437;
+  color: white;
+  padding: 12px 16px;
+  margin-top: 20px;
+  border-radius: 6px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.login-with-google-btn:hover {
+  background-color: #c53829;
+} */
+
+/* Add smooth transitions for focus states */
+/* .auth-container input,
+.auth-container select {
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.auth-container input:focus,
+.auth-container select:focus {
+  border-color: #4285f4;
+  box-shadow: 0 0 5px rgba(66, 133, 244, 0.5);
+} */
+
+/* Media queries for responsiveness */
+/* @media (max-width: 480px) {
+  .auth-container {
+    width: 90%;
+    padding: 15px;
+  }
+
+  button.submit, .login-with-google-btn {
+    padding: 10px;
+  }
+} */
+/* auth.css */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  background-color: #f4f7f9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.auth-container {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  text-align: center;
+}
+
+.auth-container h2 {
+  font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.auth-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-container input, .auth-container select {
+  margin: 10px 0;
+  padding: 12px 16px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: border-color 0.3s ease-in-out;
+}
+
+.auth-container input:focus, .auth-container select:focus {
+  border-color: #4285f4;
+  outline: none;
+}
+
+.password-container {
+  position: relative;
+  width: 100%;
+}
+
+.password-container input {
+  padding-right: 40px; /* Space for the eye icon */
+}
+
+.password-container .eye-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #888;
+}
+
+button.submit {
+  background-color: #4285f4;
+  color: #fff;
+  border: none;
+  padding: 12px 16px;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+  margin-top: 15px;
+}
+
+button.submit:hover {
+  background-color: #357ae8;
+}
+
+p {
+  margin-top: 15px;
+  color: #555;
+}
+
+p span {
+  color: #4285f4;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+p span:hover {
+  text-decoration: underline;
+}
+
+.login-with-google-btn {
+  background-color: #db4437;
+  color: white;
+  padding: 12px 16px;
+  margin-top: 20px;
+  border-radius: 6px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.login-with-google-btn:hover {
+  background-color: #c53829;
+}
+
+/* Add smooth transitions for focus states */
+.auth-container input,
+.auth-container select {
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.auth-container input:focus,
+.auth-container select:focus {
+  border-color: #4285f4;
+  box-shadow: 0 0 5px rgba(66, 133, 244, 0.5);
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 480px) {
+  .auth-container {
+    width: 90%;
+    padding: 15px;
+  }
+
+  button.submit, .login-with-google-btn {
+    padding: 10px;
+  }
+}
