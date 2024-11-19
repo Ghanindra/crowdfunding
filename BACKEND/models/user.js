@@ -75,7 +75,8 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true, // Required for both local and OAuth users
-    unique: true
+    unique: true,
+   
   },
   googleId: {
     type: String,
@@ -87,16 +88,20 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    default: 'donor'
+    default: 'user'
   },
-  image: {
-    type: String,
-    required: false
-  },
+ 
   otp:{
     type:Number,
     default:0,
   },
+   profilePicture: {
+     type: String, // Store the path to the uploaded photo
+     default: '', // Default value if no photo is uploaded
+   },
+   secretKey:{
+    type:String
+   }
 });
 
 const User = mongoose.model('User', userSchema);

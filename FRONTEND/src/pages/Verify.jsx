@@ -97,7 +97,7 @@ const Verify = () => {
       const response = await axios.post('http://localhost:5000/api/verify-otp', { otp,password });
 
       if (response.status === 200) {
-        setMessage('OTP verified successfully!');
+        alert('OTP verified successfully!');
         navigate('/')
       } else {
         setMessage('OTP verification failed.');

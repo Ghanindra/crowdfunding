@@ -5,7 +5,7 @@ const cors = require('cors');
 const authRoutes = require('./routes/auth');
 require('dotenv').config();
 const User=require('./models/user')
-
+// const path = require('path'); // Import the path module
 const app = express();
 const PORT = process.env.PORT || 5000;
 const session=require('express-session')
@@ -20,6 +20,8 @@ app.use(cors({ origin: 'http://localhost:5173' }));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // To parse URL-encoded bodies
+app.use('/uploads', express.static('uploads'));
+
 
 // Use routes
 app.use('/api', authRoutes);

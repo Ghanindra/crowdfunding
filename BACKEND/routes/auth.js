@@ -2,8 +2,11 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+
 const User = require('../models/user');
+// const Profile = require('../models/profile');
 const router = express.Router();
+const multer = require('multer');
 const nodemailer=require('nodemailer');
 const { Verification_Email_Template } = require('../libs/EmailTemplate.jsx');
 // import { Verification_Email_Template } from '../libs/EmailTemplate';
@@ -23,9 +26,10 @@ router.post('/signup', async (req, res) => {
     }
 
     // Hash the password
+    console.log(password)
     const hashedPassword = await bcrypt.hash(password, 10);
     console.log('Hashed Password:', hashedPassword);
-    const newUser = new User({ username, email, password: hashedPassword, role });
+    const newUser = new User({ username, email, password: hashedPassword, role,secretKey });
     
     await newUser.save();
 
@@ -50,8 +54,8 @@ router.post('/login', async (req, res) => {
       });
       
       if (!user) {
-        console.log('User not found for:', usernameOrEmail);
-        return res.status(400).json({ message: 'Invalid Email' });
+        console.log('User not found for:', username || email);
+        return res.status(400).json({ message: 'Invalid Email or username' });
       }
   
       // Log the stored hashed password for debugging purposes
@@ -68,12 +72,12 @@ router.post('/login', async (req, res) => {
       console.log('Password Match Result:', isMatch);
   
       if (!isMatch) {
-        console.log('Password did not match for:', usernameOrEmail);
+        console.log('Password did not match for:', username || email);
         return res.status(400).json({ message: ' Password did not match' });
       }
   
       // Generate JWT token upon successful login
-      const token = jwt.sign({ id: user._id, role: user._role }, process.env.JWT_SECRET, { expiresIn: '1h' });
+      const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
       //  res.json({ token, user: { username: user.username, email: user.email, role: user.role }
       res.cookie('auth_token', token, { httpOnly: true, secure: true, maxAge: 3600000 }); // Add `secure: true` if using HTTPS
       
@@ -83,14 +87,16 @@ router.post('/login', async (req, res) => {
     //     secure:true,
 
       
-      res.json({ token, user: { username: user.username, email: user.email, role: user.role },
+     return res.json({ token, user: { username: user.username, email: user.email, role: user.role },
      });
-    return res.json({message:'user logged in successfully'})
+    // return res.json({message:'user logged in successfully'})
     } catch (error) {
       console.error('Error during login:', error);
       res.status(500).json({ message: 'Invalid Email or Password', error: error.message });
     }
   });
+
+  //forgot page
   
 router.post('/forgots',async(req,res)=>{
   const { email }=req.body;
@@ -194,5 +200,86 @@ router.post('/verify-otp',async(req,res)=>{
   }
 })
 
+
+
+//profile update
+
+const verifyToken = (req, res, next) => {
+  const token = req.headers['auth-token'];
+  console.log('Token received:', token); // Debugging check
+  if (!token) return res.status(401).json({ message: 'Access denied. No token provided.' });
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log('Decoded JWT:', decoded); // Debugging check
+    req.user = decoded;
+    next();
+  } catch (error) {
+    console.error('JWT Verification Error:', error); // Debugging check
+    res.status(400).json({ message: 'Invalid token.' });
+  }
+};
+
+// Configure multer for file uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  }
+});
+const upload= multer({ storage });
+
+// Route to get user profile
+router.get('/profile', verifyToken, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select('-password');
+    if (!user) return res.status(404).json({ message: 'User not found.' });
+    res.json(user)
+    console.log(user);
+    ;
+  } catch (error) {
+    console.error('Error fetching profile:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Route to update user profile
+router.put('/profiles', verifyToken, upload.single('file'), async (req, res) => {
+  try {
+    const { username, email, password } = req.body;
+    const user = await User.findById(req.user.id);
+
+    if (!user) return res.status(404).json({ message: 'User not found.' });
+  // Check if the file is available in req.file
+  console.log('Uploaded File:', req.file);  // Debugging check
+  console.log('Request Body:', req.body);   // Check if other data is being received
+    // Update fields if provided
+    user.username = username || user.username;
+    user.email = email || user.email;
+    if (password) user.password = await bcrypt.hash(password, 10);
+
+    if (req.file){
+
+    
+      console.log('Saving profile picture:', req.file.path);  // Debugging check
+      user.profilePicture = req.file.path;
+    } else {
+      // If no file is uploaded, retain the existing profile picture or set a default
+      if (!user.profilePicture) {
+        // No existing profile picture, set a default
+        user.profilePicture = 'path/to/default-image.jpg'; // Replace with actual default image path
+      }
+    }
+
+    await user.save();
+    res.json({ message: 'Profile updated successfully' });
+  } catch (error) {
+    console.error('Error updating profile:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+// Add the router to your main server file (e.g., app.js)
 // Export the router
 module.exports = router;
