@@ -1,44 +1,98 @@
-/* Navbar container styling */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #333; /* Dark background color for the header */
-  padding: 1rem 2rem; /* Space around content */
-  color: #fff;
-  position: fixed; /* Fix the navbar at the top */
-  top: 0; /* Ensure it stays at the top of the page */
-  left: 0;
-  width: 100%; /* Make sure it spans the entire width */
-  z-index: 1000; /* Ensure the navbar stays on top of other elements */
+  background: #1a1a2e;
+  padding: 15px 20px;
+  position: sticky;
+  top: 0;
+  width: 100vw; /* Ensure full viewport width */
+  z-index: 1000;
+  margin-top:-371px;
 }
 
-/* Add padding-top to the body to prevent content from being hidden under the navbar */
-body {
-  padding-top: 80px; /* Adjust based on the navbar height */
+.navbar-container {
+  width: 100%;
+  max-width: 1200px; /* Adjust to your design */
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-/* Navbar links list styling */
+.navbar-brand .navbar-logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: #00adb5;
+}
+
 .navbar-links {
   display: flex;
   list-style: none;
-  gap: 1.5rem; /* Space between links */
+  gap: 20px;
+  flex-wrap: wrap; /* Allows wrapping if space is insufficient */
 }
-.navbar-brand h1{
-color:blue;
+
+.navbar-links li {
+  display: flex;
+  align-items: center;
 }
-.navbar-links li a {
-  color: #fff;
+
+.navbar-links a {
   text-decoration: none;
+  color: white;
   font-size: 1rem;
-  transition: color 0.3s ease;
 }
 
-/* Hover effect for links */
-.navbar-links li a:hover {
-  color: #ddd; /* Lighter color on hover */
+.navbar-search {
+  display: flex;
+  align-items: center;
 }
 
+.navbar-search-input {
+  padding: 5px;
+  border-radius: 5px;
+  border: none;
+  width: 180px; /* Prevents excessive shrinking */
+}
+
+.navbar-search-button {
+  padding: 5px 10px;
+  border: none;
+  background: #00adb5;
+  color: white;
+  cursor: pointer;
+}
+
+.navbar-auth {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.logout-button {
+  background: red;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.navbar-notifications {
+  position: relative;
+}
+
+.notification-badge {
+  background: red;
+  color: white;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 50%;
+  position: absolute;
+  top: -5px;
+  right: -10px;
+}
 /* Dropdown Menu */
 .navbar-dropdown {
   position: relative;
@@ -74,99 +128,30 @@ color:blue;
   background-color: #666;
 }
 
-/* Styling for other navbar elements */
-.navbar-auth button {
-  padding: 0.5rem 1rem;
-  background-color: #f04e23; /* Primary button color */
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.3s ease;
-}
+/* Responsive Fix */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    padding: 10px;
+  }
+  
+  .navbar-links {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .navbar-auth {
+    flex-direction: column;
+    gap: 10px;
+  }
 
-.navbar-auth button:hover {
-  background-color: #d93e18; /* Darker shade on hover */
-}
+  .navbar-search {
+    width: 100%;
+    justify-content: center;
+  }
 
-.navbar-auth .btn-login,
-.navbar-auth .btn-logout {
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  font-size: 1rem;
-}
-.navbar-auth a{
-  padding-right:10px;
-}
-/* Dropdown icon styling */
-.dropdown-icon {
-  margin-left: 0.3rem; /* Space between the text and the icon */
-  font-size: 1rem; /* Adjust the size of the dropdown icon */
-  color: #fff; /* You can adjust the color to match the theme */
-  transition: transform 0.3s ease;
-}
-
-/* Change the dropdown icon direction on hover */
-.navbar-dropdown:hover .dropdown-icon {
-  transform: rotate(180deg); /* Rotate the icon to point upwards when hovered */
-}
-
-/* Dropdown Menu */
-.navbar-dropdown .dropdown-menu {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background-color: #444;
-  list-style: none;
-  padding: 0.5rem 0;
-  margin: 0;
-  border-radius: 4px;
-  width: 200px;
-}
-
-.navbar-dropdown:hover .dropdown-menu {
-  display: block;
-}
-
-.navbar-dropdown .dropdown-menu li a {
-  display: block;
-  padding: 0.5rem;
-  color: #fff;
-  text-decoration: none;
-  font-size: 1rem;
-  transition: background-color 0.3s ease;
-}
-
-.navbar-dropdown .dropdown-menu li a:hover {
-  background-color: #666;
-}
-/* Navbar Search Styling */
-.navbar-search {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-}
-
-.navbar-search-input {
-  padding: 0.5rem;
-  margin-right: 0.5rem;
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-}
-
-.navbar-search-button {
-  padding: 0.5rem 1rem;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 1rem;
-}
-
-.navbar-search-button:hover {
-  background-color: #0056b3;
+  .navbar-search-input {
+    width: 100%;
+  }
 }

@@ -1,0 +1,167 @@
+/* General body styling */
+body {
+  background-color: #e6f7ff; /* Soft, light blue for a refreshing look */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+/* Campaign creator container styling */
+.campaign-creator {
+  margin: 30px auto;
+  max-width: 650px;
+  padding: 25px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #444;
+  background: #ffffff; /* Clean white background */
+  border: 2px solid #0077cc; /* Add subtle border */
+  border-radius: 10px;
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15); /* Slightly darker shadow for depth */
+}
+
+/* Primary button styling */
+.btn-primary {
+  background-color: #0077cc;
+  color: #fff;
+  border: none;
+  padding: 12px 22px;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  margin-left: 10px;
+  margin-top: 12px;
+}
+
+.btn-primary:hover {
+  background-color: #005fa3;
+  transform: translateY(-2px); /* Button hover effect */
+}
+
+/* Secondary button styling */
+.btn-secondary {
+  background-color: #505763;
+  color: #fff;
+  border: none;
+  padding: 12px 22px;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  margin-top: 12px;
+}
+
+.btn-secondary:hover {
+  background-color: #3c434e;
+  transform: translateY(-2px); /* Button hover effect */
+}
+
+/* Input and textarea field styling */
+.input-field,
+.textarea-field,
+.input-select {
+  width: 100%;
+  padding: 12px;
+  font-size: 15px;
+  margin: 12px 0;
+  border: 1px solid #ccd6e0;
+  border-radius: 8px;
+  box-sizing: border-box;
+  background: #f9fcff;
+  color: #333;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.textarea-field {
+  resize: vertical;
+  height: 120px;
+}
+
+.input-field:focus,
+.textarea-field:focus,
+.input-select:focus {
+  outline: none;
+  border-color: #0077cc; /* Highlight border on focus */
+  box-shadow: 0px 0px 8px rgba(0, 119, 204, 0.5);
+}
+
+/* Hidden file input field */
+.input-file-hidden {
+  display: none;
+}
+
+/* Error message styling */
+.error {
+  color: #d32f2f; /* Bold red for errors */
+  font-size: 13px;
+  margin-top: -8px;
+  margin-bottom: 12px;
+}
+
+/* Response message styling */
+.response-message {
+  color: #388e3c; /* Green for success */
+  font-size: 15px;
+  margin-top: 20px;
+}
+
+/* Step-specific container styling */
+.step {
+  margin-top: 20px;
+  padding: 20px;
+  background: #f1f8ff;
+  border-radius: 8px;
+  border: 1px solid #cce4f7;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Review section styling */
+.review-section {
+  background: #ffffff;
+  padding: 20px;
+  border: 1px solid #ccd6e0;
+  border-radius: 10px;
+  margin-top: 25px;
+  box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.12);
+  
+}
+
+.file-upload-container {
+  background: #ffffff; /* Clean white background */
+  padding: 20px;
+  border: 2px solid #0077cc; /* Blue border for consistency */
+  border-radius: 8px;
+  margin-top: 20px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+  
+}
+.review.image{
+  height: 28vh;
+    object-fit: cover;
+}
+.review-section h2 {
+  font-size: 20px;
+  margin-bottom: 15px;
+  color: #005fa3; /* Blue heading for contrast */
+}
+
+.review-section p {
+  font-size: 15px;
+  line-height: 1.8;
+  margin-bottom: 10px;
+  color: #555;
+}
+
+.review-section .btn-secondary {
+  display: inline-block;
+  margin-top: 15px;
+}
+
+/* Add smooth transitions for all hover effects */
+button,
+input,
+textarea,
+select {
+  transition: all 0.3s ease;
+}

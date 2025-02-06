@@ -1,4 +1,4 @@
-/* General Styles */
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -7,7 +7,7 @@ body {
 }
 
 /* Hero Section */
-.hero-section {
+/* .hero-section {
     text-align: center;
     padding: 3rem 1rem;
     background-color: #f9fafb;
@@ -16,37 +16,37 @@ body {
 
 .hero-title {
     font-size: 2.25rem; /* Equivalent to text-4xl */
-    font-weight: bold;
-    margin-bottom: 1rem;
-}
+    /* font-weight: bold; */
+    /* margin-bottom: 1rem; */
+/* } */ 
 
-.hero-description {
+/* .hero-description {
     color: #4b5563; /* Equivalent to text-gray-600 */
-    margin-bottom: 1.5rem;
+    /* margin-bottom: 1.5rem;
     font-size: 1rem;
-}
+} */ 
 
-.highlight {
+/* .highlight {
     font-weight: 600; /* Equivalent to font-semibold */
-}
+/* } */ 
 
-.start-button {
+/* .start-button {
     padding: 0.75rem 1.5rem;
-    background-color: #16a34a; /* Equivalent to bg-green-600 */
-    color: white; /* Equivalent to text-white */
+    background-color: #16a34;
+    color: white; 
     font-weight: bold;
     border: none;
-    border-radius: 9999px; /* Equivalent to rounded-full */
+    border-radius: 9999px; 
     cursor: pointer;
     transition: background-color 0.3s;
-}
+} */
 
-.start-button:hover {
-    background-color: #15803d; /* Equivalent to hover:bg-green-700 */
-}
+/* .start-button:hover {
+    background-color: #15803d; 
+} */
 
 /* Categories Section */
-.categories-section {
+/* .categories-section {
     padding: 3rem 1rem;
 }
 
@@ -54,38 +54,234 @@ body {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 1.5rem; /* Equivalent to gap-6 */
+    gap: 1.5rem; 
 }
 
 .category-card {
-    width: 10rem; /* Equivalent to w-40 */
-    height: 10rem; /* Equivalent to h-40 */
+    width: 10rem;
+    height: 10rem; 
     display: flex;
-    flex-direction: column; /* Equivalent to flex-col */
-    align-items: center; /* Equivalent to items-center */
-    justify-content: center; /* Equivalent to justify-center */
-    border: 4px solid #16a34a; /* Equivalent to border-4 and border-green-600 */
-    padding: 1rem; /* Equivalent to p-4 */
-    border-radius: 9999px; /* Equivalent to rounded-full */
-    background-color: white; /* Equivalent to bg-white */
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1); /* Equivalent to shadow-lg */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; 
+    border: 4px solid #16a34a; 
+    padding: 1rem; 
+    border-radius: 9999px; 
+    background-color: white; 
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1); 
    
 }
 .category-image:hover{
     transform: scale(1.1);
 }
 .category-image {
-    width: 6rem; /* Equivalent to w-16 */
-    height: 6rem; /* Equivalent to h-16 */
-    border-radius: 9999px; /* Equivalent to rounded-full */
-    margin-bottom: 0.75rem; /* Equivalent to mb-3 */
+    width: 6rem; 
+    height: 6rem; 
+    border-radius: 9999px; 
+    margin-bottom: 0.75rem; 
     object-fit: cover;
-    object-position: center; /* Ensures the image is centered inside the circle */
+    object-position: center; 
 }
 
 .category-name {
-    font-size: 0.875rem; /* Equivalent to text-sm */
-    font-weight: 600; /* Equivalent to font-semibold */
+    font-size: 0.875rem; 
+    font-weight: 600; 
     text-align: center;
 }
 
+.footer{
+    margin-left: -209px;
+    width: 135%;
+}   */
+
+
+/* Fundraiser Page Styles */
+.hero-section {
+    background-color: #f4f4f4;
+    padding: 60px 20px;
+    text-align: center;
+    margin-top: 108rem;
+  }
+  
+  .hero-title {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .hero-description {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+  
+  .highlight {
+    color: #f39c12;
+    font-weight: bold;
+  }
+  
+  .start-button {
+    background-color: #f39c12;
+    color: white;
+    padding: 12px 30px;
+    font-size: 18px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+  }
+  
+  .start-button:hover {
+    background-color: #e67e22;
+  }
+  
+  /* category-section */
+
+    .categories-section {
+    padding: 3rem 1rem;
+}
+
+.categories-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.5rem; 
+}
+
+.category-card {
+    width: 10rem;
+    height: 10rem; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; 
+    border: 4px solid #16a34a; 
+    padding: 1rem; 
+    border-radius: 9999px; 
+    background-color: white; 
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1); 
+   
+}
+.category-image:hover{
+    transform: scale(1.1);
+}
+.category-image {
+    width: 6rem; 
+    height: 6rem; 
+    border-radius: 9999px; 
+    margin-bottom: 0.75rem; 
+    object-fit: cover;
+    object-position: center; 
+}
+
+.category-name {
+    font-size: 0.875rem; 
+    font-weight: 600; 
+    text-align: center;
+}
+
+  /* Donation Campaigns Section */
+  .donation-campaigns-section {
+    padding: 50px 20px;
+    background-color: #f4f4f4;
+  }
+  
+  .section-title {
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .donation-campaigns-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+  }
+  
+  .donation-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .donation-card:hover {
+    transform: scale(1.05);
+  }
+  
+  .donation-card-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .donation-card-details {
+    padding: 20px;
+  }
+  
+  .donation-card-title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  
+  .donation-card-likes {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .like-button {
+    background-color: #f39c12;
+    color: white;
+    padding: 6px 12px;
+    font-size: 14px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+  
+  .like-button:hover {
+    background-color: #e67e22;
+  }
+  
+  .donation-card-actions {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .donate-button, .learn-more-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 30px;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+  }
+  
+  .donate-button {
+    background-color: #2ecc71;
+  }
+  
+  .learn-more-button {
+    background-color: #3498db;
+  }
+  
+  .donate-button:hover {
+    background-color: #27ae60;
+  }
+  
+  .learn-more-button:hover {
+    background-color: #2980b9;
+  }
+  
+  /* Footer Section */
+  
+  .footer{
+    margin-left: -209px;
+    width: 135%;
+}   
+.footer-section{
+    margin-left: 150px;
+}

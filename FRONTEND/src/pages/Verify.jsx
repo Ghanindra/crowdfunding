@@ -70,7 +70,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import {useNavigate}from 'react-router-dom';
 import './Verify.css'; // Import the CSS file
-
+import {toast} from 'react-toastify'
 const Verify = () => {
     const navigate=useNavigate();
   const [otp, setOtp] = useState('');
@@ -97,7 +97,7 @@ const Verify = () => {
       const response = await axios.post('http://localhost:5000/api/verify-otp', { otp,password });
 
       if (response.status === 200) {
-        alert('OTP verified successfully!');
+        toast.success('OTP verified successfully!');
         navigate('/')
       } else {
         setMessage('OTP verification failed.');

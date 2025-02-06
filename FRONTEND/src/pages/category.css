@@ -1,0 +1,87 @@
+/* Container */
+.category-container {
+    min-height: 100vh;
+    background: linear-gradient(to bottom right, #f3f4f6, #e5e7eb);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+  }
+  
+  /* Title & Description */
+  .category-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+    text-align: center;
+    margin-top:600px;
+  }
+  
+  .category-description {
+    font-size: 1.1rem;
+    color: #4b5563;
+    text-align: center;
+    max-width: 600px;
+    margin-bottom: 2rem;
+  }
+  
+  /* Start Campaign Button */
+  .start-campaign-btn {
+    background-color: #16a34a;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: background 0.3s ease-in-out, transform 0.2s;
+  }
+  
+  .start-campaign-btn:hover {
+    background-color: #15803d;
+    transform: scale(1.05);
+  }
+  
+  /* Grid Layout */
+  .category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+    max-width: 800px;
+    width: 100%;
+    margin-top: 2rem;
+  }
+  
+  /* Category Cards */
+  .category-cards {
+    background-color: white;
+    padding: 16px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s;
+  }
+  
+  .category-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    background-color: #f9fafb;
+  }
+  
+  /* Category Icon & Name */
+  .category-icon {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+  }
+  
+  .category-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #374151;
+  }
+  

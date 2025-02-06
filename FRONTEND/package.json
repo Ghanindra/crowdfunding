@@ -14,11 +14,16 @@
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@react-oauth/google": "^0.12.1",
     "axios": "^1.7.7",
+    "firebase": "^11.2.0",
     "font-awesome": "^4.7.0",
     "passport": "^0.7.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^6.26.2"
+    "react-icons": "^5.3.0",
+    "react-router-dom": "^6.26.2",
+    "react-toastify": "^11.0.2",
+    "socket.io": "^4.7.2",
+    "socket.io-client": "^4.8.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",

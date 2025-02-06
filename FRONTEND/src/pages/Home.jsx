@@ -14,8 +14,9 @@ import './home.css';
 const Home = () => {
   return (
     <div className='all'>
+       <Navbar/>
     <div className="change-section">
-   <Navbar/>
+  
       <div className="text-content">
        
         <h3>Donate money</h3>

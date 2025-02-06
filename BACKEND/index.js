@@ -3,10 +3,44 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const authRoutes = require('./routes/auth');
+const campaignRoutes = require("./routes/campaignRoutes");
 require('dotenv').config();
 const User=require('./models/user')
-// const path = require('path'); // Import the path module
+const { initSocket } = require('./socket');
+const http = require('http');
+
+const { Server } = require('socket.io');;
+
 const app = express();
+const server = http.createServer(app);
+
+initSocket(server);
+
+
+// Initialize Socket.io AFTER the server is created
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:5173", // Adjust frontend URL if needed
+    methods: ["GET", "POST"]
+  }
+});
+
+// Store `io` globally (if needed in routes)
+global.io = io;
+
+// Handle WebSocket connection
+io.on('connection', (socket) => {
+  console.log('A client connected:', socket.id);
+
+  // Listen for disconnection
+  socket.on('disconnect', () => {
+    console.log('A client disconnected:', socket.id);
+  });
+});
+
+
+// const path = require('path'); // Import the path module
+// const app = express();
 const PORT = process.env.PORT || 5000;
 const session=require('express-session')
 const passport=require('passport')
@@ -16,8 +50,20 @@ const clientsecret='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'
 
 // Middleware
 app.use(cors());
-app.use(cors({ origin: 'http://localhost:5173' }));
+// CORS configuration
+const corsOptions = {
+  origin: 'http://localhost:5173',  // URL of your React app
+  credentials: true,  // Enable credentials (cookies, headers, etc.)
+  methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
 
+
+
+app.use(cors(corsOptions));
+
+// Handle OPTIONS preflight requests (if not already handled)
+app.options('*', cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // To parse URL-encoded bodies
 app.use('/uploads', express.static('uploads'));
@@ -25,6 +71,7 @@ app.use('/uploads', express.static('uploads'));
 
 // Use routes
 app.use('/api', authRoutes);
+app.use("/api/campaigns", campaignRoutes);
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB connected'))
@@ -86,9 +133,10 @@ app.get('/auth/google',passport.authenticate('google',{scope:['profile','email']
 app.get("/auth/google/callback",passport.authenticate("google",{
 
 
-  successRedirect:`http://localhost:5173/donordashboard`,
+  successRedirect:`http://localhost:5173/fundraiser`,
   failureRedirect:'http://localhost:5173/login'
 }))
+
 // Start server
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

@@ -1,25 +1,4 @@
 
-// import React from 'react';
-// import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-// import Signup from './components/Signup';
-// import Login from './components/Login';
-
-
-// const App = () => {
-//   return (
-//     <Router>
-//       <Routes>
-//         <Route path="/signup" element={<Signup />} />
-//         <Route path="/login" element={<Login />} />
-       
-//         {/* Add other routes here */}
-//       </Routes>
-//     </Router>
-//   );
-// };
-
-// export default App;
-
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Auth from './pages/Auth';
@@ -38,13 +17,21 @@ import Education from './pages/Education'
 import Profile from './pages/Profile'
 import Restriction from './pages/Restriction'
 import Fundraiser from './pages/Fundraiser'
+import CampaignCreator from './pages/CampaignCreator'
 import { AuthProvider } from './context/AuthContext';
 import Home from './pages/Home'
+import VerifyAccount from './pages/VerifyAccount'
 import ProtectedRoute from './components/ProtectedRoute';
+import AdminNotification from './components/AdminNotification';
+import Category from './pages/Category';
+
 // import ResetPassword from './pages/ResetPassword'
 function App() {
   return (
+
+
     <AuthProvider> 
+      
     <Router>
       <Routes>
       <Route path="/" element={<Home />} /> {/* Root will display the Auth component */}
@@ -54,41 +41,53 @@ function App() {
         {/* <Route path="/dashboard" element={<AdminDashboard />} /> Protected route after login */}
         <Route path="/admindashboard" element={<ProtectedRoute>
                 <AdminDashboard />
-              </ProtectedRoute>} /> {/* Protected route after login */}
+              </ProtectedRoute>} /> 
         <Route path="/creatordashboard" element={ <ProtectedRoute alllowed='restricted'>
                 <CreatorDashboard />
-              </ProtectedRoute>} /> {/* Protected route after login */}
+              </ProtectedRoute>} />
         <Route path="/fundraiser" element={ <ProtectedRoute alllowed='restricted'>
                 <Fundraiser />
-              </ProtectedRoute>} /> {/* Protected route after login */}
-        <Route path="/cause" element={ <ProtectedRoute alllowed='restricted'>
+              </ProtectedRoute>} />
+        <Route path="category/cause" element={ <ProtectedRoute alllowed='restricted'>
                 <Cause />
-              </ProtectedRoute>} /> {/* Protected route after login */}
-        <Route path="/education" element={ <ProtectedRoute alllowed='restricted'>
+              </ProtectedRoute>} /> 
+        <Route path="category/education" element={ <ProtectedRoute alllowed='restricted'>
                 <Education />
-              </ProtectedRoute>} /> {/* Protected route after login */}
-        <Route path="/medical" element={ <ProtectedRoute alllowed='restricted'>
+              </ProtectedRoute>} /> 
+        <Route path="category/medical" element={ <ProtectedRoute alllowed='restricted'>
                 <Medical/>
-              </ProtectedRoute>} /> {/* Protected route after login */}
-        <Route path="/animal" element={ <ProtectedRoute alllowed='restricted'>
+              </ProtectedRoute>} /> 
+        <Route path="category/animal" element={ <ProtectedRoute alllowed='restricted'>
                 <Animal />
-              </ProtectedRoute>} /> {/* Protected route after login */}
-        <Route path="/emergency" element={ <ProtectedRoute alllowed='restricted'>
+              </ProtectedRoute>} /> 
+        <Route path="category/emergency" element={ <ProtectedRoute alllowed='restricted'>
                 <Emergency />
-              </ProtectedRoute>} /> {/* Protected route after login */}
-        <Route path="/business" element={ <ProtectedRoute alllowed='restricted'>
+              </ProtectedRoute>} /> 
+        <Route path="category/business" element={ <ProtectedRoute alllowed='restricted'>
                 <Business />
-              </ProtectedRoute>} /> {/* Protected route after login */}
+              </ProtectedRoute>} /> 
         <Route path="/donordashboard" element={  <ProtectedRoute>
                 <DonorDashboard />
-              </ProtectedRoute>} /> {/* Protected route after login */}
-        <Route path="/forgot" element={<Forgot />} /> {/* Protected route after login */}
-        <Route path="/verify" element={<Verify />} /> {/* Protected route after login */}
+              </ProtectedRoute>} /> 
+        <Route path="/forgot" element={<Forgot />} /> 
+        <Route path="/verify" element={<Verify />} /> 
         <Route path="/profile" element={<ProtectedRoute>
                 <Profile />
-              </ProtectedRoute>} /> {/* Protected route after login */}
-        {/* <Route path="/resetPassword" element={<ResetPassword />} /> Protected route after login */}
+              </ProtectedRoute>} />
+        <Route path="/campaignCreator" element={<ProtectedRoute>
+                <CampaignCreator />
+              </ProtectedRoute>} /> 
+        <Route path="admin/notifications" element={<ProtectedRoute>
+                <AdminNotification />
+              </ProtectedRoute>} /> 
+              <Route path="/verify_account" element={<ProtectedRoute>
+                <VerifyAccount />
+              </ProtectedRoute>} /> 
       </Routes>
+       
+      <Routes>
+          <Route path="donate/:category" element={<Category />} />
+        </Routes>
     </Router>
     </AuthProvider>
   );

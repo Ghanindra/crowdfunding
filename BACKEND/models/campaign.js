@@ -1,11 +1,18 @@
-// const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-// const CampaignSchema = new mongoose.Schema({
-//     title: { type: String, required: true },
-//     description: { type: String, required: true },
-//     goal: { type: Number, required: true },
-//     fundsRaised: { type: Number, default: 0 },
-//     createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-// }, { timestamps: true });
+const campaignSchema = new mongoose.Schema({
+  placeName: { type: String, required: true },
+  category: { type: String, required: true },
+  beneficiary: { type: String, required: true },
+  image: { type: String, required: true },
+  title: { type: String, required: true },
+  description: { type: String, required: true },
+  targetAmount: { type: Number, required: true },
+  status: { type: String, enum: ['pending', 'approved', 'rejected'], default: 'pending' },
+  createdAt: { type: Date, default: Date.now },
+  isRead: { type: Boolean, default: false }, // New field for notifications
+});
 
-// module.exports = mongoose.model('Campaign', CampaignSchema);
+const Campaign = mongoose.model("Campaign", campaignSchema);
+
+module.exports = Campaign;

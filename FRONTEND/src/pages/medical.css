@@ -1,0 +1,179 @@
+/* 
+  /* Hero Section */
+  .medical-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensure the page takes full viewport height */
+  } 
+  .medical-hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 40px auto;
+    margin-top: 1200px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  }
+  /* Make sure the main content stretches */
+.medical-content {
+    flex: 1;  /* Pushes footer to the bottom */
+  }
+  /* Left Side - Image */
+  .medical-hero-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .doctor {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    border-radius: 10px;
+  }
+  
+  /* Right Side - Content */
+  .medical-hero-content {
+    flex: 2;
+    padding: 20px;
+    margin-top:-80px;
+  }
+  
+  .medical-hero-title {
+    font-size: 46px;
+    font-weight: bold;
+    color: black;
+    margin-bottom: 10px;
+  }
+  
+  .medical-hero-description {
+    font-size: 20px;
+    color: #555;
+    margin-bottom: 20px;
+  }
+  
+  .medical-hero-button {
+    padding: 12px 24px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-left: 167px;
+    margin-top: 20px;
+}
+  
+  
+  .medical-hero-button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Fundraiser List */
+  .medical-fundraiser-list {
+    max-width: 1200px;
+    margin: 40px auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+  }
+  
+  .medical-fundraiser-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    width: 300px;
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .medical-fundraiser-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .medical-fundraiser-image {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  
+  .medical-fundraiser-card-content {
+    padding: 10px;
+  }
+  
+  .medical-fundraiser-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 10px 0;
+  }
+  
+  .medical-fundraiser-location {
+    font-size: 20px;
+    color: #777;
+    margin-bottom: 8px;
+  }
+  .medical-fundraiser-money {
+    font-size: 20px;
+    color: red;
+    margin-bottom: 8px;
+  }
+  .medical-fundraiser-description {
+    font-size: 17px;
+    color: #444;
+    margin-bottom: 10px;
+  }
+  
+  /* Loading & Error Messages */
+  .medical-loading-error {
+    text-align: center;
+    font-size: 18px;
+    color: #d9534f;
+    font-weight: bold;
+    margin-top: 20px;
+  }
+  
+  .medical-loading-error-error {
+    color: red;
+  }
+  /* Footer stays at the bottom */
+.footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    position: relative;
+    width: 100%;
+  }
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .medical-hero {
+      flex-direction: column;
+      text-align: center;
+    }
+  
+    .medical-hero-image {
+      margin-bottom: 20px;
+    }
+  
+    .medical-hero-content {
+      padding: 10px;
+    }
+  
+    .medical-hero-title {
+      font-size: 28px;
+    }
+  
+    .medical-hero-description {
+      font-size: 16px;
+    }
+  }
+  
