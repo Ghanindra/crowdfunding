@@ -1,0 +1,119 @@
+/* General Styling */
+.admin-notifications {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Arial', sans-serif;
+}
+
+.admin-notifications h2 {
+  text-align: center;
+  color: #333;
+}
+
+/* Notification List */
+.admin-notifications ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.admin-notifications li {
+  display: flex;
+  flex-direction: column;
+  background: #f9f9f9;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  transition: transform 0.2s ease, background 0.3s ease;
+  cursor: pointer;
+}
+
+.admin-notifications li:hover {
+  background: #eaeaea;
+  transform: scale(1.02);
+}
+
+/* Notification Details */
+.admin-notifications .selected-notification {
+  background: #e0f7fa;
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.admin-notifications p {
+  margin: 8px 0;
+  color: #333;
+}
+
+/* Image Styling */
+.admin-notifications img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-top: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Button Group */
+.admin-notifications .btn-group {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.admin-notifications button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+/* Approve Button */
+.admin-notifications .approve-btn {
+  background: #4caf50;
+  color: white;
+}
+
+.admin-notifications .approve-btn:hover {
+  background: #45a049;
+}
+
+/* Reject Button */
+.admin-notifications .reject-btn {
+  background: #f44336;
+  color: white;
+}
+
+.admin-notifications .reject-btn:hover {
+  background: #d32f2f;
+}
+
+/* No Notifications Message */
+.admin-notifications .no-notifications {
+  text-align: center;
+  color: #777;
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .admin-notifications {
+    padding: 15px;
+  }
+
+  .admin-notifications .btn-group {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .admin-notifications button {
+    width: 100%;
+  }
+}
