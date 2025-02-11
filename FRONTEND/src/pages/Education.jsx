@@ -4,12 +4,13 @@ import './education.css';  // Importing the external CSS file
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import education from '../assets/education.webp';
+import { useNavigate } from 'react-router-dom';
 
 const Education = () => {
   const [fundraisers, setFundraisers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const token = localStorage.getItem("token"); // Get token from storage (or cookies)
     
@@ -64,7 +65,8 @@ return (
 
       <div className="medical-fundraiser-list">
         {fundraisers.map((fundraiser) => (
-          <div key={fundraiser.id} className="medical-fundraiser-card">
+           <div key={fundraiser.id} className="medical-fundraiser-card" onClick={() => navigate(`/donationpage`, { state: { fundraiser } })}
+           >
             <img src={`http://localhost:5000/${fundraiser.image}`} alt={fundraiser.title} className="medical-fundraiser-image" />
             <h3 className="medical-fundraiser-title">{fundraiser.title}</h3>
             <div className="medical-fundraiser-card-content">

@@ -24,6 +24,7 @@ import FundMedical from './pages/FundMedical'
 import FundBusiness from './pages/FundBusiness'
 import CampaignCreator from './pages/CampaignCreator'
 import DonationPage from './pages/DonationPage'
+import Paymentpage from './pages/Paymentpage'
 import { AuthProvider } from './context/AuthContext';
 import Home from './pages/Home'
 import VerifyAccount from './pages/VerifyAccount'
@@ -115,6 +116,9 @@ function App() {
               </ProtectedRoute>} /> 
               <Route path="/donationpage" element={<ProtectedRoute>
                 <DonationPage />
+              </ProtectedRoute>} /> 
+              <Route path="/donationpage/payment" element={<ProtectedRoute>
+                <Paymentpage />
               </ProtectedRoute>} /> 
   
       </Routes>

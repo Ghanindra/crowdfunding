@@ -1,105 +1,113 @@
-/* Container */
-.container {
-    max-width: 800px;
+.donation-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 30px;
+    padding: 40px;
+    max-width: 1100px;
     margin: auto;
-    padding: 20px;
     font-family: Arial, sans-serif;
   }
   
-  /* Header */
-  .header {
-    text-align: center;
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
-  }
-  
-  /* Main Section */
-  .main-section {
+  .donation-left {
+    flex: 2;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 1500px;
   }
   
-  /* Image & Info */
-  .image-info {
-    width: 60%;
+  .donation-title {
+    font-size: 26px;
+    font-weight: bold;
   }
-  .fundraiser-image {
+  
+  .donation-image {
     width: 100%;
-    border-radius: 10px;
-  }
-  .description {
-    margin-top: 10px;
-    font-size: 16px;
+    max-width: 700px; /* Restrict the max width */
+    height: auto;
+    border-radius: 15px;
+    object-fit: cover;
   }
   
-  /* Sidebar */
-  .sidebar {
-    width: 35%;
-    padding: 20px;
-    background: #f8f9fa;
-    border-radius: 10px;
-    text-align: center;
+  .donation-description {
+    font-size: 16px;
+    line-height: 1.5;
   }
-  .amount-raised {
+  
+  .donation-right {
+    flex: 1;
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 20px; /* This value controls how far down the element starts sticking */
+    margin-top: 1570px; /* Adjust top margin as needed */
+    border-left: 5px solid #00a65a; /* Left border with green color */
+  }
+  
+  .donation-amount {
     font-size: 22px;
     font-weight: bold;
   }
-  .goal {
-    font-size: 16px;
-    margin-bottom: 10px;
+  
+  .donation-goal {
+    color: #666;
   }
   
-  /* Progress Bar */
-  .progress-bar-container {
+  .progress-bar {
     width: 100%;
     height: 10px;
     background: #ddd;
     border-radius: 5px;
     margin: 10px 0;
+    position: relative;
   }
-  .progress-bar {
+  
+  .progress {
     height: 100%;
-    background: green;
+    background: #00a65a;
     border-radius: 5px;
   }
   
-  /* Buttons */
-  .buttons {
-    margin: 15px 0;
+  .donation-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
   }
-  .donate-button, .share-button {
-    width: 100%;
-    padding: 10px;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-  }
-  .donate-button {
-    background: orange;
-    color: white;
-  }
+  
+  .donate-button,
   .share-button {
-    background: blue;
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .donate-button {
+    background: #ff9800;
     color: white;
   }
   
-  /* Donations List */
-  .recent-donations {
-    text-align: left;
-    margin-top: 15px;
+  .share-button {
+    background: #ffcc80;
+    color: black;
   }
-  .donations-text {
-    font-weight: bold;
+  
+  .information {
+    margin-top: 20px;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
   }
-  .donations-list {
-    list-style: none;
-    padding: 0;
-  }
-  .donations-list li {
-    margin-top: 5px;
-    font-size: 14px;
+  
+  .info {
+    font-size: 18px;
+    color: #555;
   }
   
