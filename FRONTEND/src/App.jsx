@@ -17,13 +17,21 @@ import Education from './pages/Education'
 import Profile from './pages/Profile'
 import Restriction from './pages/Restriction'
 import Fundraiser from './pages/Fundraiser'
+import FundAnimal from './pages/FundAnimal'
+import FundEducation from './pages/FundEducation'
+import FundEmergency from './pages/FundEmergency'
+import FundMedical from './pages/FundMedical'
+import FundBusiness from './pages/FundBusiness'
 import CampaignCreator from './pages/CampaignCreator'
+import DonationPage from './pages/DonationPage'
 import { AuthProvider } from './context/AuthContext';
 import Home from './pages/Home'
 import VerifyAccount from './pages/VerifyAccount'
+import Start from './pages/Start'
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminNotification from './components/AdminNotification';
 import Category from './pages/Category';
+import NotificationDetails from "./components/NotificationDetails";
 
 // import ResetPassword from './pages/ResetPassword'
 function App() {
@@ -79,12 +87,38 @@ function App() {
               </ProtectedRoute>} /> 
         <Route path="admin/notifications" element={<ProtectedRoute>
                 <AdminNotification />
-              </ProtectedRoute>} /> 
+              </ProtectedRoute>} />
+              <Route path="admin/notifications/:id" element={<ProtectedRoute>
+                <NotificationDetails />
+              </ProtectedRoute>} />
+
               <Route path="/verify_account" element={<ProtectedRoute>
                 <VerifyAccount />
               </ProtectedRoute>} /> 
+              <Route path="/start" element={<ProtectedRoute>
+                <Start />
+              </ProtectedRoute>} /> 
+              <Route path="/fundraiser/animal" element={<ProtectedRoute>
+                <FundAnimal />
+              </ProtectedRoute>} /> 
+              <Route path="/fundraiser/business" element={<ProtectedRoute>
+                <FundBusiness />
+              </ProtectedRoute>} /> 
+              <Route path="/fundraiser/emergency" element={<ProtectedRoute>
+                <FundEmergency />
+              </ProtectedRoute>} /> 
+              <Route path="/fundraiser/education" element={<ProtectedRoute>
+                <FundEducation />
+              </ProtectedRoute>} /> 
+              <Route path="/fundraiser/medical" element={<ProtectedRoute>
+                <FundMedical />
+              </ProtectedRoute>} /> 
+              <Route path="/donationpage" element={<ProtectedRoute>
+                <DonationPage />
+              </ProtectedRoute>} /> 
+  
       </Routes>
-       
+      
       <Routes>
           <Route path="donate/:category" element={<Category />} />
         </Routes>

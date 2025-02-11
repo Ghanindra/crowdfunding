@@ -3,7 +3,7 @@ import axios from "axios";
 import './animal.css';  // Importing the external CSS file
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import doctor from '../assets/doctor.jpg';
+import business from '../assets/business.webp';
 
 const Business = () => {
   const [fundraisers, setFundraisers] = useState([]);
@@ -41,15 +41,14 @@ return (
       <div className="medical-hero">
         {/* Left Side - Doctor Image */}
         <div className="medical-hero-image">
-          <img src={doctor} alt="Doctor" className="doctor" />
+          <img src={business} alt="Doctor" className="doctor" />
         </div>
 
         {/* Right Side - Content */}
         <div className="medical-hero-content">
-          <h1 className="medical-hero-title">Discover Medical Fundraisers</h1>
+          <h1 className="medical-hero-title">Discover Business fundraisers on Crowdfunding platform</h1>
           <p className="medical-hero-description">
-            Help others by donating to their fundraiser, or start one for someone you care about.
-          </p>
+          Help others by donating to their fundraiser, or start one for someone you care about.          </p>
           <button className="medical-hero-button">Start a GoFundMe</button>
         </div>
       </div>
@@ -60,7 +59,7 @@ return (
 
       {/* Fundraiser List */}
       <div className="browse">
-        <h2>Browse Medical Fundraisers</h2>
+        <h2>Browse Business Fundraisers</h2>
       </div>
 
       <div className="medical-fundraiser-list">

@@ -13,12 +13,12 @@ import business from '../assets/business.webp';
 
 // Dummy Data for Categories
 const categories = [
-    { name: "Your cause", image: cause, path: "/cause" },
-    { name: "Medical", image: medical, path: "/medical" },
-    { name: "Education", image: education, path: "/education" },
-    { name: "Animal", image: animal, path: "/animal" },
-    { name: "Emergency", image: emergency, path: "/emergency" },
-    { name: "Business", image: business, path: "/business" },
+    { name: "Your cause", image: cause, path: "/start" },
+    { name: "Medical", image: medical, path: "/fundraiser/medical" },
+    { name: "Education", image: education, path: "/fundraiser/education" },
+    { name: "Animal", image: animal, path: "/fundraiser/animal" },
+    { name: "Emergency", image: emergency, path: "/fundraiser/emergency" },
+    { name: "Business", image: business, path: "/fundraiser/business" },
   ];
   const donationCampaigns = [
     { 

@@ -1,0 +1,64 @@
+/* Notification Details Container */
+.notification-details {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    text-align: center;
+  }
+  
+  .notification-details h2 {
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .notification-details p {
+    font-size: 16px;
+    margin: 10px 0;
+    color: #555;
+  }
+  
+  .notification-details img {
+    margin-top: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Button Group */
+  .btn-group {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+  }
+  
+  /* Approve and Reject Buttons */
+  .approve-btn, .reject-btn {
+    padding: 10px 15px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .approve-btn {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .approve-btn:hover {
+    background-color: #45a049;
+  }
+  
+  .reject-btn {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  .reject-btn:hover {
+    background-color: #d32f2f;
+  }
+  

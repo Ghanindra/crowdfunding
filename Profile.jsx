@@ -12,6 +12,8 @@ const Profile = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [profilePicture, setProfilePicture] = useState(null);
+
+
   const [showPassword, setShowPassword] = useState(false);
   const [isUpdated, setIsUpdated] = useState(false);
   const [file, setFile] = useState(null);
@@ -37,7 +39,7 @@ const Profile = () => {
         console.log(res.data.username);
 
         setUsername(res.data.username);
-        setEmail(res.data.email);
+        // setEmail(res.data.email);
         console.log('profile:',res.data.isVerified);
         
         setIsVerified(res.data.isVerified); // Set the verification status from the response
@@ -147,18 +149,20 @@ const Profile = () => {
             className="input-field"
           />
         </div>
+       
+
         <div className="input-group">
-          <label>Email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Email"
-            required
-            autoComplete="off"
-            className="input-field"
-          />
-        </div>
+  <label>Email</label>
+  <input
+    type="email"
+    value={email} // Keep the value as is
+    placeholder="Email"
+    required
+    autoComplete="off"
+    className="input-field"
+    disabled // This makes it read-only, no changes can be made
+  />
+</div>
         <div className="input-group password-group">
           <label>Password</label>
           <input
@@ -205,119 +209,3 @@ const Profile = () => {
 
 export default Profile;
 
-
-// import React, { useState, useEffect } from 'react';
-// import axios from 'axios';
-// import { useNavigate } from 'react-router-dom';
-// import './profile.css';
-// import { useAuth } from '../context/AuthContext';
-
-// const Profile = () => {
-//   const { authData } = useAuth();
-//   const [username, setUsername] = useState('');
-//   const [email, setEmail] = useState('');
-//   const [profilePicture, setProfilePicture] = useState(null);
-//   const [objectURL, setObjectURL] = useState('');
-//   const navigate = useNavigate();
-
-//   useEffect(() => {
-//     const fetchProfile = async () => {
-//       try {
-//         const token = localStorage.getItem('auth-token');
-//         if (!token) {
-//           alert('Token not found, please log in again.');
-//           return;
-//         }
-
-//         const res = await axios.get('http://localhost:5000/api/profile', {
-//           headers: { 'auth-token': token },
-//         });
-
-//         setUsername(res.data.username);
-//         setEmail(res.data.email);
-
-//         if (res.data.profilePicture) {
-//           setObjectURL(`http://localhost:5000/${res.data.profilePicture}`);
-//         }
-//       } catch (error) {
-//         console.error('Error fetching profile:', error);
-//         alert('Error fetching profile information.');
-//       }
-//     };
-
-//     fetchProfile();
-//   }, []);
-
-//   const handleProfileUpdate = async (e) => {
-//     e.preventDefault();
-//     const formData = new FormData();
-//     formData.append('username', username);
-//     formData.append('email', email);
-
-//     if (profilePicture) {
-//       formData.append('profilePicture', profilePicture);
-//     }
-
-//     try {
-//       await axios.put('http://localhost:5000/api/profiles', formData, {
-//         headers: {
-//           'Content-Type': 'multipart/form-data',
-//           'auth-token': localStorage.getItem('auth-token'),
-//         },
-//       });
-
-//       alert('Profile updated successfully!');
-//     } catch (error) {
-//       console.error('Error updating profile:', error);
-//       alert('Profile update failed. Please try again.');
-//     }
-//   };
-
-//   const handleDocumentUpload = (e) => {
-//     setProfilePicture(e.target.files[0]);
-//   };
-
-//   return (
-//     <div className="profile-container">
-//       <h2>Update Profile</h2>
-
-//       <form onSubmit={handleProfileUpdate}>
-//         <div className="input-group">
-//           <label>Username</label>
-//           <input
-//             type="text"
-//             value={username}
-//             onChange={(e) => setUsername(e.target.value)}
-//             required
-//           />
-//         </div>
-        
-//         <div className="input-group">
-//           <label>Email</label>
-//           <input
-//             type="email"
-//             value={email}
-//             onChange={(e) => setEmail(e.target.value)}
-//             required
-//           />
-//         </div>
-
-//         <div className="input-group">
-//           <label>Upload Profile Picture</label>
-//           <input
-//             type="file"
-//             accept="image/*"
-//             onChange={handleDocumentUpload}
-//           />
-//         </div>
-
-//         <button type="submit">Update Profile</button>
-//       </form>
-
-      
-      
-//     </div>
-//   );
-// };
-
-// export default Profile;

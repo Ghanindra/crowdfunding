@@ -462,18 +462,85 @@ router.get('/user/verification-status', authenticate, async (req, res) => {
   }
 });
 
+// Update verification
+
+// Route to update verification details
+router.post('/update_verification', authenticate, upload.single('citizenshipImage'), async (req, res) => {
+  const { documentNumber, issueDate, issuedFrom } = req.body;
+  console.log('Uploaded File:', req.file);
+
+  if (!documentNumber || !issueDate || !issuedFrom) {
+    return res.status(400).json({ message: 'Required fields are missing.' });
+  }
+
+  try {
+    const verification = await verifyAccount.findOne({ userId: req.user.id });
+    if (!verification) {
+      return res.status(404).json({ message: 'Verification record not found.' });
+    }
+
+    // Update fields
+    verification.documentNumber = documentNumber;
+    verification.issueDate = issueDate;
+    verification.issuedFrom = issuedFrom;
+    if (req.file) {
+      verification.citizenshipImage = `http://localhost:${process.env.PORT}/uploads/${req.file.filename}`;
+    }
+    verification.status = 'pending'; // Reset status to pending after update
+
+    await verification.save();
+    console.log('Verification Updated:', verification);
+
+    // Send notification to admin
+    const notification = new Notification({
+      userId: req.user.id,
+      documentNumber,
+      issueDate,
+      issuedFrom,
+      username: req.user.username,
+      citizenshipImage: verification.citizenshipImage,
+      status: 'pending', // Mark as pending again
+      isRead: false,
+      type: 'verification_update',
+    });
+
+    await notification.save();
+    console.log('Notification Sent:', notification);
+
+    if (global.io) {
+      global.io.emit('verification_updated', notification);
+    } else {
+      console.warn('Socket.io is not initialized.');
+    }
+
+    res.status(200).json({ message: 'Verification updated successfully and admin notified.' });
+  } catch (error) {
+    console.error('Error updating verification:', error);
+    res.status(500).json({ message: 'Failed to update verification.', error });
+  }
+});
+
 router.get('/admin/notifications/:id', async (req, res) => {
   try {
-    // const notifications = await Notification.find().sort({ createdAt: -1 });
-    const notification = await Notification.find({ status: 'pending' }).sort({ createdAt: -1 });
- 
-
-  
-    res.status(200).json(notification);
+    const notification = await Notification.findById(req.params.id); // Fetch a single notification by ID
+    if (!notification) {
+      return res.status(404).json({ message: 'Notification not found.' });
+    }
+    res.status(200).json(notification); // Send the notification object
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to fetch notification.', error });
+  }
+});
+router.get('/admin/notifications', async (req, res) => {
+  try {
+    // Fetch only pending notifications
+    const notifications = await Notification.find({ status: 'pending' }); // Only get pending notifications
+    res.status(200).json(notifications); // Send the list of pending notifications
   } catch (error) {
     res.status(500).json({ message: 'Failed to fetch notifications.', error });
   }
 });
+
 router.put('/admin/notifications/:id', async (req, res) => {
   const { status } = req.body;
 

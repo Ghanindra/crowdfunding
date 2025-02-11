@@ -3,7 +3,9 @@ import axios from "axios";
 import './animal.css';  // Importing the external CSS file
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import doctor from '../assets/doctor.jpg';
+// import animal from "../assets/animal.jpg"; // Change to correct file name
+import animal from "../assets/animal.jpg"; // make sure this is correct
+
 
 const Animal = () => {
   const [fundraisers, setFundraisers] = useState([]);
@@ -40,13 +42,13 @@ return (
     <div className="medical-content">
       <div className="medical-hero">
         {/* Left Side - Doctor Image */}
-        <div className="medical-hero-image">
-          <img src={doctor} alt="Doctor" className="doctor" />
+        <div className="medical-heros-image">
+          <img src={animal} alt="Doctor" className="doctors" />
         </div>
 
         {/* Right Side - Content */}
         <div className="medical-hero-content">
-          <h1 className="medical-hero-title">Discover Medical Fundraisers</h1>
+          <h1 className="medical-hero-title">Discover animal fundraisers on Crowdfunding platform</h1>
           <p className="medical-hero-description">
             Help others by donating to their fundraiser, or start one for someone you care about.
           </p>
@@ -60,7 +62,7 @@ return (
 
       {/* Fundraiser List */}
       <div className="browse">
-        <h2>Browse Medical Fundraisers</h2>
+        <h2>Browse Animal Fundraisers</h2>
       </div>
 
       <div className="medical-fundraiser-list">

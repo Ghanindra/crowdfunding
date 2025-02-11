@@ -152,7 +152,8 @@ const Profile = () => {
           <input
             type="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            readOnly // Prevent the email from being changed
+            // onChange={(e) => setEmail(e.target.value)}
             placeholder="Email"
             required
             autoComplete="off"

@@ -24,17 +24,31 @@
     flex: 1;  /* Pushes footer to the bottom */
   }
   /* Left Side - Image */
-  .medical-hero-image {
+  /* .medical-hero-image {
     flex: 1;
     display: flex;
     justify-content: center;
+  } */
+  .medical-heros-image {
+ flex: 1; /* Prevents flex from overriding the width */
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Ensures vertical centering */
+    overflow: hidden; /* Prevents overflow issues */
+    width: 100%; /* Ensures it takes the full available width */
+    max-width: 1000px; /* Increases the max width */
   }
   
-  .doctor {
-    width: 100%;
-    max-width: 400px;
-    height: auto;
-    border-radius: 10px;
+  
+  
+  
+  .doctors {
+    width: 100%; /* Makes the image responsive */
+    height: auto; /* Maintains aspect ratio */
+    min-width: 650px; /* Ensures a minimum width */
+    max-width: 700px; /* Adjust as per your layout */
+    max-height: 300px; /* Adjust as per your layout */
+    object-fit: contain; /* Ensures the image scales without distortion */
   }
   
   /* Right Side - Content */
