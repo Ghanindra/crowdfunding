@@ -319,7 +319,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './verifyaccount.css'; // Import external CSS file
-
+import { toast } from "react-toastify";
 const VerifyAccount = () => {
   const [documentNumber, setDocumentNumber] = useState('');
   const [issueDate, setIssueDate] = useState('');
@@ -346,7 +346,7 @@ const VerifyAccount = () => {
           setCitizenshipImage(response.data.citizenshipImage || null);
         }
       } catch (error) {
-        console.error('Error fetching verification status:', error);
+        toast.error('Error fetching verification status:', error);
         setMessage('Failed to load verification status.');
       }
     };

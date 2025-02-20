@@ -59,14 +59,14 @@ return (
       {loading && <p className="medical-loading-error">Loading fundraisers...</p>}
       {error && <p className="medical-loading-error medical-loading-error-error">{error}</p>}
 
-      {/* Fundraiser List */}
+      {/* Fundraiser List */} 
       <div className="browse">
         <h2>Browse Medical Fundraisers</h2>
       </div>
 
       <div className="medical-fundraiser-list">
         {fundraisers.map((fundraiser) => (
-          <div key={fundraiser.id} className="medical-fundraiser-card" onClick={() => navigate(`/donationpage`, { state: { fundraiser } })}
+          <div key={fundraiser.id} className="medical-fundraiser-card" onClick={() => navigate(`/donationpage`, { state: {fundraiser ,campaignId: fundraiser.id}})}
           >
             <img src={`http://localhost:5000/${fundraiser.image}`} alt={fundraiser.title} className="medical-fundraiser-image" />
             <h3 className="medical-fundraiser-title">{fundraiser.title}</h3>

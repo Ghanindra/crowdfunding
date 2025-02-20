@@ -1,18 +1,56 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation ,useParams} from "react-router-dom";
+import  { useState, useEffect } from "react"; // Import useState and useEffect
+
 import "./donationpage.css"; // Link to CSS
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { useNavigate } from 'react-router-dom';
+
 const DonationPage = () => {
+  const [raisedAmount, setRaisedAmount] = useState(0);
+  // const { campaignId } = useParams(); // Get campaignId from the URL
+  // console.log("Campaign ID from useParams:", campaignId); // Debugging log
   const location = useLocation();
-  const { fundraiser } = location.state || {}; // Get fundraiser data
+  // const storedCampaignId = localStorage.getItem("campaignId"); // Fallback from storage
+  const { fundraiser,campaignId } = location.state || {}; 
+  
+  const activeCampaignId = campaignId || fundraiser?._id;  // Use the campaignId from state, or fallback to fundraiser._id
+  console.log("Campaign ID:", activeCampaignId);
   const navigate = useNavigate();
+  console.log("Fundraiser Data:", fundraiser);
+  useEffect(() => {
+    const fetchRaisedAmount = async () => {
+      try {
+        if (!activeCampaignId) return;
+        const response = await fetch(`http://localhost:5000/api/update-raised-amount`,{
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ campaignId:activeCampaignId }), // send the campaignId in the request body
+        });
+        const data = await response.json();
+        if (data.success && data.updatedCampaign) {
+          console.log("Fetched raised amount:", data.updatedCampaign.raisedAmount);
+          setRaisedAmount(data.updatedCampaign.raisedAmount); // Correct way to update state
+        } else {
+          console.error("Failed to fetch raised amount");
+        }
+      } catch (error) {
+        console.error("Error fetching raised amount:", error);
+      }
+    };
+  
+    fetchRaisedAmount();
+  }, [activeCampaignId]);
+  
+  
   if (!fundraiser) {
     return <p>No fundraiser selected.</p>;
   }
 
-  const progress = (fundraiser.raisedAmount / fundraiser.targetAmount) * 100; // Calculate progress
+  const progress = (raisedAmount / fundraiser.targetAmount) * 100; // Calculate progress
 
   const handleDonateClick = () => {
     navigate('/donationpage/payment', { state: { fundraiser } }); // Pass fundraiser data to the PaymentPage
@@ -48,7 +86,7 @@ If you cannot contribute financially, please consider sharing this campaign with
 
         {/* Right Section */}
         <div className="donation-right">
-          <p className="donation-amount">${fundraiser.raisedAmount} USD raised</p>
+          <p className="donation-amount">${raisedAmount} USD raised</p>
           <p className="donation-goal">${fundraiser.targetAmount} goal</p>
           
           {/* Progress Bar */}
@@ -69,3 +107,84 @@ If you cannot contribute financially, please consider sharing this campaign with
 };
 
 export default DonationPage;
+
+// import React, { useState, useEffect } from "react";
+// import { useLocation, useNavigate } from "react-router-dom";
+// import "./donationpage.css"; 
+// import Navbar from "../components/Navbar";
+// import Footer from "../components/Footer";
+
+// const DonationPage = () => {
+//   const [raisedAmount, setRaisedAmount] = useState(0);
+//   const location = useLocation();
+//   const { fundraiser, campaignId } = location.state || {};  // Destructure campaignId from state
+//   const navigate = useNavigate();
+
+//   // Ensure we have a campaignId
+//   const activeCampaignId = campaignId || fundraiser?._id;  // Use the campaignId from state, or fallback to fundraiser._id
+//   console.log("Campaign ID:", activeCampaignId);
+
+//   useEffect(() => {
+//     const fetchRaisedAmount = async () => {
+//       try {
+//         if (!activeCampaignId) return;
+        
+//         const response = await fetch(`http://localhost:5000/api/get-raised-amount/${activeCampaignId}`);
+
+//         if (!response.ok) {
+//           throw new Error("Failed to fetch raised amount");
+//         }
+
+//         const data = await response.json();
+//         if (data.success) {
+//           console.log("Fetched raised amount:", data.raisedAmount);
+//           setRaisedAmount(data.raisedAmount);
+//         }
+//       } catch (error) {
+//         console.error("Error fetching raised amount:", error);
+//       }
+//     };
+
+//     fetchRaisedAmount();
+//   }, [activeCampaignId]);
+
+//   if (!fundraiser) {
+//     return <p>No fundraiser selected.</p>;
+//   }
+
+//   const progress = (raisedAmount / fundraiser.targetAmount) * 100; 
+
+//   const handleDonateClick = () => {
+//     navigate('/donationpage/payment', { state: { fundraiser } }); 
+//   };
+
+//   return (
+//     <div>
+//       <Navbar />
+//       <div className="donation-container">
+//         <div className="donation-left">
+//           <h1 className="donation-title">{fundraiser.title}</h1>
+//           <img src={`http://localhost:5000/${fundraiser.image}`} alt={fundraiser.title} className="donation-image" />
+//           <p className="donation-description">{fundraiser.description}</p>
+//         </div>
+
+//         <div className="donation-right">
+//           <p className="donation-amount">${raisedAmount} USD raised</p>
+//           <p className="donation-goal">${fundraiser.targetAmount} goal</p>
+
+//           <div className="progress-bar">
+//             <div className="progress" style={{ width: `${progress}%` }}></div>
+//           </div>
+
+//           <div className="donation-actions">
+//             <button className="donate-button" onClick={handleDonateClick}>Donate Now</button>
+//             <button className="share-button">Share</button>
+//           </div>
+//         </div>
+//       </div>
+//       <Footer />
+//     </div>
+//   );
+// };
+
+// export default DonationPage;

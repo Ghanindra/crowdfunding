@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 
 const express = require('express');
 const bcrypt = require('bcryptjs');
@@ -6,8 +7,11 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
 const Campaign = require('../models/campaign');
+
+const Payment = require('../models/payment');
 const Notification = require('../models/Notification');
 const verifyAccount = require('../models/VerifyAccount');
+
 
 // const Profile = require('../models/profile');
 const router = express.Router();
@@ -302,13 +306,14 @@ router.post('/campaigns',  upload.single('image'),async (req, res) => {
       title,
       description,
       targetAmount,
+      raisedAmount: 0, // Set to zero initially,
       image,
       status: 'pending', // Set the initial status to 'pending'
     });
 
     await newCampaign.save();
 
-    res.status(201).json({ message: 'Campaign created successfully', campaign: newCampaign });
+    res.status(201).json({ message: 'Campaign created successfully', campaignId: newCampaign._id,  campaign: newCampaign });
   } catch (err) {
     res.status(500).json({ error: 'Failed to create campaign', details: err.message });
   }
@@ -332,7 +337,7 @@ router.put('/campaigns/:id', async (req, res) => {
 
   try {
     const Campaign= await Campaign.findByIdAndUpdate(
-      req.params.id,
+      req.params.id, 
       { status },
       { new: true }
     );
@@ -353,6 +358,56 @@ router.get('/campaigns/:category',upload.single('image'),async (req, res) => {
 
   } catch (error) {
     res.status(500).send('Server Error');
+  }
+});
+// Update raised amount after successful payment
+router.post("/update-raised-amount", async (req, res) => {
+  const { campaignId } = req.body;
+
+  if (!campaignId) {
+    return res.status(400).json({ error: "Campaign ID is required" });
+  }
+  const campaignObjectId =new mongoose.Types.ObjectId(campaignId);
+  try {
+    // Calculate total raised amount from successful payments
+    const totalRaised = await Payment.aggregate([
+      { $match: { campaignId:campaignObjectId, status: "Success" } }, // Filter successful payments
+      { $group: { _id: null, total: { $sum: "$amount" } } }, // Sum the donations
+    ]);
+
+    const raisedAmount = totalRaised.length > 0 ? totalRaised[0].total : 0;
+
+    // Update the campaign with the new raised amount
+    const updatedCampaign = await Campaign.findOneAndUpdate(
+      { _id: campaignId },
+      { raisedAmount },
+      { new: true }
+    );
+    console.log('updated campaign',updatedCampaign);
+    
+
+    res.json({ success: true, updatedCampaign });
+  } catch (error) {
+    console.error("Error updating raised amount:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+// Fetch raised amount for a specific campaign
+router.get("/get-raised-amount/:campaignId", async (req, res) => {
+  try {
+    const { campaignId } = req.params;
+
+    // Fetch campaign by ID
+    const campaign = await Campaign.findById(campaignId);
+
+    if (!campaign) {
+      return res.status(404).json({ success: false, message: "Campaign not found" });
+    }
+
+    res.json({ success: true, raisedAmount: campaign.raisedAmount });
+  } catch (error) {
+    console.error("Error fetching raised amount:", error);
+    res.status(500).json({ success: false, message: "Server error" });
   }
 });
 
@@ -587,6 +642,148 @@ if (user) {
     res.status(500).json({ message: 'Failed to update verification status.', error });
   }
 });
+// Endpoint to get user details (userId, etc.)
+router.get("/user",authenticate, async (req, res) => {
+  try {
+    if (!req.user || !req.user.id) {
+      return res.status(400).json({ message: "Invalid user data" });
+    }
+    const user = await User.findById(req.user.id).select("_id name email"); // Fetch user data
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.json({ userId: user._id, name: user.name, email: user.email }); // Send userId
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+
+
+// eSewa Payment API Route
+
+// router.post("/payment/esewa", async (req, res) => {
+//   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+//   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+//   const { fundraiserId, userId, amount, tipAmount } = req.body;
+//   const totalAmount = amount + tipAmount;
+//   const transactionId = "TXN" + Date.now(); // Generate unique transaction ID
+// console.log(req.body);
+
+//   try {
+//     // Store payment record in DB
+//     const newPayment = new Payment({
+//       fundraiserId,
+//       userId,
+//       amount,
+//       tipAmount,
+//       totalAmount,
+//       paymentMethod: "eSewa",
+//       transactionId,
+//     });
+//     await newPayment.save();
+
+//     // ✅ eSewa Payment URL
+//     const successUrl = encodeURIComponent("http://localhost:3000/success"); // Change this to your actual frontend success page
+//     const failureUrl = encodeURIComponent("http://localhost:3000/failure");
+
+//     const esewaUrl = `https://rc-epay.esewa.com.np/api/epay/main/v2/form`;
+//     res.status(200).json({ success: true, redirectUrl: esewaUrl,  successUrl,
+//       failureUrl,totalAmount }); // Send eSewa URL to frontend
+//   } catch (error) {
+//     console.error('Error processing payment:', error);
+//     res.status(500).json({ success: false, message: error.message });
+//   }
+// });
+
+
+// // Verify eSewa Payment
+// router.post("/payment/esewa/verify", async (req, res) => {
+//   const { transactionId } = req.body;
+  
+//   try {
+//     const payment = await Payment.findOne({ transactionId });
+//     if (!payment) return res.status(400).json({ success: false, message: "Transaction not found" });
+
+//     payment.status = "completed"; // Mark as completed
+//     await payment.save();
+    
+//     res.json({ success: true, message: "Payment verified successfully" });
+//   } catch (error) {
+//     res.status(500).json({ success: false, message: error.message });
+//   }
+// });
+
+
+
+
+// // Route to initiate eSewa Payment
+// router.post("/payment/esewa", async (req, res) => {
+//   const { amount } = req.body;
+
+//   if (!amount) {
+//     return res.status(400).json({ error: "Amount is required" });
+//   }
+
+//   const esewaTestURL = "https://rc-epay.esewa.com.np/api/epay/main";
+//   const uniquePid = `TEST_${Date.now()}`; // Unique Transaction ID
+
+//   res.json({
+//     esewaURL: esewaTestURL,
+//     formData: {
+//       amt: amount,
+//       txAmt: "0", // Tax Amount
+//       psc: "0", // Service Charge
+//       pdc: "0", // Delivery Charge
+//       scd: "EPAYTEST", // eSewa Test Merchant Code
+//       pid: uniquePid, // Transaction ID
+//       su: "http://localhost:5000/api/payment-success", // Success URL
+//       fu: "http://localhost:5000/api/payment-failure", // Failure URL
+//     },
+//   });
+// });
+
+// // 👉 Route to verify eSewa Payment
+// router.post("/verify-payment", async (req, res) => {
+//   const { amt, pid, rid } = req.body;
+
+//   if (!amt || !pid || !rid) {
+//     return res.status(400).json({ error: "All fields are required" });
+//   }
+
+//   const verificationURL = "https://rc-epay.esewa.com.np/api/epay/transrec";
+
+//   try {
+//     const response = await axios.post(verificationURL, null, {
+//       params: {
+//         amt,
+//         scd: "EPAYTEST",
+//         pid,
+//         rid,
+//       },
+//     });
+
+//     if (response.data.includes("Success")) {
+//       return res.json({ success: true, message: "Payment verified successfully!" });
+//     } else {
+//       return res.json({ success: false, message: "Payment verification failed!" });
+//     }
+//   } catch (error) {
+//     console.error("Verification error:", error);
+//     return res.status(500).json({ error: "Error verifying payment" });
+//   }
+// });
+
+// // 👉 Success & Failure Routes
+// router.get("/payment-success", (req, res) => {
+//   res.send("Payment Successful! Thank you for your donation.");
+// });
+
+// router.get("/payment-failure", (req, res) => {
+//   res.send("Payment Failed. Please try again.");
+// });
 
 // Export the router
 module.exports = router;

@@ -33,7 +33,8 @@ import ProtectedRoute from './components/ProtectedRoute';
 import AdminNotification from './components/AdminNotification';
 import Category from './pages/Category';
 import NotificationDetails from "./components/NotificationDetails";
-
+import Success from "./pages/Success";
+import Failure from "./pages/Failure";
 // import ResetPassword from './pages/ResetPassword'
 function App() {
   return (
@@ -120,7 +121,15 @@ function App() {
               <Route path="/donationpage/payment" element={<ProtectedRoute>
                 <Paymentpage />
               </ProtectedRoute>} /> 
-  
+              <Route path="/success" element={<ProtectedRoute>
+                <Success/>
+              </ProtectedRoute>} /> 
+              <Route path="/failure" element={<ProtectedRoute>
+                <Failure/>
+              </ProtectedRoute>} /> 
+              {/* <Route path="/donationpage/:campaignId" component={DonationPage} /> */}
+
+
       </Routes>
       
       <Routes>

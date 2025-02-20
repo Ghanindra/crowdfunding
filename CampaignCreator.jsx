@@ -315,12 +315,7 @@ const CampaignCreator = () => {
           
         });
         setIsVerified(response.data.isVerified); // Set the verification status from the response
-// console.log('res:',response.data.isverified)
-//         if (response.data.isVerified) {
-//           setIsVerified(true);
-//         } else {
-//           setIsVerified(false);
-//         }
+
       } catch (error) {
         console.error("Error checking verification status:", error);
         setIsVerified(false); // Default to false if there's an error
@@ -421,7 +416,8 @@ const CampaignCreator = () => {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      console.log(res.data);
+      console.log("Response received:", res.data);
+      console.log("About to alert the user");
 
       alert("Campaign submitted for admin approval!");
 

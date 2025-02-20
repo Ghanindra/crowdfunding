@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import './profile.css';
 import { useAuth } from '../context/AuthContext';
-
+import { toast } from "react-toastify";
 const Profile = () => {
   const { authData } = useAuth();
   const [username, setUsername] = useState('');
@@ -49,7 +49,7 @@ const Profile = () => {
         }
       } catch (error) {
         console.error('Error fetching profile:', error.response ? error.response.data : error.message);
-        alert('Error fetching profile information.');
+        toast.error('Error fetching profile information.');
       }
     };
 
@@ -82,7 +82,7 @@ const Profile = () => {
       setTimeout(() => setIsUpdated(false), 3000);
     } catch (error) {
       console.error('Error updating profile:', error);
-      alert('Profile update failed. Please try again.');
+      toast.error('Profile update failed. Please try again.');
     }
   };
 
