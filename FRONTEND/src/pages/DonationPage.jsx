@@ -55,6 +55,11 @@ const DonationPage = () => {
   const handleDonateClick = () => {
     navigate('/donationpage/payment', { state: { fundraiser } }); // Pass fundraiser data to the PaymentPage
   };
+  const handleShareClick = () => {
+    const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`;
+    window.open(shareUrl, '_blank', 'width=600,height=400');
+  };
+  
   return (
     <div>
       <Navbar />
@@ -97,7 +102,9 @@ If you cannot contribute financially, please consider sharing this campaign with
           {/* Action Buttons */}
           <div className="donation-actions">
             <button className="donate-button"onClick={handleDonateClick}>Donate Now</button>
-            <button className="share-button">Share</button>
+            {/* <button className="share-button">Share</button> */}
+            <button className="share-button" onClick={handleShareClick}>Share</button>
+
           </div>
         </div>
       </div>

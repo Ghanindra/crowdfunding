@@ -246,12 +246,12 @@ body {
     background-color: #e67e22;
   }
   
-  .donation-card-actions {
+  .donation-cards-actions {
     display: flex;
     gap: 10px;
   }
   
-  .donate-button, .learn-more-button {
+  .donate-buttons, .learn-more-button {
     padding: 10px 20px;
     font-size: 16px;
     border-radius: 30px;
@@ -260,7 +260,7 @@ body {
     text-decoration: none;
   }
   
-  .donate-button {
+  .donate-buttons {
     background-color: #2ecc71;
   }
   
@@ -268,7 +268,7 @@ body {
     background-color: #3498db;
   }
   
-  .donate-button:hover {
+  .donate-buttons:hover {
     background-color: #27ae60;
   }
   

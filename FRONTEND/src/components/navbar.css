@@ -131,6 +131,10 @@
 .navbar-notifications {
   position: relative;
 }
+.navbar-notifications:hover .dropdown-menu,
+.navbar-notifications .dropdown-menu:hover {
+  display: block;
+}
 
 .navbar-notifications .notification-badge {
   position: absolute;
@@ -153,12 +157,14 @@
   width: 250px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   z-index: 10;
-  display: none;
+  /* display: none; */
 }
 
-.navbar-notifications:hover .dropdown-menu {
+/* .navbar-notifications:hover .dropdown-menu {
   display: block;
-}
+} */
+
+
 
 .dropdown-item {
   padding: 10px;

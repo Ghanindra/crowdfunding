@@ -11,7 +11,8 @@ const campaignSchema = new mongoose.Schema({
   raisedAmount: { type: Number, default: 0 },
   status: { type: String, enum: ['pending', 'approved', 'rejected'], default: 'pending' },
   createdAt: { type: Date, default: Date.now },
-  isRead: { type: Boolean, default: false }, // New field for notifications
+  isRead: { type: Boolean, default: false }, // New field for notifications,
+  userId:{ type: String, required: true },
 });
 
 const Campaign = mongoose.model("Campaign", campaignSchema);

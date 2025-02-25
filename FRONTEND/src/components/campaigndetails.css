@@ -1,0 +1,50 @@
+/* campaigndetails.css */
+
+.campaigns-details {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .campaign-details:hover {
+    transform: scale(1.02);
+  }
+  
+  h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 15px;
+  }
+  
+  p {
+    font-size: 16px;
+    color: #555;
+    margin: 8px 0;
+  }
+  
+  strong {
+    color: #222;
+  }
+  
+  .back {
+    margin-top: 20px;
+    padding: 10px 15px;
+    font-size: 16px;
+    color: #fff;
+    background: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+  }
+  
+  .back:hover {
+    background: #0056b3;
+  }
+  
+  

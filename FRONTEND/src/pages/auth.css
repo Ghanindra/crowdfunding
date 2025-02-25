@@ -178,13 +178,13 @@ body {
 }
 
 .password-container input {
-  padding-right: 40px; /* Space for the eye icon */
+  padding-right: 80px; /* Space for the eye icon */
 }
 
 .password-container .eye-icon {
   position: absolute;
   top: 50%;
-  right: 10px;
+  right: 23px;
   transform: translateY(-50%);
   cursor: pointer;
   color: #888;

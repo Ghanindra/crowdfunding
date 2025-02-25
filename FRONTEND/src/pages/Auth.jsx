@@ -37,8 +37,10 @@ const validatePasswordStrength = (password) => {
       const res = await axios.post('http://localhost:5000/api/login', {  email, password });
       console.log('tt',res.data.token);
       console.log('role',res.data.user.role);
+      console.log('user-id',res.data.user.user_id);
       localStorage.setItem('auth-token', res.data.token);
       localStorage.setItem('user-role', res.data.user.role); // Save the role as 'admin' or other roles like 'user'
+      localStorage.setItem('user-id', res.data.user.user_id); // Store user ID
 
       // localStorage.setItem('auth-token', res.data.user.role);
     

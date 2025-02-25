@@ -12,7 +12,7 @@ const PaymentPage = () => {
   const location = useLocation();
   const { fundraiser,campaignId } = location.state || {}; // Get fundraiser data
   // const storedCampaignId = localStorage.getItem("campaignId"); // Fallback from storage
-  const [donationAmount, setDonationAmount] = useState(10); // Default donation amount
+  const [donationAmount, setDonationAmount] = useState(0); // Default donation amount
   const [tipAmount, setTipAmount] = useState(0); // Default tip amount
   const [paymentMethod, setPaymentMethod] = useState(''); // Track selected payment method
 
@@ -188,102 +188,4 @@ const PaymentPage = () => {
 export default PaymentPage;
 
 
-// import React, { useState } from "react";
-// import { useLocation } from "react-router-dom";
-// import Navbar from "../components/Navbar";
-// import Footer from "../components/Footer";
-// import "./paymentpage.css"; // Add your CSS for styling
-
-// const PaymentPage = () => {
-//   const location = useLocation();
-//   const { fundraiser } = location.state || {}; // Get fundraiser details
-
-//   const [donationAmount, setDonationAmount] = useState(100); // Default amount
-//   const [paymentMethod, setPaymentMethod] = useState(""); // Track selected payment method
-
-//   const handlePayment = async () => {
-//     if (paymentMethod === "eSewa") {
-//       // eSewa Test API URL
-//       const eSewaURL = "https://rc-epay.esewa.com.np/api/epay/main";
-
-//       // Transaction Data
-//       const formData = new FormData();
-//       formData.append("amt", donationAmount); // Donation Amount
-//       formData.append("txAmt", "0"); // Tax Amount
-//       formData.append("psc", "0"); // Service Charge
-//       formData.append("pdc", "0"); // Delivery Charge
-//       formData.append("scd", "EPAYTEST"); // Test Merchant Code
-//       formData.append("pid", `TEST_${Date.now()}`); // Unique Transaction ID
-//       formData.append("su", "http://localhost:5000/payment-success"); // Success URL
-//       formData.append("fu", "http://localhost:5000/payment-failure"); // Failure URL
-
-//       // Create a form dynamically and submit
-//       const form = document.createElement("form");
-//       form.method = "POST";
-//       form.action = eSewaURL;
-
-//       for (const [key, value] of formData.entries()) {
-//         const input = document.createElement("input");
-//         input.type = "hidden";
-//         input.name = key;
-//         input.value = value;
-//         form.appendChild(input);
-//       }
-
-//       document.body.appendChild(form);
-//       form.submit();
-//     } else {
-//       alert("Please select eSewa as the payment method to proceed.");
-//     }
-//   };
-
-//   if (!fundraiser) {
-//     return <p>No fundraiser selected.</p>;
-//   }
-
-//   return (
-//     <div>
-//       <Navbar />
-//       <div className="payment-container">
-//         <h1 className="payment-title">{fundraiser.title}</h1>
-//         <img
-//           src={`http://localhost:5000/${fundraiser.image}`}
-//           alt={fundraiser.title}
-//           className="payment-image"
-//         />
-
-//         <div className="amount-options">
-//           <h2>Select Donation Amount</h2>
-//           {[100, 200, 500, 1000].map((amount) => (
-//             <button
-//               key={amount}
-//               onClick={() => setDonationAmount(amount)}
-//               className={donationAmount === amount ? "selected" : ""}
-//             >
-//               ${amount}
-//             </button>
-//           ))}
-//         </div>
-
-//         {/* Payment Methods */}
-//         <div className="payment-methods">
-//           <h3>Payment Method</h3>
-//           <button
-//             className={`payment-button ${paymentMethod === "eSewa" ? "selected" : ""}`}
-//             onClick={() => setPaymentMethod("eSewa")}
-//           >
-//             eSewa
-//           </button>
-//         </div>
-
-//         {/* Payment Button */}
-//         <button className="donate-now-button" onClick={handlePayment}>
-//           Proceed to Pay
-//         </button>
-//       </div>
-//       <Footer />
-//     </div>
-//   );
-// };
-
-// export default PaymentPage;
+// 9806800001

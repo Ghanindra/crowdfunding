@@ -99,7 +99,7 @@ router.post('/login', async (req, res) => {
       
 
       console.log('role',user.role);
-     return res.json({ token, user: { username: user.username, email: user.email, role: user.role },
+     return res.json({ token, user: { username: user.username,user_id:user.id, email: user.email, role: user.role },
      
       
       
@@ -289,10 +289,15 @@ console.log(req.body)
 
 // Notification route
 
-router.post('/campaigns',  upload.single('image'),async (req, res) => {
+router.post('/campaigns', authenticate,upload.single('image'),async (req, res) => {
   try {
+    const userId = req.user.id; // Get userId from decoded token
+    console.log('user',userId);
+    
     // Code to create a campaign
     const { placeName, category, beneficiary, title, description, targetAmount } = req.body;
+    console.log('subit',req.body);
+    
     const image = req.file ? req.file.path : null;
 
     if (!placeName || !category || !beneficiary || !image || !title || !description || !targetAmount) {
@@ -300,6 +305,7 @@ router.post('/campaigns',  upload.single('image'),async (req, res) => {
     }
 
     const newCampaign = new Campaign({
+  
       placeName,
       category,
       beneficiary,
@@ -309,10 +315,19 @@ router.post('/campaigns',  upload.single('image'),async (req, res) => {
       raisedAmount: 0, // Set to zero initially,
       image,
       status: 'pending', // Set the initial status to 'pending'
+      userId:userId
     });
 
     await newCampaign.save();
+// Create a notification for the admin
+const notification = new Notification({
+  message: `New campaign created: ${title} `,
+  type: 'campaign',
+  campaignId: newCampaign._id,
+  userId:userId
+});
 
+await notification.save();
     res.status(201).json({ message: 'Campaign created successfully', campaignId: newCampaign._id,  campaign: newCampaign });
   } catch (err) {
     res.status(500).json({ error: 'Failed to create campaign', details: err.message });
@@ -329,6 +344,20 @@ router.get('/campaigns',async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch campaigns' });
   }
 });
+router.get("/campaigns/:id", async (req, res) => {
+  try {
+    const campaign = await Campaign.findById(req.params.id);
+    console.log('campaign by id',campaign);
+    
+    if (!campaign) {
+      return res.status(404).json({ message: "Campaign not found" });
+    }
+    res.json(campaign);
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+});
+
 router.put('/campaigns/:id', async (req, res) => {
   const { status } = req.body;
   if (!['approved', 'rejected'].includes(status)) {
@@ -411,6 +440,34 @@ router.get("/get-raised-amount/:campaignId", async (req, res) => {
   }
 });
 
+router.get("/search", async (req, res) => {
+  console.log("Search route hit"); // Debugging log
+
+  try {
+    const query = req.query.query; // Get query parameter
+    console.log("Received search query:", query); // Debug log
+
+    if (!query || query.trim() === "") {
+      return res.status(400).json({ message: "Query parameter is required" });
+    }
+
+    // Search in MongoDB using regex (case-insensitive)
+    const campaigns = await Campaign.find({
+      $or: [
+        { title: { $regex: query, $options: "i" } },
+        { placeName: { $regex: query, $options: "i" } },
+      ],
+    });
+
+    console.log("Matching Campaigns:", campaigns);
+    res.json(campaigns);
+  } catch (error) {
+    console.error("Error fetching campaigns:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+
 // Fetch unread notification count
 router.get('/notifications/count', async (req, res) => {
   try {
@@ -422,20 +479,51 @@ router.get('/notifications/count', async (req, res) => {
   }
 });
 // Mark notifications as read
-router.put('/notifications/mark-as-read', async (req, res) => {
+// router.put('/notifications/mark-as-read', async (req, res) => {
+//   try {
+//     await Notification.updateMany({ isRead: false }, { isRead: true });
+//     res.json({ message: 'Notifications marked as read' });
+//   } catch (error) {
+//     console.error('Error updating notifications:', error);
+//     res.status(500).json({ message: 'Server Error' });
+//   }
+// });
+
+
+
+router.put('/notifications/mark-as-read/:id', async (req, res) => {
   try {
-    await Notification.updateMany({ isRead: false }, { isRead: true });
-    res.json({ message: 'Notifications marked as read' });
+    const { id } = req.params;
+
+    console.log("Received Notification ID:", id); // Debuggi
+    await Notification.findByIdAndUpdate(id, { isRead: true });
+    res.json({ message: 'Notification marked as read' });
   } catch (error) {
-    console.error('Error updating notifications:', error);
+    console.error('Error updating notification:', error);
     res.status(500).json({ message: 'Server Error' });
   }
 });
 
 
 
+// Route to get unread notification count for a specific user
+router.get('/user-notifications/count/:userId', async (req, res) => {
+  try {
+    const { userId } = req.params;
 
+    // Find unread notifications for the user (isRead: false)
+    const unreadNotificationsCount = await Notification.countDocuments({
+      userId,
+      isRead: false, // Filter for unread notifications
+    });
 
+    // Send the count as a response
+    res.json({ count: unreadNotificationsCount });
+  } catch (error) {
+    console.error("Error fetching user notifications count:", error);
+    res.status(500).json({ message: 'Failed to fetch notifications count.' });
+  }
+});
 
 // verify account code 
 
@@ -471,6 +559,8 @@ const notification = new Notification({
   documentNumber,
   issueDate,
   issuedFrom,
+
+  // message: `Verification status updated to ${status}`,  // Add the message field here
   username: req.user.username, // Add username here
   citizenshipImage: verification.citizenshipImage,
   status: 'pending', // Initially pending
@@ -482,11 +572,11 @@ console.log(notification)
 await notification.save();
     // Emit notification to admin
      // Ensure io is defined before emitting
-     if (global.io) {
-      global.io.emit('new_verification', notification);
-    } else {
-      console.warn('Socket.io is not initialized.');
-    }
+    //  if (global.io) {
+    //   global.io.emit('new_verification', notification);
+    // } else {
+    //   console.warn('Socket.io is not initialized.');
+    // }
 
     res.status(201).json({ message: 'Verification submitted successfully and admin notified in real-time.' });
   } catch (error) {
@@ -552,11 +642,13 @@ router.post('/update_verification', authenticate, upload.single('citizenshipImag
       documentNumber,
       issueDate,
       issuedFrom,
+
+      // message: `Verification status updated to ${status}`,  // Add the message field here
       username: req.user.username,
       citizenshipImage: verification.citizenshipImage,
       status: 'pending', // Mark as pending again
       isRead: false,
-      type: 'verification_update',
+      type: 'verification',
     });
 
     await notification.save();
@@ -589,7 +681,7 @@ router.get('/admin/notifications/:id', async (req, res) => {
 router.get('/admin/notifications', async (req, res) => {
   try {
     // Fetch only pending notifications
-    const notifications = await Notification.find({ status: 'pending' }); // Only get pending notifications
+    const notifications = await Notification.find({ status: 'pending',   type: { $in: ['verification', 'campaign'] },}) // Fetch both types }); // Only get pending notifications
     res.status(200).json(notifications); // Send the list of pending notifications
   } catch (error) {
     res.status(500).json({ message: 'Failed to fetch notifications.', error });
@@ -616,11 +708,20 @@ router.put('/admin/notifications/:id', async (req, res) => {
     await notification.save();
 
     // Update verification status in verifyAccount model (if needed)
-    const verification = await verifyAccount.findOne({ userId: notification.userId });
-    if (verification) {
-      verification.status = status;
-      await verification.save();
-      console.log('Updated verification status:', verification.status); // Debugging line
+    // const verification = await verifyAccount.findOne({ userId: notification.userId });
+    // if (verification) {
+    //   verification.status = status;
+    //   await verification.save();
+    //   console.log('Updated verification status:', verification.status); // Debugging line
+    // }
+    // Handle different notification types
+    if (notification.type === 'verification') {
+      // Update verification status in verifyAccount model
+      const verification = await verifyAccount.findOne({ userId: notification.userId });
+      if (verification) {
+        verification.status = status;
+        await verification.save();
+      }
     }
 // Update the user's profileStatus
 const user = await User.findById(notification.userId);
@@ -628,13 +729,27 @@ if (user) {
   user.profileStatus = status === 'approved' ? 'verified' : 'rejected';
   await user.save();
 }
-    // Emit real-time update to the user
-    if (global.io) {
-      global.io.emit('verification_update', {
-        userId: notification.userId,
-        status,
-      });
-    }
+    // // Emit real-time update to the user
+    // if (global.io) {
+    //   global.io.emit('verification_update', {
+    //     userId: notification.userId,
+    //     status,
+    //   });
+    // }
+
+
+    // Store a new notification for the user about the decision
+    const userNotification = new Notification({
+      userId: notification.userId,
+      message: `Your verification request has been ${status}.`,
+      status,
+      isRead: false,
+  
+      type: 'verification_result',
+    });
+
+    await userNotification.save();
+
 
     res.json({ message: `Verification ${status} successfully!` });
   } catch (error) {
@@ -661,129 +776,4 @@ router.get("/user",authenticate, async (req, res) => {
 
 
 
-// eSewa Payment API Route
-
-// router.post("/payment/esewa", async (req, res) => {
-//   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-//   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-
-//   const { fundraiserId, userId, amount, tipAmount } = req.body;
-//   const totalAmount = amount + tipAmount;
-//   const transactionId = "TXN" + Date.now(); // Generate unique transaction ID
-// console.log(req.body);
-
-//   try {
-//     // Store payment record in DB
-//     const newPayment = new Payment({
-//       fundraiserId,
-//       userId,
-//       amount,
-//       tipAmount,
-//       totalAmount,
-//       paymentMethod: "eSewa",
-//       transactionId,
-//     });
-//     await newPayment.save();
-
-//     // ✅ eSewa Payment URL
-//     const successUrl = encodeURIComponent("http://localhost:3000/success"); // Change this to your actual frontend success page
-//     const failureUrl = encodeURIComponent("http://localhost:3000/failure");
-
-//     const esewaUrl = `https://rc-epay.esewa.com.np/api/epay/main/v2/form`;
-//     res.status(200).json({ success: true, redirectUrl: esewaUrl,  successUrl,
-//       failureUrl,totalAmount }); // Send eSewa URL to frontend
-//   } catch (error) {
-//     console.error('Error processing payment:', error);
-//     res.status(500).json({ success: false, message: error.message });
-//   }
-// });
-
-
-// // Verify eSewa Payment
-// router.post("/payment/esewa/verify", async (req, res) => {
-//   const { transactionId } = req.body;
-  
-//   try {
-//     const payment = await Payment.findOne({ transactionId });
-//     if (!payment) return res.status(400).json({ success: false, message: "Transaction not found" });
-
-//     payment.status = "completed"; // Mark as completed
-//     await payment.save();
-    
-//     res.json({ success: true, message: "Payment verified successfully" });
-//   } catch (error) {
-//     res.status(500).json({ success: false, message: error.message });
-//   }
-// });
-
-
-
-
-// // Route to initiate eSewa Payment
-// router.post("/payment/esewa", async (req, res) => {
-//   const { amount } = req.body;
-
-//   if (!amount) {
-//     return res.status(400).json({ error: "Amount is required" });
-//   }
-
-//   const esewaTestURL = "https://rc-epay.esewa.com.np/api/epay/main";
-//   const uniquePid = `TEST_${Date.now()}`; // Unique Transaction ID
-
-//   res.json({
-//     esewaURL: esewaTestURL,
-//     formData: {
-//       amt: amount,
-//       txAmt: "0", // Tax Amount
-//       psc: "0", // Service Charge
-//       pdc: "0", // Delivery Charge
-//       scd: "EPAYTEST", // eSewa Test Merchant Code
-//       pid: uniquePid, // Transaction ID
-//       su: "http://localhost:5000/api/payment-success", // Success URL
-//       fu: "http://localhost:5000/api/payment-failure", // Failure URL
-//     },
-//   });
-// });
-
-// // 👉 Route to verify eSewa Payment
-// router.post("/verify-payment", async (req, res) => {
-//   const { amt, pid, rid } = req.body;
-
-//   if (!amt || !pid || !rid) {
-//     return res.status(400).json({ error: "All fields are required" });
-//   }
-
-//   const verificationURL = "https://rc-epay.esewa.com.np/api/epay/transrec";
-
-//   try {
-//     const response = await axios.post(verificationURL, null, {
-//       params: {
-//         amt,
-//         scd: "EPAYTEST",
-//         pid,
-//         rid,
-//       },
-//     });
-
-//     if (response.data.includes("Success")) {
-//       return res.json({ success: true, message: "Payment verified successfully!" });
-//     } else {
-//       return res.json({ success: false, message: "Payment verification failed!" });
-//     }
-//   } catch (error) {
-//     console.error("Verification error:", error);
-//     return res.status(500).json({ error: "Error verifying payment" });
-//   }
-// });
-
-// // 👉 Success & Failure Routes
-// router.get("/payment-success", (req, res) => {
-//   res.send("Payment Successful! Thank you for your donation.");
-// });
-
-// router.get("/payment-failure", (req, res) => {
-//   res.send("Payment Failed. Please try again.");
-// });
-
-// Export the router
 module.exports = router;

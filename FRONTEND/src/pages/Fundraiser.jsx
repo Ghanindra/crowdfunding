@@ -97,7 +97,7 @@ const Fundraiser = () => {
       <section className="hero-section">
         <h1 className="hero-title">Successful fundraisers start here</h1>
         <p className="hero-description">
-          More than <span className="highlight">$50 million</span> is raised every week on GoFundMe.
+          More than <span className="highlight">$50 million</span> is raised every week on Crowdfunding.
         </p>
        <Link to='/campaignCreator' ><button className="start-button">Start funding</button></Link>
       </section>
@@ -131,8 +131,8 @@ const Fundraiser = () => {
                   </button>
                   <span>{likes[campaign.title]} Likes</span>
                 </div>
-                <div className="donation-card-actions">
-                  <Link to={campaign.donatePath} className="donate-button">Donate</Link>
+                <div className="donation-cards-actions">
+                  <Link to={campaign.donatePath} className="donate-buttons">Donate</Link>
                   <Link to={campaign.learnMorePath} className="learn-more-button">Learn More</Link>
                 </div>
               </div>

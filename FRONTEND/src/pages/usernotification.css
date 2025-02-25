@@ -1,0 +1,93 @@
+/* General Styles */
+.user-notifications {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  
+  .user-notifications h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .notification-item {
+    background-color: #fff;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+  }
+  
+  .notification-item:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .notification-item p {
+    margin: 0;
+    font-size: 16px;
+    color: #444;
+  }
+  
+  .error-message {
+    color: red;
+    font-size: 14px;
+    text-align: center;
+  }
+  
+  .no-notifications {
+    color: #888;
+    text-align: center;
+    font-size: 16px;
+    margin-top: 20px;
+  }
+  
+  .no-notifications::before {
+    content: "😌";
+    margin-right: 5px;
+  }
+  
+  .loading-message {
+    text-align: center;
+    font-size: 18px;
+    color: #555;
+  }
+  
+  .loading-message::after {
+    content: "⏳";
+    margin-left: 5px;
+    animation: rotate 1s infinite linear;
+  }
+  
+  /* Loading Spinner */
+  @keyframes rotate {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+  /* For smaller screens */
+  @media (max-width: 600px) {
+    .user-notifications {
+      width: 100%;
+      padding: 15px;
+    }
+  
+    .notification-item {
+      padding: 12px;
+      font-size: 14px;
+    }
+  
+    .user-notifications h2 {
+      font-size: 20px;
+    }
+  }
+  

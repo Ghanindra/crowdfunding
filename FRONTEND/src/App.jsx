@@ -35,6 +35,9 @@ import Category from './pages/Category';
 import NotificationDetails from "./components/NotificationDetails";
 import Success from "./pages/Success";
 import Failure from "./pages/Failure";
+import SearchResults from "./pages/SearchResults";
+import UserNotification from "./pages/UserNotification";
+import CampaignDetails from "./components/CampaignDetails";
 // import ResetPassword from './pages/ResetPassword'
 function App() {
   return (
@@ -129,11 +132,22 @@ function App() {
               </ProtectedRoute>} /> 
               {/* <Route path="/donationpage/:campaignId" component={DonationPage} /> */}
 
-
+              <Route path="/search" element={<ProtectedRoute>
+                <SearchResults/>
+              </ProtectedRoute>} /> 
+              <Route path="/usernotification" element={<ProtectedRoute>
+                <UserNotification/>
+              </ProtectedRoute>} /> 
       </Routes>
       
       <Routes>
           <Route path="donate/:category" element={<Category />} />
+        </Routes>
+      
+        
+       
+        <Routes>
+        <Route path="/admin/campaigns/:id" element={<CampaignDetails />} />
         </Routes>
     </Router>
     </AuthProvider>

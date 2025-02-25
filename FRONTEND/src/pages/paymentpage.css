@@ -1,115 +1,181 @@
+/* General Container */
 .payment-container {
-    padding: 40px;
-    max-width: 600px; /* Adjust width to fit within one box */
-    margin: auto;
-    font-family: Arial, sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #ffffff; /* White background for the box */
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow around the container */
-    margin-top: 1100px; /* Adjusted top margin for better positioning */
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin-top:1100px;
+}
+
+/* Title Styling */
+.payment-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Fundraiser Image */
+.payment-image {
+  width: 100%;
+  max-height: 350px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+/* Amount Options */
+.amount-options h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #444;
+}
+
+.amount-options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.amount-options button {
+  padding: 12px 18px;
+  font-size: 16px;
+  font-weight: bold;
+  border: 2px solid transparent;
+  background-color: #ff9800;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.amount-options button.selected {
+  background-color: #ff6f00;
+  border-color: #ff6f00;
+  transform: scale(1.05);
+}
+
+.amount-options button:hover {
+  background-color: #ff6f00;
+  border-color: #ff6f00;
+  transform: scale(1.05);
+}
+
+/* Tip Section */
+.tip-section {
+  margin-bottom: 20px;
+}
+
+.tip-section label {
+  font-size: 18px;
+  font-weight: 500;
+  color: #333;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.tip-section input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  transition: border 0.3s ease;
+}
+
+.tip-section input:focus {
+  border-color: #ff9800;
+  outline: none;
+}
+
+/* Payment Methods */
+.payment-methods h3 {
+  font-size: 20px;
+  margin-bottom: 12px;
+  color: #444;
+}
+
+.payment-methods {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.payment-button {
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border: 2px solid #ddd;
+  background-color: white;
+  color: #333;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.payment-button.selected {
+  background-color: #00a884;
+  color: white;
+  border-color: #00a884;
+}
+
+.payment-button:hover {
+  background-color: #00a884;
+  color: white;
+  border-color: #00a884;
+}
+
+/* Total Amount Section */
+.total-amount p {
+  font-size: 18px;
+  font-weight: 500;
+  color: #333;
+  margin: 5px 0;
+}
+
+/* Donate Button */
+.donate-now-buttons {
+  width: 100%;
+  padding: 14px;
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+  background-color: #e53935;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+  margin-top: 15px;
+}
+
+.donate-now-buttons:hover {
+  background-color: #c62828;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .payment-container {
+      padding: 15px;
   }
-  
-  .payment-title {
-    font-size: 26px;
-    font-weight: bold;
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .payment-image {
-    width: 100%;
-    max-width: 400px; /* Adjust for a smaller image */
-    height: auto;
-    border-radius: 10px;
-    object-fit: cover;
-    margin-bottom: 20px; /* Space below image */
-  }
-  
+
   .amount-options {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-    justify-content: space-between; /* Evenly space buttons */
-    width: 79%; /* Ensure the buttons stay within the container */
-    flex-wrap: wrap; /* Allow buttons to wrap when needed */
-    box-sizing: border-box; /* Include padding and borders in width calculation */
+      flex-direction: column;
+      align-items: center;
   }
-  
-  .amount-options button {
-    padding: 10px 20px;
-    background-color: #ff9800;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    text-align: center; /* Ensure text is centered inside the button */
-    flex-grow: 1; /* Ensure buttons grow equally */
-    flex-shrink: 0; /* Prevent buttons from shrinking */
-    min-width: 80px; /* Minimum width to ensure button doesn't get too small */
-    max-width: 120px; /* Limit width of buttons */
-  }
-  
-  .amount-options button.selected {
-    background-color: #00a65a;
-  }
-  
-  .tip-section {
-    margin-bottom: 20px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .tip-section input {
-    padding: 8px; /* Reduced padding */
-    width: 50%; /* Adjust width to make it smaller */
-    border: 1px solid #ddd;
-    border-radius: 5px;
-  }
-  
+
   .payment-methods {
-    margin-bottom: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+      flex-direction: column;
+      align-items: center;
   }
-  
-  .payment-methods .payment-button {
-    width: 100%;
-    max-width: 300px;
-    padding: 12px;
-    font-size: 16px;
-    font-weight: bold;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-bottom: 10px;
+
+  .payment-button {
+      width: 100%;
+      text-align: center;
   }
-  
-  .payment-methods .payment-button.selected {
-    background-color: #00a65a;
-    color: white;
-  }
-  
-  .total-amount {
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  
-  .donate-now-buttons {
-    width: 100%;
-    max-width: 300px;
-    padding: 12px;
-    font-size: 16px;
-    font-weight: bold;
-    background-color: #ff9800;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
+}
