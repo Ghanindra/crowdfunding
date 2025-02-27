@@ -14,7 +14,7 @@ const Business = () => {
     const token = localStorage.getItem("token"); // Get token from storage (or cookies)
     
     axios
-      .get("http://localhost:5000/api/campaigns/Business", {
+      .get("http://localhost:5000/api/category/Business", {
         headers: {
           Authorization: `Bearer ${token}`  // Send token in the request
         },

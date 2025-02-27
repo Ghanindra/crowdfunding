@@ -15,7 +15,7 @@ const Education = () => {
     const token = localStorage.getItem("token"); // Get token from storage (or cookies)
     
     axios
-      .get("http://localhost:5000/api/campaigns/Education", {
+      .get("http://localhost:5000/api/category/Education", {
         headers: {
           Authorization: `Bearer ${token}`  // Send token in the request
         },

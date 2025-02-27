@@ -3,97 +3,113 @@
 // import axios from "axios";
 // import { FaUsers, FaChartBar, FaCog, FaBell, FaPowerOff, FaClipboardList, FaMoneyBillWave } from "react-icons/fa";
 // import "./navbar.css";
-// import AdminNotification from '../components/AdminNotification'; // Import the AdminNotifications component
+// import AdminNotification from '../components/AdminNotification'; // Admin notifications
+// import UserNotification from '../pages/UserNotification'; // User notifications
 // import { toast } from "react-toastify";
+
 // const Navbar = () => {
 //   const [isAuthenticated, setIsAuthenticated] = useState(false);
 //   const [isAdmin, setIsAdmin] = useState(false);
 //   const [notifications, setNotifications] = useState(0);
-
+//   const [userNotifications, setUserNotifications] = useState(0);
 //   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-//   const [searchQuery, setSearchQuery] = useState(""); // Declare searchQuery state
+//   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
+//   const [searchQuery, setSearchQuery] = useState("");
+//   const userId = localStorage.getItem("user-id"); // Get the user's ID
+
 //   const navigate = useNavigate();
 
 //   useEffect(() => {
-//     // Check authentication & role
 //     const token = localStorage.getItem("auth-token");
 //     const userRole = localStorage.getItem("user-role");
 
-//     // If token exists, user is authenticated
 //     setIsAuthenticated(!!token);
-//     // If user-role is 'admin', they are an admin
 //     setIsAdmin(userRole === "admin");
 //   }, []);
 
-//   useEffect(() => {
-//     const fetchNotifications = async () => {
-//       try {
-//         const response = await axios.get("http://localhost:5000/api/notifications/count");
-//         setNotifications(response.data.count);
-//       } catch (error) {
-//         console.error("Error fetching notifications:", error);
-//       }
-//     };
-//     fetchNotifications();
-//   }, []);
- 
+//   // useEffect(() => {
+//   //   const fetchNotifications = async () => {
+//   //     try {
+//   //       const response = await axios.get("http://localhost:5000/api/notifications/count");
+//   //       setNotifications(response.data.count);
+//   //     } catch (error) {
+//   //       console.error("Error fetching notifications:", error);
+//   //     }
+//   //   };
 
-//   // Custom logout confirmation using Toastify
-//   const handleLogout = () => {
-//     toast(
-//       ({ closeToast }) => (
-//         <div style={{ padding: "10px" }}>
-//           <p style={{ marginBottom: "10px" }}>Are you sure you want to log out?</p>
-//           <div style={{ display: "flex", justifyContent: "space-between" }}>
-//             <button
-//               onClick={() => {
-//                 // Logout actions
-//                 localStorage.removeItem("auth-token");
-//                 localStorage.removeItem("user-role");
-//                 setIsAuthenticated(false);
-//                 setIsAdmin(false);
-//                 navigate("/");
-//                 toast.success("Logged out successfully");
-//                 closeToast();
-//               }}
-//               style={{
-//                 background: "red",
-//                 color: "white",
-//                 border: "none",
-//                 padding: "5px 10px",
-//                 marginRight: "10px",
-//                 cursor: "pointer",
-//               }}
-//             >
-//               Yes
-//             </button>
-//             <button
-//               onClick={closeToast}
-//               style={{
-//                 background: "gray",
-//                 color: "white",
-//                 border: "none",
-//                 padding: "5px 10px",
-//                 cursor: "pointer",
-//               }}
-//             >
-//               No
-//             </button>
-//           </div>
-//         </div>
-//       ),
-//       { autoClose: false }
-//     );
-//   };
-//   const handleSearch = (e) => {
-//     e.preventDefault();
-//     if (searchQuery.trim()) {
-//       navigate(`/search?query=${searchQuery}`);
+//   //   const fetchUserNotifications = async () => {
+//   //     try {
+//   //       const response = await axios.get(`http://localhost:5000/api/user-notifications/count/${userId}`);
+//   //       setUserNotifications(response.data.count);
+//   //     } catch (error) {
+//   //       console.error("Error fetching user notifications:", error);
+//   //     }
+//   //   };
+
+//   //   if (isAdmin) {
+//   //     fetchNotifications();
+//   //   } else {
+//   //     fetchUserNotifications();
+//   //   }
+//   // }, [isAdmin, userId]);
+
+//   // Fetch unread notifications count
+//   const fetchUnreadNotificationsCount = async () => {
+//     try {
+//       const response = await axios.get(`http://localhost:5000/api/user-notifications/count/${userId}`);
+//       setNotifications(response.data.count); // Update the unread notification count
+//     } catch (error) {
+//       console.error("Error fetching notifications:", error);
 //     }
 //   };
 
-//   const toggleDropdown = () => {
+//   // Fetch user notifications count (can be different if needed)
+//   const fetchUserNotificationsCount = async () => {
+//     try {
+//       const response = await axios.get(`http://localhost:5000/api/user-notifications/count/${userId}`);
+//       setUserNotifications(response.data.count); // Update the user-specific unread notification count
+//     } catch (error) {
+//       console.error("Error fetching user notifications:", error);
+//     }
+//   };
+
+//   // Mark notification as read
+//   const markNotificationAsRead = async (notificationId) => {
+//     try {
+//       await axios.post(`http://localhost:5000/api/user-notifications/read/${notificationId}`);
+      
+//       // After marking as read, fetch the updated count
+//       fetchUnreadNotificationsCount();
+//     } catch (error) {
+//       console.error("Error marking notification as read:", error);
+//     }
+//   };
+
+//   // Mark user notification as read
+//   const markUserNotificationAsRead = async (notificationId) => {
+//     try {
+//       await axios.post(`http://localhost:5000/api/user-notifications/read/${notificationId}`);
+
+//       // After marking as read, fetch the updated count
+//       fetchUserNotificationsCount();
+//     } catch (error) {
+//       console.error("Error marking user notification as read:", error);
+//     }
+//   };
+
+//   useEffect(() => {
+//     fetchUnreadNotificationsCount(); // Fetch the unread notification count when the component mounts
+//     fetchUserNotificationsCount(); // Fetch the user notifications count
+//   }, [userId]);
+
+//   const toggleDropdown = (event) => {
+   
 //     setIsDropdownOpen((prev) => !prev);
+//   };
+
+//   const toggleUserDropdown = (event) => {
+//     event.stopPropagation(); // Prevent event from bubbling up
+//     setIsUserDropdownOpen((prev) => !prev);
 //   };
 
 //   return (
@@ -105,9 +121,11 @@
 //       </div>
 
 //       <ul className="navbar-links">
-//         {/* Search bar (common for both users and admins) */}
 //         <li className="navbar-search">
-//           <form onSubmit={handleSearch}>
+//           <form onSubmit={(e) => {
+//             e.preventDefault();
+//             if (searchQuery.trim()) navigate(`/search?query=${searchQuery}`);
+//           }}>
 //             <input
 //               type="text"
 //               placeholder="Search projects..."
@@ -120,7 +138,6 @@
 //         </li>
 
 //         {isAdmin ? (
-//           // Admin Navbar
 //           <>
 //             <li><Link to="/admin/dashboard"><FaChartBar /> Dashboard</Link></li>
 //             <li><Link to="/admin/campaigns"><FaClipboardList /> Manage Campaigns</Link></li>
@@ -128,21 +145,21 @@
 //             <li><Link to="/admin/transactions"><FaMoneyBillWave /> Transactions</Link></li>
 //             <li><Link to="/admin/reports"><FaChartBar /> Reports</Link></li>
 //             <li><Link to="/admin/settings"><FaCog /> Settings</Link></li>
+            
+//             {/* Admin Notifications */}
 //             <li className="navbar-notifications">
 //               <div onClick={toggleDropdown}>
-//               <FaBell style={{ color: 'white' }} />
+//                 <FaBell style={{ color: 'white' }} />
 //                 {notifications > 0 && <span className="notification-badge">{notifications}</span>}
 //               </div>
 //               {isDropdownOpen && (
 //                 <div className="dropdown-menu">
-//                   <AdminNotification /> 
-                  
+//                   <AdminNotification />
 //                 </div>
 //               )}
 //             </li>
 //           </>
 //         ) : (
-//           // User Navbar
 //           <>
 //             <li className="navbar-dropdown">
 //               <Link to="/donate">
@@ -158,16 +175,35 @@
 //             <li><Link to="/campaign-guidelines">Campaign Guidelines</Link></li>
 //             <li><Link to="/about">About Us</Link></li>
 //             <li><Link to="/contact">Contact</Link></li>
+
+//             {/* User Notifications */}
+//             <li className="navbar-notifications">
+//               <div onClick={toggleUserDropdown}>
+//                 <FaBell style={{ color: 'white' }} />
+//                 {userNotifications > 0 && <span className="notification-badge">{userNotifications}</span>}
+//               </div>
+//               {isUserDropdownOpen && (
+//                <div className="dropdown-menu" onClick={(e) => e.stopPropagation()}>
+//                   <UserNotification />
+//                 </div>
+//               )}
+//             </li>
 //           </>
 //         )}
 //       </ul>
 
-//       {/* Auth Buttons */}
 //       <div className="navbar-auth">
 //         {isAuthenticated ? (
 //           <>
 //             <Link to="/profile"><button>Profile</button></Link>
-//             <button className="logout-button" onClick={handleLogout}>
+//             <button className="logout-button" onClick={() => {
+//               toast.success("Logged out successfully");
+//               localStorage.removeItem("auth-token");
+//               localStorage.removeItem("user-role");
+//               setIsAuthenticated(false);
+//               setIsAdmin(false);
+//               navigate("/");
+//             }}>
 //               <FaPowerOff /> Logout
 //             </button>
 //           </>
@@ -182,11 +218,196 @@
 // export default Navbar;
 
 
+// import React, { useState, useEffect, useCallback } from "react";
+// import { Link, useNavigate } from "react-router-dom";
+// import axios from "axios";
+// import { FaUsers, FaChartBar, FaCog, FaBell, FaPowerOff, FaClipboardList, FaMoneyBillWave } from "react-icons/fa";
+// import "./navbar.css";
+// import AdminNotification from '../components/AdminNotification'; // Admin notifications
+// import UserNotification from '../pages/UserNotification'; // User notifications
+// import { toast } from "react-toastify";
 
-import React, { useState, useEffect } from "react";
+// const Navbar = () => {
+//   const [isAuthenticated, setIsAuthenticated] = useState(false);
+//   const [isAdmin, setIsAdmin] = useState(false);
+//   const [notifications, setNotifications] = useState(0);
+//   const [userNotifications, setUserNotifications] = useState(0);
+//   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+//   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
+//   const [searchQuery, setSearchQuery] = useState("");
+//   const userId = localStorage.getItem("user-id"); // Get the user's ID
+
+//   const navigate = useNavigate();
+
+//   useEffect(() => {
+//     const token = localStorage.getItem("auth-token");
+//     const userRole = localStorage.getItem("user-role");
+
+//     setIsAuthenticated(!!token);
+//     setIsAdmin(userRole === "admin");
+//   }, []);
+
+
+
+//   useEffect(() => {
+//     const fetchAdminNotifications = async () => {
+//       try {
+//         const response = await axios.get("http://localhost:5000/api/notifications/count"); // Admin endpoint
+//         console.log('adminnotification',response.data);
+        
+//         setNotifications(response.data.count);
+//       } catch (error) {
+//         console.error("Error fetching admin notifications:", error);
+//       }
+//     };
+  
+//     const fetchUserNotifications = async () => {
+//       try {
+//         const response = await axios.get(`http://localhost:5000/api/user-notifications/count/${userId}`); // User endpoint
+//         console.log('usernotification',response.data);
+        
+//         setUserNotifications(response.data.count);
+//       } catch (error) {
+//         console.error("Error fetching user notifications:", error);
+//       }
+//     };
+  
+//     if (isAdmin) {
+//       fetchAdminNotifications();
+//     } else {
+//       fetchUserNotifications();
+//     }
+//   }, [isAdmin, userId]);
+  
+//   const markNotificationAsRead = async (notificationId) => {
+//     try {
+//       await axios.put(`http://localhost:5000/api/user-notifications/read/${notificationId}`);
+//       setUserNotifications((prev) => prev - 1); // Decrement notification count
+//     } catch (error) {
+//       console.error("Error marking notification as read:", error);
+//     }
+//   };
+//   const toggleDropdown = () => setIsDropdownOpen((prev) => !prev);
+//   const toggleUserDropdown = (event) => {
+//     event.stopPropagation(); // Prevent event from bubbling up
+//     setIsUserDropdownOpen((prev) => !prev);
+//   };
+
+//   const handleSearch = (e) => {
+//     e.preventDefault();
+//     if (searchQuery.trim()) navigate(`/search?query=${searchQuery}`);
+//   };
+
+//   return (
+//     <nav className="navbar">
+//       <div className="navbar-brand">
+//         <Link to={isAdmin ? "/admin/dashboard" : "/"} className="navbar-logo">
+//           🚀 CROWDFUNDING
+//         </Link>
+//       </div>
+
+//       <ul className="navbar-links">
+//         <li className="navbar-search">
+//           <form onSubmit={handleSearch}>
+//             <input
+//               type="text"
+//               placeholder="Search projects..."
+//               value={searchQuery}
+//               onChange={(e) => setSearchQuery(e.target.value)}
+//               className="navbar-search-input"
+//             />
+//             <button type="submit" className="navbar-search-button">Search</button>
+//           </form>
+//         </li>
+
+//         {isAdmin ? (
+//           <>
+//             <li><Link to="/admin/dashboard"><FaChartBar /> Dashboard</Link></li>
+//             <li><Link to="/admin/campaigns"><FaClipboardList /> Manage Campaigns</Link></li>
+//             <li><Link to="/admin/users"><FaUsers /> User Management</Link></li>
+//             <li><Link to="/admin/transactions"><FaMoneyBillWave /> Transactions</Link></li>
+//             <li><Link to="/admin/reports"><FaChartBar /> Reports</Link></li>
+//             <li><Link to="/admin/settings"><FaCog /> Settings</Link></li>
+            
+//             {/* Admin Notifications */}
+//             <li className="navbar-notifications">
+//               <div onClick={toggleDropdown}>
+//                 <FaBell style={{ color: 'white' }} />
+//                 {notifications > 0 && <span className="notification-badge">{notifications}</span>}
+//               </div>
+//               {isDropdownOpen && (
+//                 <div className="dropdown-menu">
+//                   <AdminNotification /> {/* Passing function here */}
+//                 </div>
+//               )}
+//             </li>
+//           </>
+//         ) : (
+//           <>
+//             <li className="navbar-dropdown">
+//               <Link to="/donate">
+//                 Donate <span className="dropdown-icon">▼</span>
+//               </Link>
+//               <ul className="dropdown-menu">
+//                 <li><Link to="/donate/social-impact">Social Impact</Link></li>
+//                 <li><Link to="/donate/categories">Categories</Link></li>
+//                 <li><Link to="/donate">How to Donate</Link></li>
+//               </ul>
+//             </li>
+//             <li><Link to="/campaignCreator">Start a Campaign</Link></li>
+//             <li><Link to="/campaign-guidelines">Campaign Guidelines</Link></li>
+//             <li><Link to="/about">About Us</Link></li>
+//             <li><Link to="/contact">Contact</Link></li>
+
+//             {/* User Notifications */}
+//             <li className="navbar-notifications">
+//               <div onClick={toggleUserDropdown}>
+//                 <FaBell style={{ color: 'white' }} />
+//                 {userNotifications > 0 && <span className="notification-badge">{userNotifications}</span>}
+//               </div>
+//               {isUserDropdownOpen && (
+//                <div className="dropdown-menu" onClick={(e) => e.stopPropagation()}>
+//                   <UserNotification notifications={notifications} markAsRead={markNotificationAsRead} /> {/* Passing function here */}
+//                 </div>
+//               )}
+//             </li>
+//           </>
+//         )}
+//       </ul>
+
+//       <div className="navbar-auth">
+//         {isAuthenticated ? (
+//           <>
+//             <Link to="/profile"><button>Profile</button></Link>
+//             <button className="logout-button" onClick={() => {
+//               toast.success("Logged out successfully");
+//               localStorage.removeItem("auth-token");
+//               localStorage.removeItem("user-role");
+//               setIsAuthenticated(false);
+//               setIsAdmin(false);
+//               navigate("/");
+//             }}>
+//               <FaPowerOff  className='logout'/> Logout
+//             </button>
+//           </>
+//         ) : (
+//           <Link to="/login"><button>Login</button></Link>
+//         )}
+//       </div>
+//     </nav>
+//   );
+// };
+
+// export default Navbar;
+
+
+
+
+
+import React, { useState, useEffect, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { FaUsers, FaChartBar, FaCog, FaBell, FaPowerOff, FaClipboardList, FaMoneyBillWave } from "react-icons/fa";
+import { FaUsers, FaChartBar, FaCog, FaBell, FaPowerOff, FaClipboardList, FaMoneyBillWave, FaUserCircle } from "react-icons/fa";
 import "./navbar.css";
 import AdminNotification from '../components/AdminNotification'; // Admin notifications
 import UserNotification from '../pages/UserNotification'; // User notifications
@@ -199,11 +420,34 @@ const Navbar = () => {
   const [userNotifications, setUserNotifications] = useState(0);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
+  const [isAvatarDropdownOpen, setIsAvatarDropdownOpen] = useState(false);
+  const [profilePicture, setProfilePicture] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const userId = localStorage.getItem("user-id"); // Get the user's ID
 
   const navigate = useNavigate();
+  useEffect(() => {
+    const fetchProfilePicture = async () => {
+        if (!userId) return;
+        try {
+            const response = await axios.get(`http://localhost:5000/api/user/profile/${userId}`);
+            console.log('profilepicture',response.data.profilePicture);
+            
+            setProfilePicture(`http://localhost:5000/${response.data.profilePicture}`)
+          
+   
+      
+            
+        } catch (error) {
+            console.error("Error fetching profile picture:", error);
+        }
+    };
 
+    fetchProfilePicture();
+}, [userId]);
+useEffect(() => {
+  console.log("Updated profile picture:", profilePicture); // This will log when profilePicture changes
+}, [profilePicture]);
   useEffect(() => {
     const token = localStorage.getItem("auth-token");
     const userRole = localStorage.getItem("user-role");
@@ -213,39 +457,54 @@ const Navbar = () => {
   }, []);
 
   useEffect(() => {
-    const fetchNotifications = async () => {
+    const fetchAdminNotifications = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/notifications/count");
+        const response = await axios.get("http://localhost:5000/api/notifications/count"); // Admin endpoint
+        console.log('adminnotification',response.data);
+        
         setNotifications(response.data.count);
       } catch (error) {
-        console.error("Error fetching notifications:", error);
+        console.error("Error fetching admin notifications:", error);
       }
     };
-
+  
     const fetchUserNotifications = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/user-notifications/count/${userId}`);
+        const response = await axios.get(`http://localhost:5000/api/user-notifications/count/${userId}`); // User endpoint
+        console.log('usernotification',response.data);
+        
         setUserNotifications(response.data.count);
       } catch (error) {
         console.error("Error fetching user notifications:", error);
       }
     };
-
+  
     if (isAdmin) {
-      fetchNotifications();
+      fetchAdminNotifications();
     } else {
       fetchUserNotifications();
     }
   }, [isAdmin, userId]);
-
-  const toggleDropdown = (event) => {
-   
-    setIsDropdownOpen((prev) => !prev);
+  
+  const markNotificationAsRead = async (notificationId) => {
+    try {
+      await axios.put(`http://localhost:5000/api/user-notifications/read/${notificationId}`);
+      setUserNotifications((prev) => prev - 1); // Decrement notification count
+    } catch (error) {
+      console.error("Error marking notification as read:", error);
+    }
   };
-
+  
+  const toggleDropdown = () => setIsDropdownOpen((prev) => !prev);
   const toggleUserDropdown = (event) => {
     event.stopPropagation(); // Prevent event from bubbling up
     setIsUserDropdownOpen((prev) => !prev);
+  };
+  const toggleAvatarDropdown = () => setIsAvatarDropdownOpen((prev) => !prev);
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) navigate(`/search?query=${searchQuery}`);
   };
 
   return (
@@ -258,10 +517,7 @@ const Navbar = () => {
 
       <ul className="navbar-links">
         <li className="navbar-search">
-          <form onSubmit={(e) => {
-            e.preventDefault();
-            if (searchQuery.trim()) navigate(`/search?query=${searchQuery}`);
-          }}>
+          <form onSubmit={handleSearch}>
             <input
               type="text"
               placeholder="Search projects..."
@@ -298,9 +554,7 @@ const Navbar = () => {
         ) : (
           <>
             <li className="navbar-dropdown">
-              <Link to="/donate">
-                Donate <span className="dropdown-icon">▼</span>
-              </Link>
+              <Link to="/donate">Donate <span className="dropdown-icon">▼</span></Link>
               <ul className="dropdown-menu">
                 <li><Link to="/donate/social-impact">Social Impact</Link></li>
                 <li><Link to="/donate/categories">Categories</Link></li>
@@ -311,38 +565,49 @@ const Navbar = () => {
             <li><Link to="/campaign-guidelines">Campaign Guidelines</Link></li>
             <li><Link to="/about">About Us</Link></li>
             <li><Link to="/contact">Contact</Link></li>
-
+            
             {/* User Notifications */}
             <li className="navbar-notifications">
-              <div onClick={toggleUserDropdown}>
-                <FaBell style={{ color: 'white' }} />
+              <div onClick={toggleUserDropdown}>                <FaBell style={{ color: 'white' }} />
                 {userNotifications > 0 && <span className="notification-badge">{userNotifications}</span>}
-              </div>
-              {isUserDropdownOpen && (
-               <div className="dropdown-menu" onClick={(e) => e.stopPropagation()}>
-                  <UserNotification />
-                </div>
-              )}
-            </li>
+             </div>
+             {isUserDropdownOpen && (
+              <div className="dropdown-menu" onClick={(e) => e.stopPropagation()}>
+                <UserNotification notifications={notifications} markAsRead={markNotificationAsRead} /> {/* Passing function here */}
+              </div>            )}
+           </li>
           </>
-        )}
+         )}
+          
+        
+        
       </ul>
 
       <div className="navbar-auth">
         {isAuthenticated ? (
-          <>
-            <Link to="/profile"><button>Profile</button></Link>
-            <button className="logout-button" onClick={() => {
-              toast.success("Logged out successfully");
-              localStorage.removeItem("auth-token");
-              localStorage.removeItem("user-role");
-              setIsAuthenticated(false);
-              setIsAdmin(false);
-              navigate("/");
-            }}>
-              <FaPowerOff /> Logout
-            </button>
-          </>
+          <div className="avatar-container" onClick={toggleAvatarDropdown}>
+            {/* <FaUserCircle className="avatar-icon" /> */}
+            {profilePicture ? (
+                            <img src={profilePicture} alt="Profile" className="avatar-image" />
+                        ) : (
+                            <FaUserCircle className="avatar-icon" />
+                        )}
+            {isAvatarDropdownOpen && (
+              <div className="dropdown-menu">
+                <Link to="/profile">Profile</Link>
+                <button className="logout-button" onClick={() => {
+                  toast.success("Logged out successfully");
+                  localStorage.removeItem("auth-token");
+                  localStorage.removeItem("user-role");
+                  setIsAuthenticated(false);
+                  setIsAdmin(false);
+                  navigate("/");
+                }}>
+                  <FaPowerOff className='logout'/> Logout
+                </button>
+              </div>
+            )}
+          </div>
         ) : (
           <Link to="/login"><button>Login</button></Link>
         )}
@@ -352,5 +617,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-

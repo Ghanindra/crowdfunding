@@ -37,7 +37,10 @@ import Success from "./pages/Success";
 import Failure from "./pages/Failure";
 import SearchResults from "./pages/SearchResults";
 import UserNotification from "./pages/UserNotification";
+import ManageCampaign from "./pages/ManageCampaign";
 import CampaignDetails from "./components/CampaignDetails";
+
+
 // import ResetPassword from './pages/ResetPassword'
 function App() {
   return (
@@ -137,9 +140,15 @@ function App() {
               </ProtectedRoute>} /> 
               <Route path="/usernotification" element={<ProtectedRoute>
                 <UserNotification/>
+  
+              </ProtectedRoute>} /> 
+              <Route path="/admin/campaigns" element={<ProtectedRoute>
+                <ManageCampaign />
               </ProtectedRoute>} /> 
       </Routes>
-      
+      {/* <Route path="admin/campaign" element={ <ProtectedRoute alllowed='restricted'> */}
+                {/* <ManageCampaign /> */}
+              {/* </ProtectedRoute>} />  */}
       <Routes>
           <Route path="donate/:category" element={<Category />} />
         </Routes>

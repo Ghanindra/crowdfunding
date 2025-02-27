@@ -47,7 +47,7 @@ const Home = () => {
   </div>
 
   {/* Fundraising Tips Section */}
-  <h2>How can you achieve successful fundraising?</h2>
+  <h2 className='funder'>How can you achieve successful fundraising?</h2>
   <div className="fundraising-tips">
     <div className="tip-card">
       <img src={share} alt="Tip 1" />

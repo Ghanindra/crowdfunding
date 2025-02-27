@@ -42,7 +42,6 @@ const validatePasswordStrength = (password) => {
       localStorage.setItem('user-role', res.data.user.role); // Save the role as 'admin' or other roles like 'user'
       localStorage.setItem('user-id', res.data.user.user_id); // Store user ID
 
-      // localStorage.setItem('auth-token', res.data.user.role);
     
 
 

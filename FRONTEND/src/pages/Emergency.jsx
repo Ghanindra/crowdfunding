@@ -14,7 +14,7 @@ const Emergency = () => {
     const token = localStorage.getItem("token"); // Get token from storage (or cookies)
     
     axios
-      .get("http://localhost:5000/api/campaigns/Emergency", {
+      .get("http://localhost:5000/api/category/Emergency", {
         headers: {
           Authorization: `Bearer ${token}`  // Send token in the request
         },

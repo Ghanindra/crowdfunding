@@ -18,7 +18,7 @@ const Animal = () => {
     const token = localStorage.getItem("token"); // Get token from storage (or cookies)
     
     axios
-      .get("http://localhost:5000/api/campaigns/Animals", {
+      .get("http://localhost:5000/api/category/Animals", {
         headers: {
           Authorization: `Bearer ${token}`  // Send token in the request
         },

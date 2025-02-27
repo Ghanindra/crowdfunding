@@ -6,6 +6,7 @@ const authenticate = (req, res, next) => {
 
 
   const token = req.header('Authorization')?.replace('Bearer ', ''); // Extract token from header
+  // const token = req.header('Authorization')?.split(' ')[1]; // Get token after 'Bearer'
   console.log('Token:', token);
 
   if (!token) {

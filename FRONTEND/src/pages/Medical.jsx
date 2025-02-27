@@ -12,10 +12,16 @@ const Medical = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate(); // Hook for navigation
   useEffect(() => {
-    const token = localStorage.getItem("token"); // Get token from storage (or cookies)
-    
+    const token = localStorage.getItem("auth-token"); // Get token from storage (or cookies)
+    console.log("Token from localStorage:", token);  // Debugging line
+    if (!token) {
+      setError("Token not found.");
+      setLoading(false);
+      return;
+    }
+  
     axios
-      .get("http://localhost:5000/api/campaigns/Medical", {
+      .get("http://localhost:5000/api/category/Medical", {
         headers: {
           Authorization: `Bearer ${token}`  // Send token in the request
         },
@@ -27,6 +33,9 @@ const Medical = () => {
       })
       .catch((error) => {
         console.error("Error fetching medical campaigns:", error.response || error.message);
+        if (error.response) {
+          console.log("Backend error message:", error.response.data);
+        }
         setError("Unauthorized: Please log in to access fundraisers.");
         setLoading(false);
       });

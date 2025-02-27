@@ -33,7 +33,8 @@ const Profile = () => {
         const res = await axios.get('http://localhost:5000/api/profile', {
           headers: { 'auth-token': token },
         });
-
+          console.log('profilepic',res.data.profilePicture);
+          
         console.log(res.data.username);
 
         setUsername(res.data.username);
@@ -44,8 +45,14 @@ const Profile = () => {
 
         if (res.data.profilePicture) {
           const imageUrl = `http://localhost:5000/${res.data.profilePicture}`;
+          // console.log('image',imageUrl);
+        
           setFile(imageUrl);
           setObjectURL(imageUrl);
+          localStorage.setItem('profilePicture', imageUrl); // Store in localStorage
+
+        }else {
+          localStorage.removeItem('profilePicture'); // Remove if no profile picture
         }
       } catch (error) {
         console.error('Error fetching profile:', error.response ? error.response.data : error.message);
@@ -79,6 +86,7 @@ const Profile = () => {
         }
       );
       setIsUpdated(true);
+      
       setTimeout(() => setIsUpdated(false), 3000);
     } catch (error) {
       console.error('Error updating profile:', error);
@@ -92,6 +100,7 @@ const Profile = () => {
       setFile(selectedFile);
       const objectURL = URL.createObjectURL(selectedFile);
       setObjectURL(objectURL);
+      localStorage.setItem('profilePicture', objectURL); // Store in localStorage
     }
   };
 

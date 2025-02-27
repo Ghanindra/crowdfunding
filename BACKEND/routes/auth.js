@@ -376,9 +376,9 @@ router.put('/campaigns/:id', async (req, res) => {
   }
 });
 // Route to get campaigns by category
-router.get('/campaigns/:category',upload.single('image'),async (req, res) => {
+router.get('/category/:category',async (req, res) => {
   const { category } = req.params;
-
+  console.log("Category received:", category);  // Debugging line
   
   try {
     const campaigns = await Campaign.find({ category:category });
@@ -467,17 +467,40 @@ router.get("/search", async (req, res) => {
   }
 });
 
+// In your backend API (Express.js or similar)
+router.delete('/campaigns/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    // Delete the campaign from the database
+    const deletedCampaign = await Campaign.findByIdAndDelete(id);
+    if (!deletedCampaign) {
+      return res.status(404).json({ message: "Campaign not found" });
+    }
+    res.status(200).json({ message: "Campaign deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error deleting campaign" });
+  }
+});
 
 // Fetch unread notification count
 router.get('/notifications/count', async (req, res) => {
   try {
-    const count = await Notification.countDocuments({ isRead: false });
+    const count = await Notification.countDocuments({ isRead: false ,type:'verification'});
     res.json({ count });
   } catch (error) {
     console.error('Error fetching notification count:', error);
     res.status(500).json({ message: 'Server Error' });
   }
 });
+//   try {
+//     const count = await Notification.countDocuments({ isRead: false });
+//     res.json({ count });
+//   } catch (error) {
+//     console.error('Error fetching notification count:', error);
+//     res.status(500).json({ message: 'Server Error' });
+//   }
+// });
 // Mark notifications as read
 // router.put('/notifications/mark-as-read', async (req, res) => {
 //   try {
@@ -514,7 +537,8 @@ router.get('/user-notifications/count/:userId', async (req, res) => {
     // Find unread notifications for the user (isRead: false)
     const unreadNotificationsCount = await Notification.countDocuments({
       userId,
-      isRead: false, // Filter for unread notifications
+      isRead: false,
+      type:'verification_result' // Filter for unread notifications
     });
 
     // Send the count as a response
@@ -524,6 +548,36 @@ router.get('/user-notifications/count/:userId', async (req, res) => {
     res.status(500).json({ message: 'Failed to fetch notifications count.' });
   }
 });
+
+// Route to mark a notification as read
+router.put('/user-notifications/read/:notificationId', async (req, res) => {
+  try {
+    const { notificationId } = req.params;
+
+    console.log('receive',notificationId );
+    // Find the notification and mark it as read
+    const notification = await Notification.findById(notificationId);
+
+    if (!notification) {
+      return res.status(404).json({ message: 'Notification not found.' });
+    }
+
+    // Mark as read if not already read
+    if (!notification.isRead) {
+      notification.isRead = true;
+      await notification.save();
+    }
+
+    // After marking as read, send a success response
+    res.json({ message: 'Notification marked as read.' });
+
+    // Optionally, you can return the updated unread notifications count here if needed.
+  } catch (error) {
+    console.error("Error marking notification as read:", error);
+    res.status(500).json({ message: 'Failed to mark notification as read.' });
+  }
+});
+
 
 // verify account code 
 
@@ -757,6 +811,16 @@ if (user) {
     res.status(500).json({ message: 'Failed to update verification status.', error });
   }
 });
+//fetch profile picture for navbar
+router.get("/user/profile/:userId", async (req, res) => {
+  try {
+      const user = await User.findById(req.params.userId);
+      res.json({ profilePicture: user.profilePicture });
+  } catch (error) {
+      res.status(500).json({ error: "Error fetching profile picture" });
+  }
+});
+
 // Endpoint to get user details (userId, etc.)
 router.get("/user",authenticate, async (req, res) => {
   try {
@@ -774,6 +838,39 @@ router.get("/user",authenticate, async (req, res) => {
   }
 });
 
+
+router.get("/dashboard", async (req, res) => {
+  try {
+    const totalCampaigns = await Campaign.countDocuments();
+    // const activeCampaigns = await Campaign.countDocuments({ status: "active" });
+    // const completedCampaigns = await Campaign.countDocuments({ status: "completed" });
+    // const pendingCampaigns = await Campaign.countDocuments({ status: "pending" });
+
+    const totalUsers = await User.countDocuments();
+    const totalDonations = await Payment.aggregate([{ $group: { _id: null, total: { $sum: "$amount" } } }]);
+    const platformRevenue = await Payment.aggregate([
+      { $group: { _id: null, revenue: { $sum: { $multiply: ["$amount", 0.05] } } } } // Assuming 5% platform fee
+    ]);
+
+    const recentActivity = await Payment.find().sort({ createdAt: -1 }).limit(5).select("donorName amount campaignName createdAt");
+
+    const responseData = {
+      totalCampaigns,
+     
+      totalUsers,
+      totalDonations: totalDonations[0]?.total || 0,
+      platformRevenue: platformRevenue[0]?.revenue || 0,
+      recentActivity: recentActivity.map(d => ({ message: `${d.donorName} donated ${d.amount} to ${d.campaignName}` }))
+    };
+
+    console.log("Dashboard Response Data:", responseData); // Log the response data before sending
+    res.json(responseData);
+
+  } catch (error) {
+    console.error("Error fetching dashboard data:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
 
 
 module.exports = router;

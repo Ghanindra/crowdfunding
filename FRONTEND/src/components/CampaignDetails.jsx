@@ -14,8 +14,11 @@ console.log("Location state:", location.state);
 
   return (
     <div className="campaigns-details">
-      <h2>Campaign Details</h2>
+      <h2 className='row'>Campaign Details</h2>
+      <img src={`http://localhost:5000/${campaign.image}`} alt={campaign.title} className="campaign-image" />
       <p><strong>Title:</strong> {campaign.title}</p>
+      <p><strong>Target Amount:</strong> ${campaign.targetAmount}</p>
+      <p><strong>Raised Amount:</strong> ${campaign.raisedAmount}</p>
       <p><strong>Description:</strong> {campaign.description}</p>
       <p><strong>Created By:</strong> {campaign.userId}</p>
       <button onClick={() => navigate(-1)} className='back'>Back</button>
