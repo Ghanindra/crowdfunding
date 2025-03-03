@@ -405,6 +405,12 @@ router.post("/update-raised-amount", async (req, res) => {
     ]);
 
     const raisedAmount = totalRaised.length > 0 ? totalRaised[0].total : 0;
+     // Fetch campaign to get the total amount
+     const campaign = await Campaign.findById(campaignId);
+
+     if (!campaign) {
+       return res.status(404).json({ success: false, message: "Campaign not found" });
+     }
 
     // Update the campaign with the new raised amount
     const updatedCampaign = await Campaign.findOneAndUpdate(
@@ -413,7 +419,12 @@ router.post("/update-raised-amount", async (req, res) => {
       { new: true }
     );
     console.log('updated campaign',updatedCampaign);
-    
+     // Check if raisedAmount matches the totalAmount
+     if (updatedCampaign.raisedAmount >= updatedCampaign.targetAmount) {
+      // If raised amount equals or exceeds the total amount, delete the campaign
+      await Campaign.findByIdAndDelete(campaignId);
+      return res.json({ success: true, message: "Campaign completed and removed" });
+    }
 
     res.json({ success: true, updatedCampaign });
   } catch (error) {
@@ -869,6 +880,59 @@ router.get("/dashboard", async (req, res) => {
   } catch (error) {
     console.error("Error fetching dashboard data:", error);
     res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+// Get user's campaigns and total raised amount
+router.get("/user-dashboard/campaigns/:userId", async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    // Get all campaigns created by the user
+    const campaigns = await Campaign.find({ creatorId: userId });
+
+    const campaignDetails = await Promise.all(
+      campaigns.map(async (campaign) => {
+        // Calculate total raised amount for each campaign
+        const totalRaised = await Payment.aggregate([
+          { $match: { campaignId: campaign._id, status: "Success" } },
+          { $group: { _id: null, total: { $sum: "$amount" } } },
+        ]);
+        const raisedAmount = totalRaised.length > 0 ? totalRaised[0].total : 0;
+
+        return {
+          ...campaign.toObject(),
+          raisedAmount,
+        };
+      })
+    );
+
+    // Send response with campaign details
+    res.json({ success: true, campaigns: campaignDetails });
+  } catch (error) {
+    console.error("Error fetching campaigns:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+// Get the total donation amount made by the user
+router.get("/user-dashboard/donations/:userId", async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    // Get all payments made by the user (i.e., donations to other campaigns)
+    // const donations = await Payment.find({ donorId: userId, status: "Success" });
+    const donations = await Payment.find({ donorId: userId, status: { $regex: "^success$", $options: "i" } });
+
+    console.log("Donations:", donations); // Check what is returned from the query
+    // const totalDonation = donations.reduce((sum, payment) => sum + payment.amount, 0);
+    const totalDonation = donations.reduce((sum, payment) => sum + parseFloat(payment.amount), 0);
+
+
+    // Send response with total donation amount
+    res.json({ success: true, totalDonation });
+  } catch (error) {
+    console.error("Error fetching donations:", error);
+    res.status(500).json({ error: "Server error" });
   }
 });
 

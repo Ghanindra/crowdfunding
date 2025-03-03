@@ -18,6 +18,9 @@ const PaymentPage = () => {
 
   const [userId, setUserId] = useState(''); // Initialize userId state
   // console.log("Stored Campaign ID:", storedCampaignId); // Debugging
+ const token= localStorage.getItem("auth-token")
+ console.log('before authorization',token);
+ 
    // Ensure we have a campaignId
    const activeCampaignId = campaignId || fundraiser?._id;  // Use the campaignId from state, or fallback to fundraiser._id
    console.log("Campaign ID:", activeCampaignId);
@@ -29,10 +32,10 @@ const PaymentPage = () => {
           method: "GET",
           headers: { 
                "Content-Type": "application/json",
-            "Authorization": `Bearer ${localStorage.getItem("auth-token")}` // Assuming JWT is stored in localStorage
+            "Authorization": `Bearer ${token}` // Assuming JWT is stored in localStorage
           }
         });
-        console.log("Stored Token:", localStorage.getItem("auth-token"));
+        console.log("Stored Token:", token);
 
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -83,9 +86,23 @@ const PaymentPage = () => {
           {
             amount: totalAmount, // send the total amount to the server
             productId: generateUniqueId(),
-            campaignId:activeCampaignId// Use stored campaign ID
-          }
+            campaignId:activeCampaignId,// Use stored campaign ID
+         
+       },
+       { 
+
+       
+       headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`, // Sending token in the request header
+      },
+    
+       }
+
+       
         );
+        console.log("Sending Authorization Header:", `Bearer ${token}`);
+
     // The server should return a URL to redirect the user for payment.
         // Append the campaignId as a query parameter to the success URL.
         const redirectUrl = new URL(response.data.url);

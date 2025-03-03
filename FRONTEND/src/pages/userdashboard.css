@@ -1,0 +1,40 @@
+.dashboard-container {
+    padding: 20px;
+  }
+  
+  .total-donations {
+    margin-bottom: 30px;
+  }
+  
+  .total-donations h2 {
+    font-size: 24px;
+    color: #4CAF50;
+  }
+  
+  .user-campaigns {
+    margin-top: 40px;
+  }
+  
+  .user-campaigns h2 {
+    font-size: 24px;
+    color: #333;
+  }
+  
+  .campaign-card {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+  
+  .campaign-card h3 {
+    font-size: 22px;
+    color: #333;
+  }
+  
+  .campaign-card p {
+    font-size: 16px;
+    color: #555;
+  }
+  

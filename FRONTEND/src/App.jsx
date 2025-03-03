@@ -37,6 +37,7 @@ import Success from "./pages/Success";
 import Failure from "./pages/Failure";
 import SearchResults from "./pages/SearchResults";
 import UserNotification from "./pages/UserNotification";
+import UserDashboard from "./pages/UserDashboard";
 import ManageCampaign from "./pages/ManageCampaign";
 import CampaignDetails from "./components/CampaignDetails";
 
@@ -140,6 +141,10 @@ function App() {
               </ProtectedRoute>} /> 
               <Route path="/usernotification" element={<ProtectedRoute>
                 <UserNotification/>
+  
+              </ProtectedRoute>} /> 
+              <Route path="/userdashboard" element={<ProtectedRoute>
+                <UserDashboard/>
   
               </ProtectedRoute>} /> 
               <Route path="/admin/campaigns" element={<ProtectedRoute>

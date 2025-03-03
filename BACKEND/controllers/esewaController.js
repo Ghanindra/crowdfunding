@@ -2,8 +2,11 @@ const payment = require("../models/payment.js");
 
 const EsewaInitiatePayment = async (req, res) => {
   try {
+    const userId = req.user.id; // Get userId from the request
     const { EsewaPaymentGateway } = await import("esewajs"); // Dynamic Import
     const {campaignId, amount, productId } = req.body;
+    
+console.log('userid',userId);
 
     // Validate inputs
     if (!campaignId || !amount || !productId) {
@@ -16,6 +19,7 @@ const EsewaInitiatePayment = async (req, res) => {
     const reqPayment = await EsewaPaymentGateway(
       amount, 0, 0, 0,
       productId,
+    
       process.env.MERCHANT_ID,
       process.env.SECRET,
       process.env.SUCCESS_URL,
@@ -33,6 +37,7 @@ const EsewaInitiatePayment = async (req, res) => {
       product_id: productId,
       amount: amount,
       status: "Pending",
+      userId:userId // Save userId with the transaction
     });
 
     await transaction.save();
@@ -57,8 +62,9 @@ const paymentStatus = async (req, res) => {
   try {
     const { EsewaCheckStatus } = await import("esewajs"); // Dynamic Import
     const { product_id} = req.body;
-
-    const transaction = await payment.findOne({ product_id });
+ // Get userId from the request
+    // const userId = req.user.id; // Get userId from the request
+    const transaction = await payment.findOne({ product_id});
 
     if (!transaction) {
       return res.status(404).json({ message: "Transaction not found" });
@@ -67,7 +73,7 @@ const paymentStatus = async (req, res) => {
     const paymentStatusCheck = await EsewaCheckStatus(
       transaction.amount,
       transaction.product_id,
-   
+      //  transaction.userId,
       process.env.MERCHANT_ID,
       process.env.ESEWAPAYMENT_STATUS_CHECK_URL
     );

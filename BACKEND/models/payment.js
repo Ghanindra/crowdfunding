@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const paymentSchema = new mongoose.Schema({
   fundraiserId: String,
-  userId: String,
+ userId:String,
   amount: Number,
   tipAmount: Number,
   totalAmount: Number,
@@ -24,6 +24,8 @@ const paymentSchema = new mongoose.Schema({
   },
   transactionId: String,
   createdAt: { type: Date, default: Date.now },
+
+ 
 });
 
 const Payment = mongoose.model("Payment", paymentSchema);
