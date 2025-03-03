@@ -888,7 +888,7 @@ router.get("/user-dashboard/campaigns/:userId", async (req, res) => {
 
   try {
     // Get all campaigns created by the user
-    const campaigns = await Campaign.find({ creatorId: userId });
+    const campaigns = await Campaign.find({ userId: userId });
 
     const campaignDetails = await Promise.all(
       campaigns.map(async (campaign) => {
@@ -908,6 +908,8 @@ router.get("/user-dashboard/campaigns/:userId", async (req, res) => {
 
     // Send response with campaign details
     res.json({ success: true, campaigns: campaignDetails });
+    console.log('user campaigns',campaigns);
+    
   } catch (error) {
     console.error("Error fetching campaigns:", error);
     res.status(500).json({ error: "Server error" });
@@ -915,20 +917,24 @@ router.get("/user-dashboard/campaigns/:userId", async (req, res) => {
 });
 
 // Get the total donation amount made by the user
+
+
 router.get("/user-dashboard/donations/:userId", async (req, res) => {
   const { userId } = req.params;
+console.log('userId',req.params);
+console.log("Full req.url:", req.url);
 
   try {
-    // Get all payments made by the user (i.e., donations to other campaigns)
-    // const donations = await Payment.find({ donorId: userId, status: "Success" });
-    const donations = await Payment.find({ donorId: userId, status: { $regex: "^success$", $options: "i" } });
+ 
 
-    console.log("Donations:", donations); // Check what is returned from the query
-    // const totalDonation = donations.reduce((sum, payment) => sum + payment.amount, 0);
-    const totalDonation = donations.reduce((sum, payment) => sum + parseFloat(payment.amount), 0);
+    // Find payments (donations) made by the user
+    const donations = await Payment.find({ userId: String(userId), status: "Success" });
+    console.log("Donations:", donations); // Debugging log
 
+    // Calculate total donation amount
+    const totalDonation = donations.reduce((sum, payment) => sum + Number(payment.amount), 0);
 
-    // Send response with total donation amount
+    // Send response
     res.json({ success: true, totalDonation });
   } catch (error) {
     console.error("Error fetching donations:", error);

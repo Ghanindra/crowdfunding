@@ -511,7 +511,7 @@ useEffect(() => {
     <nav className="navbar">
       <div className="navbar-brand">
         <Link to={isAdmin ? "/admin/dashboard" : "/"} className="navbar-logo">
-          🚀 CROWDFUNDING
+           CROWDFUNDING
         </Link>
       </div>
 
@@ -595,7 +595,7 @@ useEffect(() => {
             {isAvatarDropdownOpen && (
               <div className="dropdown-menu">
                 <Link to="/profile">Profile</Link>
-                <Link to="/userdashboard">User dashboard</Link>
+                {!isAdmin && <Link to="/userdashboard">User Dashboard</Link>}
                 <button className="logout-button" onClick={() => {
                   toast.success("Logged out successfully");
                   localStorage.removeItem("auth-token");

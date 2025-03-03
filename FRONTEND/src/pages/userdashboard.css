@@ -1,40 +1,115 @@
+
+
+/* userdashboard.css */
 .dashboard-container {
-    padding: 20px;
-  }
-  
-  .total-donations {
-    margin-bottom: 30px;
-  }
-  
-  .total-donations h2 {
-    font-size: 24px;
-    color: #4CAF50;
-  }
-  
-  .user-campaigns {
-    margin-top: 40px;
-  }
-  
-  .user-campaigns h2 {
-    font-size: 24px;
-    color: #333;
-  }
-  
-  .campaign-card {
+  max-width: 1200px;
+  margin: 260px auto 40px auto; /* Keeps it centered and prevents movement */
+  padding: 20px;
+  background: #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  text-align: center;
+  min-height: 100vh; /* Ensures it does not collapse when adding campaigns */
+  overflow-y: auto; /* Allows scrolling if there are many campaigns */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.userdashboardh1 {
+  font-size: 4rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.total-donations {
+  background: linear-gradient(135deg, #4CAF50, #2E7D32);
+  padding: 20px;
+  border-radius: 10px;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.user-campaigns h2 {
+  font-size: 1.8rem;
+  color: #444;
+  margin-bottom: 15px;
+}
+
+.campaigns-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 columns in one row */
+  gap: 20px; /* Space between grid items */
+  margin-top: 30px;
+}
+
+
+.campaign-card {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width:100%;
+}
+
+.campaign-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.campaign-card h3 {
+  font-size: 1.5rem;
+  color: #222;
+  margin-bottom: 10px;
+}
+
+.campaign-card p {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 8px;
+}
+/* Fundraiser Image Styling */
+.userdshboard-fundraiser-image {
+  width: 100%; /* Ensures all images take full width of the container */
+  height: 200px; /* Keeps images at a uniform height */
+  object-fit: cover; /* Crops images to maintain aspect ratio */
+  border-radius: 8px;
+  margin: 10px 0;
+}
+.back-button {
+  background-color: #007bff;
+  color: white;
+  width:10%;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 16px;
+  /* margin-bottom: 15px; */
+  border-radius: 5px;
+  position:absolute;
+  top:0px;
+  left:10px;
+}
+
+.back-button:hover {
+  background-color: #0056b3;
+}
+@media (max-width: 768px) {
+  .dashboard-container {
     padding: 15px;
-    margin-bottom: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #f9f9f9;
   }
-  
-  .campaign-card h3 {
-    font-size: 22px;
-    color: #333;
+
+  h1 {
+    font-size: 1.8rem;
   }
-  
-  .campaign-card p {
-    font-size: 16px;
-    color: #555;
+
+  .campaigns-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   }
-  
+  .userdshboard-fundraiser-image {
+    height: 150px; /* Adjusts image size for smaller screens */
+  }
+}
