@@ -13,20 +13,21 @@
 
 
 
-const mongoose = require('mongoose');
+  const mongoose = require('mongoose');
 
-const notificationSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-   documentNumber: { type: String },
+  const notificationSchema = new mongoose.Schema({
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: false},
+  documentNumber: { type: String },
   username:{ type: String},
-   issueDate: { type: String },
-   issuedFrom: { type: String},
+  issueDate: { type: String },
+  issuedFrom: { type: String},
   citizenshipImage: { type: String},
   message: { type: String},
-  type: { type: String, enum: ['campaign', 'verification','verification_result'], required: true },
+  type: { type: String, enum: ['campaign', 'verification','verification_result','report','report-deleted'], required: false },
   status: { type: String, enum: ['pending', 'approved', 'rejected'], default: 'pending' },
   isRead: { type: Boolean, default: false },
   campaignId: { type: mongoose.Schema.Types.ObjectId, ref: 'Campaign', required: false }, // Allow campaignId
+  reportId: { type: mongoose.Schema.Types.ObjectId, ref: 'Report', required: false }, // Allow campaignId
   
   // type: { type: String, required: true }, // ✅ Add this field
 }, { timestamps: true });

@@ -37,6 +37,7 @@ import Success from "./pages/Success";
 import Failure from "./pages/Failure";
 import SearchResults from "./pages/SearchResults";
 import UserNotification from "./pages/UserNotification";
+import ReportDetails from "./pages/ReportDetails";
 import UserDashboard from "./pages/UserDashboard";
 import ManageCampaign from "./pages/ManageCampaign";
 import CampaignDetails from "./components/CampaignDetails";
@@ -158,7 +159,10 @@ function App() {
           <Route path="donate/:category" element={<Category />} />
         </Routes>
       
-        
+        <Routes>
+        <Route path="/admin/reports/:reportId" element={<ReportDetails />} />
+
+        </Routes>
        
         <Routes>
         <Route path="/admin/campaigns/:id" element={<CampaignDetails />} />

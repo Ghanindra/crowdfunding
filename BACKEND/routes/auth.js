@@ -8,6 +8,7 @@ const User = require('../models/user');
 
 const Campaign = require('../models/campaign');
 
+const Report = require('../models/Report');
 const Payment = require('../models/payment');
 const Notification = require('../models/Notification');
 const verifyAccount = require('../models/VerifyAccount');
@@ -497,13 +498,19 @@ router.delete('/campaigns/:id', async (req, res) => {
 // Fetch unread notification count
 router.get('/notifications/count', async (req, res) => {
   try {
-    const count = await Notification.countDocuments({ isRead: false ,type:'verification'});
+    // Count notifications where isRead is false and type is either 'verification' or 'report'
+    const count = await Notification.countDocuments({
+      isRead: false,
+      type: { $in: ['verification', 'report'] }, // Matches both types
+    });
+
     res.json({ count });
   } catch (error) {
     console.error('Error fetching notification count:', error);
     res.status(500).json({ message: 'Server Error' });
   }
 });
+
 //   try {
 //     const count = await Notification.countDocuments({ isRead: false });
 //     res.json({ count });
@@ -539,21 +546,88 @@ router.put('/notifications/mark-as-read/:id', async (req, res) => {
 });
 
 
+// // Route to get unread notification count for a specific user
+// router.get('/user-notifications/count/:userId', async (req, res) => {
+//   try {
+//     const { userId } = req.params;
 
+//     // Count unread notifications for 'verification_result' and 'report-deleted'
+//     const unreadNotificationsCount = await Notification.countDocuments({
+//       userId,
+//       isRead: false,
+//       $in: ['verification_result', 'report-deleted'] // Filter for both types
+//     });
+
+//     // Send the count as a response
+//     res.json({ count: unreadNotificationsCount });
+//   } catch (error) {
+//     console.error("Error fetching user notifications count:", error);
+//     res.status(500).json({ message: 'Failed to fetch notifications count.' });
+//   }
+// });
 // Route to get unread notification count for a specific user
+// router.get('/user-notifications/count/:userId', async (req, res) => {
+//   try {
+//     const { userId } = req.params;
+//     console.log("Received userId:", userId); // ✅ Log the userId
+//     // Use aggregation to count unread notifications for 'verification_result' and 'report-deleted' types
+//     // const unreadNotificationsCount = await Notification.aggregate([
+//     //   {
+//     //     $match: {
+//     //       userId: userId,
+//     //       isRead: false,
+//     //       $or: [
+//     //         { type: 'verification_result' },
+//     //         { type: 'report-deleted' }
+//     //       ]
+//     //     }
+//     //   },
+//     //   {
+//     //     $count: "count"
+//     //   }
+//     // ]);
+//     console.log("Aggregation result:", unreadNotificationsCount); // ✅ Log aggregation result
+
+//     // If no notifications are found, default to 0
+//     const count = unreadNotificationsCount.length > 0 ? unreadNotificationsCount[0].count : 0;
+
+//     // Send the count as a response
+//     res.json({ count });
+//   } catch (error) {
+//     console.error("Error fetching user notifications count:", error);
+//     res.status(500).json({ message: 'Failed to fetch notifications count.' });
+//   }
+// });
+
+
+// const mongoose = require('mongoose');
+// const { ObjectId } = mongoose.Types;
 router.get('/user-notifications/count/:userId', async (req, res) => {
   try {
     const { userId } = req.params;
+    console.log("Received userId:", userId); // ✅ Log the userId
+    console.log("Type of userId:", typeof userId);
 
-    // Find unread notifications for the user (isRead: false)
-    const unreadNotificationsCount = await Notification.countDocuments({
-      userId,
+    // Check if the userId is a valid ObjectId
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({ message: 'Invalid userId format' });
+    }
+
+    // Use the ObjectId constructor correctly
+    const objectId = new mongoose.Types.ObjectId(userId);  // Ensure 'new' is used
+// Debugging: Log the objectId
+console.log("Converted ObjectId:", objectId);
+    // Use the find method with an object filter
+    const unreadNotificationsCount = await Notification.find({
+      userId: objectId, // Use the ObjectId in the query
       isRead: false,
-      type:'verification_result' // Filter for unread notifications
-    });
+      type: { $in: ['verification_result', 'report-deleted'] }
+    }).lean();
 
-    // Send the count as a response
-    res.json({ count: unreadNotificationsCount });
+    console.log("Find result:", unreadNotificationsCount);
+
+    const count = unreadNotificationsCount.length > 0 ? unreadNotificationsCount.length : 0;
+    res.json({ count });
   } catch (error) {
     console.error("Error fetching user notifications count:", error);
     res.status(500).json({ message: 'Failed to fetch notifications count.' });
@@ -746,7 +820,7 @@ router.get('/admin/notifications/:id', async (req, res) => {
 router.get('/admin/notifications', async (req, res) => {
   try {
     // Fetch only pending notifications
-    const notifications = await Notification.find({ status: 'pending',   type: { $in: ['verification', 'campaign'] },}) // Fetch both types }); // Only get pending notifications
+    const notifications = await Notification.find({ status: 'pending',   type: { $in: ['verification', 'campaign','report'] },}) // Fetch both types }); // Only get pending notifications
     res.status(200).json(notifications); // Send the list of pending notifications
   } catch (error) {
     res.status(500).json({ message: 'Failed to fetch notifications.', error });
@@ -802,7 +876,20 @@ if (user) {
     //   });
     // }
 
-
+  // Handle report-specific actions if the notification type is 'report'
+  if (notification.type === 'report') {
+    const report = await Report.findById(notification.reportId); // Assuming you have a reportId field in Notification
+    if (report) {
+      report.status=status;
+      await Report.save();
+      return res.json({
+        message: 'Notification read successfully!',
+        reportDetails: report, // Include report details in the response to be shown in the UI
+      });
+    } else {
+      return res.status(404).json({ message: 'Report not found' });
+    }
+  }
     // Store a new notification for the user about the decision
     const userNotification = new Notification({
       userId: notification.userId,
@@ -941,6 +1028,94 @@ console.log("Full req.url:", req.url);
     res.status(500).json({ error: "Server error" });
   }
 });
+// API to submit a report
+router.post("/report-campaign/:reportId", authenticate,async (req, res) => {
+  try {
+    const { campaignId, reason } = req.body;
+const userId=req.user.id
+    if (!campaignId || !reason) {
+      return res.status(400).json({ success: false, message: "Campaign ID and reason are required." });
+    }
 
+    const newReport = new Report({ campaignId, reason ,userId});
+    await newReport.save();
+ // Check if the authenticated user is an admin
+//  if (req.user.role === 'admin') {
+  // Create a notification for the admin only
+  const newNotification = new Notification({
+    // userId: req.user.id,
+    reportId:newReport._id, //  Use the newly created report's ID 
+    message: `A new campaign has been reported. Reason: ${reason}`,
+    type: "report",
+    status: "pending",
+    isRead: false,
+  }
+);
+
+await newNotification.save();
+//  }
+ console.log('user role',req.user.role);
+ 
+    res.status(201).json({ success: true, message: "Report submitted successfully." });
+  } catch (error) {
+    console.error("Error submitting report:", error);
+    res.status(500).json({ success: false, message: "Internal server error." });
+  }
+});
+router.get("/reports-campaign/:reportId", async (req, res) => {
+  try {
+    const { reportId } = req.params;
+    console.log("Requested Report ID:", reportId);
+    const report = await Report.findById(reportId).populate("campaignId"); // Assuming you are populating related campaign info
+    if (!report) {
+      return res.status(404).json({ success: false, message: "Report not found" });
+    }
+    res.json(report);
+  } catch (error) {
+    console.error("Error fetching report:", error);
+    res.status(500).json({ success: false, message: "Internal server error." });
+  }
+});
+// DELETE route to delete a report, related data, and campaign
+router.delete("/reports-campaign/:reportId", authenticate,async (req, res) => {
+  try {
+    const { reportId } = req.params;
+
+    // Find and delete the report from the Report collection
+    const report = await Report.findByIdAndDelete(reportId);
+
+    if (!report) {
+      return res.status(404).json({ success: false, message: "Report not found" });
+    }
+
+    // Find and delete the associated campaign
+    const campaign = await Campaign.findById(report.campaignId); // Assuming the report has a reference to the campaign
+    if (campaign) {
+      await Campaign.findByIdAndDelete(campaign._id);
+    }
+
+    // Delete any notifications related to the report
+    await Notification.deleteMany({ reportId });
+
+    // Send notification to the user (if `userId` exists)
+    if (report.userId) {
+      const user = await User.findById(report.userId);
+      if (user) {
+        const notification = new Notification({
+          userId: req.user.id, // Corrected: Use `user._id`, not `notification.userId`
+          type: "report-deleted",
+          message: `Your report regarding the campaign "${campaign?.title || "Unknown"}" has been deleted by the admin.`,
+          isRead: false,
+        });
+        await notification.save();
+      }
+    }
+
+    res.json({ success: true, message: "Report, campaign, and related data deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting report, campaign, or notifications:", error);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+});
 
 module.exports = router;
