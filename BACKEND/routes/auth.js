@@ -536,7 +536,7 @@ router.put('/notifications/mark-as-read/:id', async (req, res) => {
   try {
     const { id } = req.params;
 
-    console.log("Received Notification ID:", id); // Debuggi
+    console.log("Received Notification ID:", id); // Debugging
     await Notification.findByIdAndUpdate(id, { isRead: true });
     res.json({ message: 'Notification marked as read' });
   } catch (error) {
@@ -621,7 +621,7 @@ console.log("Converted ObjectId:", objectId);
     const unreadNotificationsCount = await Notification.find({
       userId: objectId, // Use the ObjectId in the query
       isRead: false,
-      type: { $in: ['verification_result', 'report-deleted'] }
+      type: { $in: ['verification_result', 'report_deleted','Warning'] }
     }).lean();
 
     console.log("Find result:", unreadNotificationsCount);
@@ -808,7 +808,13 @@ router.post('/update_verification', authenticate, upload.single('citizenshipImag
 
 router.get('/admin/notifications/:id', async (req, res) => {
   try {
-    const notification = await Notification.findById(req.params.id); // Fetch a single notification by ID
+    const { id } = req.params;
+    console.log("ID received:", id);
+        // Validate ID
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+          return res.status(400).json({ message: "Invalid ID format" });
+        }  // Debug log
+    const notification = await Notification.findById(id); // Fetch a single notification by ID
     if (!notification) {
       return res.status(404).json({ message: 'Notification not found.' });
     }
@@ -1076,6 +1082,39 @@ router.get("/reports-campaign/:reportId", async (req, res) => {
     res.status(500).json({ success: false, message: "Internal server error." });
   }
 });
+// / Route to send warning for a report
+router.post('/reports-campaign/:id/warning', authenticate, async (req, res) => {
+  const { id } = req.params;
+  try {
+    // Find the report by ID
+    const report = await Report.findById(id).populate('campaignId');
+    if (!report) {
+      return res.status(404).json({ success: false, message: 'Report not found' });
+    }
+
+    // Mark report as warned
+    report.warning = true;
+    await report.save();
+
+    // Send a notification to the campaign owner
+    const user = await User.findById(report.campaignId.userId);
+    if (user) {
+      const notification = new Notification({
+        userId: user._id,
+        type: 'Warning',
+        message: `Your campaign "${report.campaignId.title}" has received a warning.`,
+        isRead: false,
+      });
+      await notification.save();
+    }
+
+    res.json({ success: true, message: 'Warning sent successfully and notification added.' });
+  } catch (error) {
+    console.error('Error sending warning:', error);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+});
+
 // DELETE route to delete a report, related data, and campaign
 router.delete("/reports-campaign/:reportId", authenticate,async (req, res) => {
   try {
@@ -1103,7 +1142,7 @@ router.delete("/reports-campaign/:reportId", authenticate,async (req, res) => {
       if (user) {
         const notification = new Notification({
           userId: req.user.id, // Corrected: Use `user._id`, not `notification.userId`
-          type: "report-deleted",
+          type: "report_deleted",
           message: `Your report regarding the campaign "${campaign?.title || "Unknown"}" has been deleted by the admin.`,
           isRead: false,
         });

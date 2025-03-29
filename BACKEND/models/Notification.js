@@ -23,7 +23,7 @@
   issuedFrom: { type: String},
   citizenshipImage: { type: String},
   message: { type: String},
-  type: { type: String, enum: ['campaign', 'verification','verification_result','report','report-deleted'], required: false },
+  type: { type: String, enum: ['campaign', 'verification','verification_result','report','report_deleted','Warning'], required: false },
   status: { type: String, enum: ['pending', 'approved', 'rejected'], default: 'pending' },
   isRead: { type: Boolean, default: false },
   campaignId: { type: mongoose.Schema.Types.ObjectId, ref: 'Campaign', required: false }, // Allow campaignId

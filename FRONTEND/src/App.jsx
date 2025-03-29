@@ -60,6 +60,7 @@ function App() {
         <Route path="/admindashboard" element={<ProtectedRoute>
                 <AdminDashboard />
               </ProtectedRoute>} /> 
+   
         <Route path="/creatordashboard" element={ <ProtectedRoute alllowed='restricted'>
                 <CreatorDashboard />
               </ProtectedRoute>} />

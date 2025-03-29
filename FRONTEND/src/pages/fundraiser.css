@@ -100,10 +100,363 @@ body {
     background-color: #f4f4f4;
     padding: 60px 20px;
     text-align: center;
-    margin-top: 108rem;
+    margin-top: 85rem;
   }
   
-  .hero-title {
+  .hero-title {/* Full-width Navbar CSS */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f0f2f5;
+}
+
+/* Main Navbar - Full Width */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #ffffff;
+  padding: 0.8rem 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* Logo */
+.navbar-brand {
+  flex-shrink: 0;
+}
+
+.navbar-logo {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #2563eb;
+  text-decoration: none;
+  letter-spacing: -0.5px;
+}
+
+/* Navigation Links */
+.navbar-links {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-links li {
+  margin: 0 0.5rem;
+  position: relative;
+}
+
+.navbar-links li a {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+  color: #4b5563;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  border-radius: 4px;
+  transition: color 0.2s ease;
+}
+
+.navbar-links li a:hover {
+  color: #2563eb;
+}
+
+.navbar-links li a svg {
+  margin-right: 0.4rem;
+  font-size: 1rem;
+}
+
+/* Search Bar */
+.navbar-search form {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-search-input {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #e5e7eb;
+  border-right: none;
+  border-radius: 4px 0 0 4px;
+  font-size: 0.9rem;
+  width: 200px;
+}
+
+.navbar-search-input:focus {
+  outline: none;
+  border-color: #93c5fd;
+}
+
+.navbar-search-button {
+  padding: 0.5rem 0.75rem;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.navbar-search-button:hover {
+  background-color: #1d4ed8;
+}
+
+/* Dropdown Menus - Show on hover */
+.navbar-dropdown {
+  position: relative;
+}
+
+.dropdown-icon {
+  font-size: 0.7rem;
+  margin-left: 0.3rem;
+  opacity: 0.7;
+}
+
+/* Hide dropdown menus by default */
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  min-width: 180px;
+  z-index: 1000;
+  border: 1px solid #e5e7eb;
+  margin-top: 0.5rem;
+}
+
+/* Show dropdown on hover */
+.navbar-dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+/* For user notifications dropdown */
+.navbar-notifications:hover .dropdown-menu {
+  display: block;
+}
+
+/* For avatar dropdown */
+.avatar-container:hover .dropdown-menu {
+  display: block;
+}
+
+.dropdown-menu a, 
+.dropdown-menu button {
+  display: block;
+  padding: 0.6rem 1rem;
+  color: #4b5563;
+  text-decoration: none;
+  text-align: left;
+  width: 100%;
+  border: none;
+  background: none;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.dropdown-menu a:last-child,
+.dropdown-menu button:last-child {
+  border-bottom: none;
+}
+
+.dropdown-menu a:hover, 
+.dropdown-menu button:hover {
+  background-color: #f9fafb;
+  color: #2563eb;
+}
+
+/* Notifications */
+.navbar-notifications {
+  position: relative;
+  cursor: pointer;
+}
+
+.navbar-notifications > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border-radius: 50%;
+}
+
+.notification-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #ef4444;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: bold;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Auth Section */
+.navbar-auth {
+  display: flex;
+  align-items: center;
+  margin-left: 1rem;
+}
+
+.navbar-auth button {
+  padding: 0.5rem 1rem;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.navbar-auth button:hover {
+  background-color: #1d4ed8;
+}
+
+/* Avatar */
+.avatar-container {
+  position: relative;
+  cursor: pointer;
+}
+
+.avatar-icon {
+  font-size: 1.75rem;
+  color: #6b7280;
+}
+
+.avatar-image {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #e5e7eb;
+}
+
+/* Logout Button */
+.logout-button {
+  display: flex !important;
+  align-items: center;
+  color: #ef4444 !important;
+  font-weight: 500;
+}
+
+.logout {
+  margin-right: 0.5rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+  .navbar-links li {
+    margin: 0 0.25rem;
+  }
+  
+  .navbar-search-input {
+    width: 160px;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0.8rem 1rem;
+    flex-wrap: wrap;
+  }
+  
+  .navbar-brand {
+    margin-bottom: 0;
+  }
+  
+  .navbar-links {
+    order: 3;
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 0.5rem 0;
+    margin-top: 0.5rem;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  
+  .navbar-links::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari, Opera */
+  }
+  
+  .navbar-search {
+    order: 2;
+    width: 100%;
+  }
+  
+  .navbar-search form {
+    width: 100%;
+  }
+  
+  .navbar-search-input {
+    width: 100%;
+  }
+  
+  .navbar-auth {
+    order: 1;
+    margin-left: auto;
+    margin-bottom: 0;
+  }
+  
+  /* Position dropdowns for mobile */
+  .dropdown-menu {
+    left: auto;
+    right: 0;
+  }
+  
+  .navbar-dropdown .dropdown-menu {
+    left: 0;
+    right: auto;
+  }
+}
+
+/* Fix for mobile dropdown positioning */
+@media (max-width: 480px) {
+  .dropdown-menu {
+    width: 250px;
+    max-width: 90vw;
+  }
+}
+
+/* Full-width container for the entire page */
+body, html {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Ensure the navbar spans the full width */
+.navbar {
+  width: 100vw;
+  max-width: 100%;
+  margin: 0;
+  left: 0;
+  right: 0;
+}
+
+/* Fix any potential horizontal scrolling issues */
+body {
+  overflow-x: hidden;
+}
     font-size: 36px;
     font-weight: bold;
     margin-bottom: 10px;

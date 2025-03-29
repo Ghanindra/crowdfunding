@@ -13,7 +13,7 @@ export const NotificationProvider = ({ children }) => {
 
   const fetchNotifications = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/admin/notifications/:id");
+      const response = await axios.get("http://localhost:5000/api/admin/notifications");
       setNotifications(response.data);
       setUnreadCount(response.data.filter((n) => !n.read).length);
     } catch (error) {
