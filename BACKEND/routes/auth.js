@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+const moment = require('moment'); // Ensure you have the moment.js library installed
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -7,9 +7,10 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
 const Campaign = require('../models/campaign');
-
+const Milestone = require('../models/Milestone');
 const Report = require('../models/Report');
-const Payment = require('../models/payment');
+const Payment = require('../models/Payment');
+const Contact = require('../models/contact');
 const Notification = require('../models/Notification');
 const verifyAccount = require('../models/VerifyAccount');
 
@@ -290,46 +291,123 @@ console.log(req.body)
 
 // Notification route
 
-router.post('/campaigns', authenticate,upload.single('image'),async (req, res) => {
+// router.post('/campaigns', authenticate,upload.single('image'),async (req, res) => {
+//   try {
+//     const userId = req.user.id; // Get userId from decoded token
+//     console.log('user',userId);
+    
+//     // Code to create a campaign
+//     const { placeName, category, beneficiary, title, description, targetAmount } = req.body;
+//     console.log('subit',req.body);
+    
+//     const image = req.file ? req.file.path : null;
+
+//     if (!placeName || !category || !beneficiary || !image || !title || !description || !targetAmount) {
+//       return res.status(400).json({ message: 'All fields are required.' });
+//     }
+
+//     const newCampaign = new Campaign({
+  
+//       placeName,
+//       category,
+//       beneficiary,
+//       title,
+//       description,
+//       targetAmount,
+//       raisedAmount: 0, // Set to zero initially,
+//       image,
+//       status: 'pending', // Set the initial status to 'pending'
+//       userId:userId
+//     });
+
+//     await newCampaign.save();
+// // Create a notification for the admin
+// const notification = new Notification({
+//   message: `New campaign created: ${title} `,
+//   type: 'campaign',
+//   campaignId: newCampaign._id,
+//   userId:userId
+// });
+
+// await notification.save();
+//     res.status(201).json({ message: 'Campaign created successfully', campaignId: newCampaign._id,  campaign: newCampaign });
+//   } catch (err) {
+//     res.status(500).json({ error: 'Failed to create campaign', details: err.message });
+//   }
+// });
+router.post('/campaigns', authenticate, upload.single('image'), async (req, res) => {
   try {
     const userId = req.user.id; // Get userId from decoded token
-    console.log('user',userId);
-    
+    console.log('user', userId);
+
     // Code to create a campaign
     const { placeName, category, beneficiary, title, description, targetAmount } = req.body;
-    console.log('subit',req.body);
-    
+    console.log('submit', req.body);
+
     const image = req.file ? req.file.path : null;
 
     if (!placeName || !category || !beneficiary || !image || !title || !description || !targetAmount) {
       return res.status(400).json({ message: 'All fields are required.' });
     }
 
+    const currentDate = moment().startOf('day').format('YYYY-MM-DD'); // Set current date to start of the day
+    const endDate = moment(req.body.endDate).startOf('day').format('YYYY-MM-DD'); // Ensure endDate is in YYYY-MM-DD format
+
+    // Ensure that endDate is not less than currentDate (start date)
+    if (moment(endDate).isBefore(moment(currentDate))) {
+      return res.status(400).json({ message: 'End date cannot be earlier than the start date.' });
+    }
+
+    // Ensure endDate is not more than 6 months from the start date
+    const maxEndDate = moment(currentDate).add(6, 'months');
+    if (moment(endDate).isAfter(maxEndDate)) {
+      return res.status(400).json({ message: 'End date cannot be more than 6 months from the start date.' });
+    }
+
+    // Calculate remaining days until the end date
+    const remainingDays = moment(endDate).diff(moment(currentDate), 'days');
+    console.log('Remaining days:', remainingDays);
+
     const newCampaign = new Campaign({
-  
       placeName,
       category,
       beneficiary,
       title,
       description,
       targetAmount,
-      raisedAmount: 0, // Set to zero initially,
+      raisedAmount: 0, // Set to zero initially
       image,
       status: 'pending', // Set the initial status to 'pending'
-      userId:userId
+      userId: userId,
+      startDate: currentDate, // Set start date to current date
+      endDate: endDate, // Set end date from user input
+      remainingDays: remainingDays // Add remaining days to campaign
     });
 
     await newCampaign.save();
-// Create a notification for the admin
-const notification = new Notification({
-  message: `New campaign created: ${title} `,
-  type: 'campaign',
-  campaignId: newCampaign._id,
-  userId:userId
-});
 
-await notification.save();
-    res.status(201).json({ message: 'Campaign created successfully', campaignId: newCampaign._id,  campaign: newCampaign });
+    // Send notification if campaign is approaching its end (e.g., within 2 days)
+    if (remainingDays <= 2) {
+      const notification = new Notification({
+        message: `Campaign '${title}' is approaching its end in ${remainingDays} days.`,
+        type: 'campaign',
+        campaignId: newCampaign._id,
+        userId: userId
+      });
+
+      await notification.save();
+    }
+
+    res.status(201).json({ 
+      message: 'Campaign created successfully', 
+      campaignId: newCampaign._id, 
+      campaign: newCampaign,
+      remainingDays: remainingDays 
+    });
+
+    // Check if there are any campaigns whose endDate has passed and remove them
+    await Campaign.deleteMany({ endDate: { $lt: currentDate } });
+
   } catch (err) {
     res.status(500).json({ error: 'Failed to create campaign', details: err.message });
   }
@@ -501,7 +579,7 @@ router.get('/notifications/count', async (req, res) => {
     // Count notifications where isRead is false and type is either 'verification' or 'report'
     const count = await Notification.countDocuments({
       isRead: false,
-      type: { $in: ['verification', 'report'] }, // Matches both types
+      type: { $in: ['verification','campaign' ,'contact','report'] }, // Matches both types
     });
 
     res.json({ count });
@@ -826,7 +904,7 @@ router.get('/admin/notifications/:id', async (req, res) => {
 router.get('/admin/notifications', async (req, res) => {
   try {
     // Fetch only pending notifications
-    const notifications = await Notification.find({ status: 'pending',   type: { $in: ['verification', 'campaign','report'] },}) // Fetch both types }); // Only get pending notifications
+    const notifications = await Notification.find({ status: 'pending',   type: { $in: ['verification', 'contact','campaign','report'] },}) // Fetch both types }); // Only get pending notifications
     res.status(200).json(notifications); // Send the list of pending notifications
   } catch (error) {
     res.status(500).json({ message: 'Failed to fetch notifications.', error });
@@ -896,6 +974,19 @@ if (user) {
       return res.status(404).json({ message: 'Report not found' });
     }
   }
+  if (notification.type === 'contact') {
+    const contact = await Contact.findById(notification.contactId); // Assuming you have a reportId field in Notification
+    if (contact) {
+      contact.status=status;
+      await Report.save();
+      return res.json({
+        message: 'Notification read successfully!',
+        contactDetails: contact, // Include report details in the response to be shown in the UI
+      });
+    } else {
+      return res.status(404).json({ message: 'Report not found' });
+    }
+  }
     // Store a new notification for the user about the decision
     const userNotification = new Notification({
       userId: notification.userId,
@@ -926,23 +1017,37 @@ router.get("/user/profile/:userId", async (req, res) => {
 });
 
 // Endpoint to get user details (userId, etc.)
-router.get("/user",authenticate, async (req, res) => {
+router.get("/user/:id",authenticate, async (req, res) => {
   try {
     if (!req.user || !req.user.id) {
       return res.status(400).json({ message: "Invalid user data" });
     }
-    const user = await User.findById(req.user.id).select("_id name email"); // Fetch user data
+    const user = await User.findById(req.user.id).select("_id username email"); // Fetch user data
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    res.json({ userId: user._id, name: user.name, email: user.email }); // Send userId
+    res.json({ userId: user._id,username: user.username, email: user.email }); // Send userId
   } catch (error) {
     console.error("Error fetching user:", error);
     res.status(500).json({ message: "Server error" });
   }
 });
-
-
+// Endpoint to get user details (userId, etc.)
+router.get("/user",authenticate, async (req, res) => {
+  try {
+    if (!req.user || !req.user.id) {
+      return res.status(400).json({ message: "Invalid user data" });
+    }
+    const user = await User.findById(req.user.id).select("_id username email"); // Fetch user data
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.json({ userId: user._id,username: user.username, email: user.email }); // Send userId
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
 router.get("/dashboard", async (req, res) => {
   try {
     const totalCampaigns = await Campaign.countDocuments();
@@ -1082,6 +1187,8 @@ router.get("/reports-campaign/:reportId", async (req, res) => {
     res.status(500).json({ success: false, message: "Internal server error." });
   }
 });
+
+
 // / Route to send warning for a report
 router.post('/reports-campaign/:id/warning', authenticate, async (req, res) => {
   const { id } = req.params;
@@ -1154,6 +1261,99 @@ router.delete("/reports-campaign/:reportId", authenticate,async (req, res) => {
   } catch (error) {
     console.error("Error deleting report, campaign, or notifications:", error);
     res.status(500).json({ success: false, message: "Internal server error" });
+  }
+});
+// // Express backend example
+router.post(
+  "/campaigns/:campaignId/milestones",
+  upload.array("images"),
+  async (req, res) => {
+    try {
+      console.log("Request body:", req.body);
+      console.log("Uploaded files:", req.files);
+
+      const { campaignId } = req.params;
+      const { title, description, amountSpent } = req.body;
+
+      if (!title || !description || !amountSpent) {
+        return res.status(400).json({ message: "Missing required fields" });
+      }
+
+      // Map uploaded files to their paths
+      const imageUrls = req.files.map((file) => file.path);
+
+      const milestone = new Milestone({
+        campaignId,
+        title,
+        description,
+        amountSpent: Number(amountSpent),
+        imageUrls,
+        createdAt: new Date(),
+      });
+
+      await milestone.save();
+
+      return res
+        .status(201)
+        .json({ message: "Milestone added successfully", milestone });
+    } catch (error) {
+      console.error("Error adding milestone:", error);
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
+  }
+);
+
+
+router.get("/milestones/:campaignId", async (req, res) => {
+  try {
+    const { campaignId } = req.params;
+    const milestones = await Milestone.find({ campaignId });
+    res.json({ success: true, milestones });
+  } catch (error) {
+    console.error("Error fetching milestones:", error);
+    res.status(500).json({ success: false, message: "Error fetching milestones" });
+  }
+});
+// Route to handle contact form submission
+router.post('/contact',authenticate, async (req, res) => {
+  const { name, email, subject, message } = req.body;
+  const userId=req.user.id
+  try {
+    // Save the contact form submission to the Contact model
+    const newContact = new Contact({ userId,name, email, subject, message });
+    await newContact.save();
+    const isRead = false; // Default to false
+    // Create a detailed notification for the admin with full contact details
+    const newNotification = new Notification({
+      username: req.user.username, 
+      userId,
+      contactId:newContact._id,
+      type:"contact",
+      name,
+      email,
+      subject,
+      message,
+      isRead,
+    });
+    await newNotification.save();
+
+    res.status(201).json({
+      success: true,
+      message: 'Your message has been sent successfully.',
+    });
+  } catch (error) {
+    console.error('Error saving contact form and notification:', error);
+    res.status(500).json({ success: false, message: 'Failed to send message. Please try again.' });
+  }
+});
+// Route to get all contact submissions (for admin)
+router.get('/contact-submissions/:id', async (req, res) => {
+  try {
+    const submissions = await Contact.find().sort({ createdAt: -1 }); // Sort by most recent
+    res.status(200).json({ success: true, submissions });
+  } catch (error) {
+    console.error('Error fetching contact submissions:', error);
+    res.status(500).json({ success: false, message: 'Failed to fetch contact submissions.' });
   }
 });
 

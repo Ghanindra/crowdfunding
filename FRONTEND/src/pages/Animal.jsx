@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import './animal.css';  // Importing the external CSS file
+import './medical.css';  // Importing the external CSS file
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
@@ -44,13 +44,13 @@ return (
     <div className="medical-content">
       <div className="medical-hero">
         {/* Left Side - Doctor Image */}
-        <div className="medical-heros-image">
+        <div className="animal-heros-image">
           <img src={animal} alt="Doctor" className="doctors" />
         </div>
 
         {/* Right Side - Content */}
         <div className="medical-hero-content">
-          <h1 className="medical-hero-title">Discover animal fundraisers on Crowdfunding platform</h1>
+          <h1 className="animal-hero-title">Discover animal fundraisers on Crowdfunding platform</h1>
           <p className="medical-hero-description">
             Help others by donating to their fundraiser, or start one for someone you care about.
           </p>
@@ -63,6 +63,7 @@ return (
       {error && <p className="medical-loading-error medical-loading-error-error">{error}</p>}
 
       {/* Fundraiser List */}
+      <div className="medical-fundraiser-scroll-wrapper">
       <div className="browse">
         <h2>Browse Animal Fundraisers</h2>
       </div>
@@ -77,9 +78,13 @@ return (
               <p className="medical-fundraiser-money">${fundraiser.targetAmount}</p>
               <p className="medical-fundraiser-location">{fundraiser.placeName}</p>
               <p className="medical-fundraiser-description">{fundraiser.description}</p>
+              <p className="medical-fundraiser-description">{fundraiser.endDate}</p>
             </div>
+            
           </div>
+          
         ))}
+      </div>
       </div>
     </div>
 

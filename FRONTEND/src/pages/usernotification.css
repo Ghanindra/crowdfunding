@@ -63,7 +63,8 @@
     margin-left: 5px;
     animation: rotate 1s infinite linear;
   }
-  
+  /* General Styles for Milestone Section */
+
   /* Loading Spinner */
   @keyframes rotate {
     0% {

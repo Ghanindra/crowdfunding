@@ -15,7 +15,7 @@ const Start = () => {
           <p>Everything you need to help your fundraiser succeed is here.</p>
           <button className="hero-button">Start a Crowdfunding</button>
         </div>
-        <div className="hero-image">
+        <div className="cause-image">
           <img src={family}alt="Family" />
         </div>
       </div>

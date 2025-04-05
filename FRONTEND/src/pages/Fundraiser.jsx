@@ -19,7 +19,9 @@ const categories = [
     { name: "Animal", image: animal, path: "/fundraiser/animal" },
     { name: "Emergency", image: emergency, path: "/fundraiser/emergency" },
     { name: "Business", image: business, path: "/fundraiser/business" },
+   
   ];
+
   const donationCampaigns = [
     { 
       title: "Support Local Causes", 
@@ -107,8 +109,8 @@ const Fundraiser = () => {
         <div className="categories-container">
           {categories.map((category, index) => (
             <div key={index} className="category-card">
-            <Link to={category.path}><img src={category.image} alt={category.name} className="category-image" /></Link>
-              <span className="category-name">{category.name}</span>
+            <Link to={category.path}><img src={category.image} alt={category.name} className="category-image" />
+              <span className="category-name">{category.name}</span></Link>
             </div>
           ))}
         </div>

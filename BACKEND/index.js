@@ -9,13 +9,15 @@ const userNotification = require("./routes/userNotification");
 const campaignRoutes = require("./routes/campaignRoutes");  // Correctly import the campaign routes
 const authenticate = require("./middleware/authenticate");
 require('dotenv').config();
+// Load env vars
+// const errorHandler = require("./middleware/error")
 const User = require('./models/user');
 const { initSocket } = require('./socket');
 const http = require('http');
-
+// const contactRoutes = require("./routes/contactRoutes")
 const { Server } = require('socket.io');
 const path = require('path');
-
+// const notificationRoutes = require("./routes/notificationRoutes")
 const { EsewaInitiatePayment, paymentStatus } = require("./controllers/esewaController");
 
 
@@ -65,13 +67,15 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-
+// Error handler middleware
+// app.use(errorHandler)
 // Handle OPTIONS preflight requests (if not already handled)
 app.options('*', cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // To parse URL-encoded bodies
 app.use('/uploads', express.static('uploads'));
-
+// app.use("/api/contact", contactRoutes)
+// app.use("/api/notifications", notificationRoutes)
 // Use routes
 app.use('/api', authRoutes);
 app.use('/api/user-notifications', userNotification);

@@ -1,4 +1,4 @@
-const payment = require("../models/payment.js");
+const payment = require("../models/Payment.js");
 
 const EsewaInitiatePayment = async (req, res) => {
   try {
@@ -106,4 +106,3 @@ const paymentStatus = async (req, res) => {
 };
 
 module.exports = { EsewaInitiatePayment, paymentStatus };
-

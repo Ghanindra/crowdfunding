@@ -47,7 +47,7 @@ const ManageCampaign = () => {
         <div className="campaign-list">
           {campaigns.map((campaign) => (
             <div key={campaign._id} className="campaign-card">
-                <img src={`http://localhost:5000/${campaign.image}`} alt={campaign.title} className="campaign-image" />
+                <img src={`http://localhost:5000/${campaign.image}`} alt={campaign.title} className="campaign-images"/>
               <h3>{campaign.title}</h3>
               <p>{campaign.description}</p>
               <button className="view-btn" onClick={() => navigate(`/campaigns/${campaign._id}`, { state: { campaign } })}>

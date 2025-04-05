@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import './Emergency.css';  // Importing the external CSS file
+import './medical.css';  // Importing the external CSS file
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import emergency from '../assets/emergency.avif';
@@ -58,6 +58,7 @@ return (
       {error && <p className="medical-loading-error medical-loading-error-error">{error}</p>}
 
       {/* Fundraiser List */}
+      <div className="medical-fundraiser-scroll-wrapper">
       <div className="browse">
         <h2>Browse Emergency Fundraisers</h2>
       </div>
@@ -72,9 +73,11 @@ return (
               <p className="medical-fundraiser-money">${fundraiser.targetAmount}</p>
               <p className="medical-fundraiser-location">{fundraiser.placeName}</p>
               <p className="medical-fundraiser-description">{fundraiser.description}</p>
+              <p className="medical-fundraiser-description">{fundraiser.endDate}</p>
             </div>
           </div>
         ))}
+      </div>
       </div>
     </div>
 

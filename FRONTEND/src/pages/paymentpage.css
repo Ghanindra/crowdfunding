@@ -1,181 +1,275 @@
-/* General Container */
+/* Global Styles */
+:root {
+  --primary-color: #4361ee;
+  --primary-hover: #3a56d4;
+  --secondary-color: #48bfe3;
+  --success-color: #57cc99;
+  --danger-color: #e63946;
+  --text-color: #333333;
+  --text-light: #6c757d;
+  --background-light: #f8f9fa;
+  --border-color: #dee2e6;
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --border-radius: 8px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
+    "Helvetica Neue", sans-serif;
+  color: var(--text-color);
+  line-height: 1.6;
+  background-color: var(--background-light);
+}
+
+/* Payment Container */
 .payment-container {
   max-width: 800px;
-  margin: 50px auto;
-  padding: 20px;
-  background: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  margin-top:1100px;
-}
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+margin-top:1000px;}
 
-/* Title Styling */
 .payment-title {
-  font-size: 28px;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 20px;
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: var(--text-color);
+  text-align: center;
 }
 
-/* Fundraiser Image */
 .payment-image {
   width: 100%;
-  max-height: 350px;
+  height: auto;
+  max-height: 300px;
   object-fit: cover;
-  border-radius: 10px;
-  margin-bottom: 20px;
+  border-radius: var(--border-radius);
+  margin-bottom: 2rem;
 }
 
 /* Amount Options */
-.amount-options h2 {
-  font-size: 20px;
-  margin-bottom: 10px;
-  color: #444;
+.amount-options {
+  margin-bottom: 2rem;
 }
 
-.amount-options {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 12px;
-  margin-bottom: 20px;
+.amount-options h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--text-color);
 }
 
 .amount-options button {
-  padding: 12px 18px;
-  font-size: 16px;
-  font-weight: bold;
-  border: 2px solid transparent;
-  background-color: #ff9800;
-  color: white;
-  border-radius: 6px;
+  background-color: white;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 0.75rem 1.5rem;
+  margin-right: 0.75rem;
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-color);
   cursor: pointer;
-  transition: all 0.3s ease-in-out;
-}
-
-.amount-options button.selected {
-  background-color: #ff6f00;
-  border-color: #ff6f00;
-  transform: scale(1.05);
+  transition: all 0.2s ease;
 }
 
 .amount-options button:hover {
-  background-color: #ff6f00;
-  border-color: #ff6f00;
-  transform: scale(1.05);
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+.amount-options button.selected {
+  background-color: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
 }
 
 /* Tip Section */
 .tip-section {
-  margin-bottom: 20px;
+  margin-bottom: 2rem;
 }
 
 .tip-section label {
-  font-size: 18px;
-  font-weight: 500;
-  color: #333;
   display: block;
-  margin-bottom: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
 }
 
 .tip-section input {
   width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  border: 2px solid #ddd;
-  border-radius: 6px;
-  transition: border 0.3s ease;
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
 }
 
 .tip-section input:focus {
-  border-color: #ff9800;
   outline: none;
+  border-color: var(--primary-color);
 }
 
 /* Payment Methods */
-.payment-methods h3 {
-  font-size: 20px;
-  margin-bottom: 12px;
-  color: #444;
+.payment-methods {
+  margin-bottom: 2rem;
 }
 
-.payment-methods {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin-bottom: 20px;
+.payment-methods h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--text-color);
 }
 
 .payment-button {
-  padding: 12px 20px;
-  font-size: 16px;
-  font-weight: bold;
-  border: 2px solid #ddd;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background-color: white;
-  color: #333;
-  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 1rem 1.5rem;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-color);
   cursor: pointer;
-  transition: all 0.3s ease-in-out;
-}
-
-.payment-button.selected {
-  background-color: #00a884;
-  color: white;
-  border-color: #00a884;
+  transition: all 0.2s ease;
+  min-width: 120px;
 }
 
 .payment-button:hover {
-  background-color: #00a884;
-  color: white;
-  border-color: #00a884;
+  border-color: var(--primary-color);
+  color: var(--primary-color);
 }
 
-/* Total Amount Section */
+.payment-button.selected {
+  background-color: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+/* Total Amount */
+.total-amount {
+  background-color: var(--background-light);
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
 .total-amount p {
-  font-size: 18px;
-  font-weight: 500;
-  color: #333;
-  margin: 5px 0;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
 }
 
-/* Donate Button */
+.total-amount p:last-child {
+  margin-bottom: 0;
+  color: var(--text-light);
+  font-size: 0.9rem;
+}
+
+.total-amount p:nth-child(3) {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border-color);
+}
+
+/* Donate Now Button */
 .donate-now-buttons {
+  display: block;
   width: 100%;
-  padding: 14px;
-  font-size: 18px;
-  font-weight: bold;
+  padding: 1rem;
+  background-color: var(--primary-color);
   color: white;
-  background-color: #e53935;
   border: none;
-  border-radius: 6px;
+  border-radius: var(--border-radius);
+  font-size: 1.1rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.3s ease-in-out;
-  margin-top: 15px;
+  transition: all 0.3s ease;
+  text-align: center;
+  margin-top: 1rem;
 }
 
 .donate-now-buttons:hover {
-  background-color: #c62828;
+  background-color: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* Responsive Design */
-@media (max-width: 600px) {
+.donate-now-buttons:active {
+  transform: translateY(0);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
   .payment-container {
-      padding: 15px;
+    padding: 1.5rem;
+    margin: 1rem;
   }
 
-  .amount-options {
-      flex-direction: column;
-      align-items: center;
+  .payment-title {
+    font-size: 1.5rem;
   }
 
-  .payment-methods {
-      flex-direction: column;
-      align-items: center;
+  .amount-options button {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
   }
 
   .payment-button {
-      width: 100%;
-      text-align: center;
+    min-width: 100px;
+    padding: 0.8rem 1.2rem;
   }
 }
+
+@media (max-width: 480px) {
+  .amount-options button {
+    margin-right: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  .payment-button {
+    min-width: auto;
+    width: calc(50% - 0.5rem);
+    margin-right: 0.5rem;
+  }
+
+  .payment-methods {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+
+/* Animation for selected buttons */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(67, 97, 238, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(67, 97, 238, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(67, 97, 238, 0);
+  }
+}
+
+.amount-options button.selected,
+.payment-button.selected {
+  animation: pulse 1.5s infinite;
+}
+

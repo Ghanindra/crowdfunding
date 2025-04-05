@@ -112,7 +112,7 @@ const PaymentPage = () => {
         
         setTimeout(() => {
           window.location.href = redirectUrl.toString();
-        }, 1000); // 3-second delay for debugging
+        }, 3000); // 3-second delay for debugging
         // window.location.href = response.data.url; // Redirect to payment URL
 
      

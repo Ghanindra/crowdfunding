@@ -47,7 +47,7 @@ return (
 
         {/* Right Side - Content */}
         <div className="medical-hero-content">
-          <h1 className="medical-hero-title">Discover Cause fundraisers on Crowdfunding platform</h1>
+          <h1 className="cause-hero-title">Discover Cause fundraisers on Crowdfunding platform</h1>
           <p className="medical-hero-description">
           Help others by donating to their fundraiser, or start one for someone you care about.   
           </p>
@@ -60,7 +60,9 @@ return (
       {error && <p className="medical-loading-error medical-loading-error-error">{error}</p>}
 
       {/* Fundraiser List */}
+      <div className="medical-fundraiser-scroll-wrapper">
       <div className="browse">
+        
         <h2>Browse Cause Fundraisers</h2>
       </div>
 
@@ -74,9 +76,11 @@ return (
               <p className="medical-fundraiser-money">${fundraiser.targetAmount}</p>
               <p className="medical-fundraiser-location">{fundraiser.placeName}</p>
               <p className="medical-fundraiser-description">{fundraiser.description}</p>
+              <p className="medical-fundraiser-description">{fundraiser.endDate}</p>
             </div>
           </div>
         ))}
+      </div>
       </div>
     </div>
 

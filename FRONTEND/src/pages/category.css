@@ -17,7 +17,7 @@ body, html {
 
 /* Main Container - Full width approach */
 .category-container {
-  width: 101%;
+  width: 100%;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -28,7 +28,7 @@ body, html {
 /* Make sure navbar is full width */
 .category-container > nav,
 .category-container > .navbar {
-  width: 122%;
+  width: 100%;
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -41,7 +41,7 @@ body, html {
   font-size: 2.5rem;
   font-weight: 700;
   text-align: center;
-  margin-top: 23rem;
+  margin-top: 14rem;
   margin-bottom: 1rem;
   color: #1a1a2e;
   line-height: 1.2;
@@ -126,7 +126,7 @@ body, html {
 }
 
 /* Category Names */
-.category-name {
+.category-names {
   font-size: 1.125rem;
   font-weight: 600;
   color: #1e293b;

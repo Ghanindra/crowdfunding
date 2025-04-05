@@ -322,7 +322,7 @@ const Navbar = () => {
             {isAuthenticated && (
               <li className="navbar-notifications">
                 <div onClick={toggleDropdown}>
-                  <FaBell style={{ color: 'white' }} />
+                  <FaBell style={{ color: 'orange' }} />
                   {notifications > 0 && <span className="notification-badge">{notifications}</span>}
                 </div>
                 {isDropdownOpen && <div className="dropdown-menu"><AdminNotification /></div>}
@@ -346,7 +346,7 @@ const Navbar = () => {
             {isAuthenticated && (
               <li className="navbar-notifications">
                 <div onClick={toggleUserDropdown}>
-                  <FaBell style={{ color: 'white' }} />
+                  <FaBell style={{ color: 'orange' }} />
                   {userNotifications > 0 && <span className="notification-badge">{userNotifications}</span>}
                 </div>
                 {isUserDropdownOpen && (

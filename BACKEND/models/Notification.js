@@ -23,12 +23,12 @@
   issuedFrom: { type: String},
   citizenshipImage: { type: String},
   message: { type: String},
-  type: { type: String, enum: ['campaign', 'verification','verification_result','report','report_deleted','Warning'], required: false },
+  type: { type: String, enum: ['campaign', 'verification','verification_result','report','report_deleted','Warning','contact'], required: false },
   status: { type: String, enum: ['pending', 'approved', 'rejected'], default: 'pending' },
   isRead: { type: Boolean, default: false },
   campaignId: { type: mongoose.Schema.Types.ObjectId, ref: 'Campaign', required: false }, // Allow campaignId
   reportId: { type: mongoose.Schema.Types.ObjectId, ref: 'Report', required: false }, // Allow campaignId
-  
+  contactId:{  type: mongoose.Schema.Types.ObjectId, ref: 'contact', required: false},
   // type: { type: String, required: true }, // ✅ Add this field
 }, { timestamps: true });
 

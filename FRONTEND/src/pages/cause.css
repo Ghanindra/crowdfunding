@@ -1,179 +1,628 @@
+/* Base Styles and Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-  /* Hero Section */
-  .medical-container {
+:root {
+  --primary: #3b82f6;
+  --primary-dark: #1d4ed8;
+  --primary-light: #93c5fd;
+  --secondary: #f97316;
+  --secondary-light: #fdba74;
+  --text-dark: #1e293b;
+  --text-medium: #475569;
+  --text-light: #64748b;
+  --background: #f8fafc;
+  --background-alt: #f1f5f9;
+  --white: #ffffff;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --border-radius-sm: 0.375rem;
+  --border-radius-md: 0.5rem;
+  --border-radius-lg: 0.75rem;
+  --border-radius-xl: 1rem;
+  --border-radius-full: 9999px;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
+    "Helvetica Neue", sans-serif;
+  color: var(--text-dark);
+  background-color: var(--background);
+  line-height: 1.6;
+  overflow-x: hidden;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.medical-container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.medical-content {
+  flex: 1;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  position: relative;
+}
+
+/* Hero Section */
+.medical-hero {
+  display: flex;
+  align-items: center;
+  padding: 5rem 3rem;
+  gap: 4rem;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(249, 250, 251, 0.9));
+  border-radius: var(--border-radius-xl);
+  box-shadow: var(--shadow-xl);
+  margin-bottom: 5rem;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.medical-hero::before {
+  content: "";
+  position: absolute;
+  top: -100px;
+  right: -100px;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, var(--primary-light) 0%, rgba(147, 197, 253, 0) 70%);
+  opacity: 0.3;
+  z-index: 0;
+}
+
+.medical-hero::after {
+  content: "";
+  position: absolute;
+  bottom: -50px;
+  left: -50px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, var(--secondary-light) 0%, rgba(253, 186, 116, 0) 70%);
+  opacity: 0.3;
+  z-index: 0;
+}
+
+.medical-hero-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.doctor {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-xl);
+  transition: var(--transition);
+  transform: perspective(1000px) rotateY(-5deg);
+  filter: brightness(1.03) contrast(1.05);
+  border: 4px solid var(--white);
+}
+
+.doctor:hover {
+  transform: perspective(1000px) rotateY(0deg) scale(1.02);
+  box-shadow: var(--shadow-xl), 0 0 0 1px rgba(59, 130, 246, 0.1);
+}
+
+.medical-hero-content {
+  flex: 1;
+  position: relative;
+  z-index: 1;
+}
+
+.medical-hero-title {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  color: var(--primary-dark);
+  line-height: 1.2;
+  position: relative;
+  letter-spacing: -0.02em;
+  background: linear-gradient(to right, var(--primary-dark), var(--primary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+}
+
+.medical-hero-title::after {
+  content: "";
+  position: absolute;
+  bottom: -12px;
+  left: 0;
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--primary-light));
+  border-radius: var(--border-radius-full);
+}
+
+.medical-hero-description {
+  font-size: 1.25rem;
+  margin-bottom: 2.5rem;
+  color: var(--text-medium);
+  max-width: 90%;
+  line-height: 1.7;
+  font-weight: 400;
+}
+
+.medical-hero-button {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: var(--white);
+  font-size: 1.125rem;
+  font-weight: 600;
+  padding: 1rem 2.5rem;
+  border: none;
+  border-radius: var(--border-radius-full);
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: var(--shadow-lg), 0 0 0 0 rgba(59, 130, 246, 0.5);
+  position: relative;
+  overflow: hidden;
+  letter-spacing: 0.01em;
+}
+
+.medical-hero-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: all 0.6s ease;
+}
+
+.medical-hero-button:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-xl), 0 0 0 5px rgba(59, 130, 246, 0.2);
+}
+
+.medical-hero-button:hover::before {
+  left: 100%;
+}
+
+.medical-hero-button:active {
+  transform: translateY(1px);
+}
+
+/* Browse Section */
+.browse {
+  margin: 3rem 0 4rem;
+  text-align: center;
+  position: relative;
+}
+
+.browse h2 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  display: inline-block;
+  position: relative;
+  padding-bottom: 1rem;
+  letter-spacing: -0.02em;
+}
+
+.browse h2::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--primary-light));
+  border-radius: var(--border-radius-full);
+}
+
+/* Loading & Error Messages */
+.medical-loading-error {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.125rem;
+  color: var(--text-medium);
+  background-color: var(--background-alt);
+  border-radius: var(--border-radius-lg);
+  margin: 2rem 0;
+  box-shadow: var(--shadow-md);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.medical-loading-error-error {
+  color: #b91c1c;
+  background-color: #fee2e2;
+  border-left: 4px solid #b91c1c;
+}
+
+/* Fundraiser List */
+.medical-fundraiser-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2.5rem;
+  margin-bottom: 5rem;
+}
+
+.medical-fundraiser-card {
+  background-color: var(--white);
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  transition: var(--transition);
+  cursor: pointer;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transform: translateZ(0);
+}
+
+.medical-fundraiser-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(90deg, var(--primary), var(--primary-light));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1;
+}
+
+.medical-fundraiser-card:hover {
+  transform: translateY(-10px) translateZ(0);
+  box-shadow: var(--shadow-xl);
+}
+
+.medical-fundraiser-card:hover::before {
+  transform: scaleX(1);
+}
+
+.medical-fundraiser-image {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  transition: var(--transition);
+  filter: brightness(1.03) contrast(1.05);
+}
+
+.medical-fundraiser-card:hover .medical-fundraiser-image {
+  transform: scale(1.05);
+}
+
+.medical-fundraiser-title {
+  padding: 1.5rem 1.5rem 0.75rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+.medical-fundraiser-card-content {
+  padding: 0 1.5rem 1.5rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.medical-fundraiser-money {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--primary);
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.01em;
+  display: flex;
+  align-items: center;
+}
+
+.medical-fundraiser-money::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 24px;
+  background: linear-gradient(to bottom, var(--primary), var(--primary-light));
+  margin-right: 10px;
+  border-radius: var(--border-radius-full);
+}
+
+.medical-fundraiser-location {
+  font-size: 0.95rem;
+  color: var(--text-light);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+}
+
+.medical-fundraiser-location::before {
+  content: "📍";
+  margin-right: 8px;
+}
+
+.medical-fundraiser-description {
+  font-size: 1rem;
+  color: var(--text-medium);
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-top: auto;
+  position: relative;
+}
+
+.medical-fundraiser-description::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 30%;
+  height: 1.6em;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+}
+
+/* Progress Bar (Optional - Add to your HTML if needed) */
+.fundraiser-progress {
+  margin: 1rem 0;
+  height: 8px;
+  background-color: var(--background-alt);
+  border-radius: var(--border-radius-full);
+  overflow: hidden;
+}
+
+.fundraiser-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--primary-light));
+  border-radius: var(--border-radius-full);
+  transition: width 1s ease-in-out;
+}
+
+/* Responsive Styles */
+@media (max-width: 1200px) {
+  .medical-hero {
+    padding: 4rem 2.5rem;
+  }
+
+  .medical-hero-title {
+    font-size: 2.5rem;
+  }
+
+  .medical-fundraiser-list {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+}
+
+@media (max-width: 992px) {
+  .medical-hero {
+    flex-direction: column;
+    padding: 3rem 2rem;
+    gap: 3rem;
+  }
+
+  .medical-hero-image,
+  .medical-hero-content {
+    width: 100%;
+  }
+
+  .doctor {
+    transform: perspective(1000px) rotateY(0deg);
+    max-width: 80%;
+    margin: 0 auto;
+  }
+
+  .medical-hero-title {
+    font-size: 2.25rem;
+    text-align: center;
+  }
+
+  .medical-hero-title::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .medical-hero-description {
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .medical-hero-content {
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* Ensure the page takes full viewport height */
-  }
-  .medical-hero {
-    display: flex;
     align-items: center;
-    justify-content: space-between;
-    border: 2px solid #ddd;
-    border-radius: 10px;
-    padding: 20px;
-    max-width: 1200px;
-    margin: 40px auto;
-    margin-top: 1200px;
-    background-color: #ffffff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
 
+  .browse h2 {
+    font-size: 2rem;
   }
-  /* Make sure the main content stretches */
-.medical-content {
-    flex: 1;  /* Pushes footer to the bottom */
-  }
-  /* Left Side - Image */
-  .medical-hero-image {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-  }
-  
-  .doctor {
-    width: 100%;
-    max-width: 400px;
-    height: auto;
-    border-radius: 10px;
-  }
-  
-  /* Right Side - Content */
-  .medical-hero-content {
-    flex: 2;
-    padding: 20px;
-    margin-top:-80px;
-  }
-  
-  .medical-hero-title {
-    font-size: 46px;
-    font-weight: bold;
-    color: black;
-    margin-bottom: 10px;
-  }
-  
-  .medical-hero-description {
-    font-size: 20px;
-    color: #555;
-    margin-bottom: 20px;
-  }
-  
-  .medical-hero-button {
-    padding: 12px 24px;
-    font-size: 16px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 16px;
-    cursor: pointer;
-    transition: 0.3s;
-    margin-left: 167px;
-    margin-top: 20px;
 }
-  
-  
-  .medical-hero-button:hover {
-    background-color: #0056b3;
+
+@media (max-width: 768px) {
+  .medical-content {
+    padding: 1.5rem;
   }
-  
-  /* Fundraiser List */
+
+  .medical-hero {
+    padding: 2.5rem 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .medical-hero-title {
+    font-size: 2rem;
+  }
+
+  .medical-hero-description {
+    font-size: 1.125rem;
+  }
+
+  .browse h2 {
+    font-size: 1.75rem;
+  }
+
   .medical-fundraiser-list {
-    max-width: 1200px;
-    margin: 40px auto;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
   }
-  
-  .medical-fundraiser-card {
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 15px;
-    width: 300px;
-    text-align: center;
-    transition: transform 0.3s ease-in-out;
+}
+
+@media (max-width: 576px) {
+  .medical-content {
+    padding: 1rem;
   }
-  
-  .medical-fundraiser-card:hover {
-    transform: translateY(-5px);
+
+  .medical-hero {
+    padding: 2rem 1.25rem;
+    margin-bottom: 2.5rem;
   }
-  
-  .medical-fundraiser-image {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-    border-radius: 8px;
+
+  .medical-hero-title {
+    font-size: 1.75rem;
   }
-  
-  .medical-fundraiser-card-content {
-    padding: 10px;
+
+  .medical-hero-description {
+    font-size: 1rem;
   }
-  
+
+  .medical-hero-button {
+    padding: 0.875rem 2rem;
+    font-size: 1rem;
+  }
+
+  .browse h2 {
+    font-size: 1.5rem;
+  }
+
+  .medical-fundraiser-list {
+    grid-template-columns: 1fr;
+  }
+
   .medical-fundraiser-title {
-    font-size: 24px;
-    font-weight: bold;
-    margin: 10px 0;
+    font-size: 1.25rem;
+    padding: 1.25rem 1.25rem 0.5rem;
   }
-  
-  .medical-fundraiser-location {
-    font-size: 20px;
-    color: #777;
-    margin-bottom: 8px;
+
+  .medical-fundraiser-card-content {
+    padding: 0 1.25rem 1.25rem;
   }
+
   .medical-fundraiser-money {
-    font-size: 20px;
-    color: red;
-    margin-bottom: 8px;
+    font-size: 1.5rem;
   }
-  .medical-fundraiser-description {
-    font-size: 17px;
-    color: #444;
-    margin-bottom: 10px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
   }
-  
-  /* Loading & Error Messages */
-  .medical-loading-error {
-    text-align: center;
-    font-size: 18px;
-    color: #d9534f;
-    font-weight: bold;
-    margin-top: 20px;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  .medical-loading-error-error {
-    color: red;
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
   }
-  /* Footer stays at the bottom */
-.footer {
-    background-color: #333;
-    color: white;
-    text-align: center;
-    padding: 15px;
-    position: relative;
-    width: 100%;
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    .medical-hero {
-      flex-direction: column;
-      text-align: center;
-    }
-  
-    .medical-hero-image {
-      margin-bottom: 20px;
-    }
-  
-    .medical-hero-content {
-      padding: 10px;
-    }
-  
-    .medical-hero-title {
-      font-size: 28px;
-    }
-  
-    .medical-hero-description {
-      font-size: 16px;
-    }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
   }
-  
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.medical-hero-image {
+  animation: slideInLeft 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.medical-hero-content {
+  animation: slideInRight 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.browse {
+  animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation-delay: 0.3s;
+  opacity: 0;
+}
+
+.medical-fundraiser-card {
+  animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  opacity: 0;
+}
+
+.medical-fundraiser-card:nth-child(1) {
+  animation-delay: 0.4s;
+}
+
+.medical-fundraiser-card:nth-child(2) {
+  animation-delay: 0.5s;
+}
+
+.medical-fundraiser-card:nth-child(3) {
+  animation-delay: 0.6s;
+}
+
+.medical-fundraiser-card:nth-child(4) {
+  animation-delay: 0.7s;
+}
+
+.medical-fundraiser-card:nth-child(5) {
+  animation-delay: 0.8s;
+}
+
+.medical-fundraiser-card:nth-child(6) {
+  animation-delay: 0.9s;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, var(--primary-light), var(--primary));
+  border-radius: var(--border-radius-full);
+  border: 3px solid var(--background);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, var(--primary), var(--primary-dark));
+}
+

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import './education.css';  // Importing the external CSS file
+import './medical.css';  // Importing the external CSS file
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import education from '../assets/education.webp';
@@ -41,13 +41,13 @@ return (
     <div className="medical-content">
       <div className="medical-hero">
         {/* Left Side - Doctor Image */}
-        <div className="medical-hero-image">
-          <img src={education} alt="Doctor" className="doctor" />
+        <div className="education-hero-image">
+          <img src={education} alt="Doctor" className="doctorss" />
         </div>
 
         {/* Right Side - Content */}
         <div className="medical-hero-content">
-          <h1 className="medical-hero-title">Discover education fundraisers on Crowdfunding platform</h1>
+          <h1 className="education-hero-title">Discover education fundraisers on Crowdfunding platform</h1>
           <p className="medical-hero-description">
           Help others by donating to their fundraiser, or start one for someone you care about.          </p>
           <button className="medical-hero-button">Start a Donating</button>
@@ -59,6 +59,7 @@ return (
       {error && <p className="medical-loading-error medical-loading-error-error">{error}</p>}
 
       {/* Fundraiser List */}
+      <div className="medical-fundraiser-scroll-wrapper">
       <div className="browse">
         <h2>Browse Education Fundraisers</h2>
       </div>
@@ -73,9 +74,11 @@ return (
               <p className="medical-fundraiser-money">${fundraiser.targetAmount}</p>
               <p className="medical-fundraiser-location">{fundraiser.placeName}</p>
               <p className="medical-fundraiser-description">{fundraiser.description}</p>
+              <p className="medical-fundraiser-description">{fundraiser.endDate}</p>
             </div>
           </div>
         ))}
+      </div>
       </div>
     </div>
 

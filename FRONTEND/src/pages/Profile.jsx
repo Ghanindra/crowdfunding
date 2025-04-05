@@ -144,7 +144,7 @@ const Profile = () => {
       </div>
 
       <form onSubmit={handleProfileUpdate} className="profile-form">
-        <div className="input-group">
+        <div className="input-groups">
           <label>Username</label>
           <input
             type="text"
@@ -156,7 +156,7 @@ const Profile = () => {
             className="input-field"
           />
         </div>
-        <div className="input-group">
+        <div className="input-groups">
           <label>Email</label>
           <input
             type="email"
@@ -169,7 +169,7 @@ const Profile = () => {
             className="input-field"
           />
         </div>
-        <div className="input-group password-group">
+        <div className="input-groups password-group">
           <label>Password</label>
           <input
             type="text"
@@ -200,8 +200,8 @@ const Profile = () => {
         {isUpdated && <p className="success-message">Profile updated successfully!</p>}
       </form>
       
-      <button className="back-button" onClick={() => navigate('/dashboard')}>
-        Back to Dashboard
+      <button className="back-button" onClick={() => navigate('/fundraiser')}>
+        Back 
       </button>
       <button
         className="verify-button"

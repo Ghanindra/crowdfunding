@@ -1,7 +1,8 @@
 import React from "react";
-import './start.css';
+import './fundanimal.css';
 import Navbar from '../components/Navbar';
 import animal from '../assets/fundAnimal.webp'
+
 const FundAnimal = () => {
   return (
     <div className="start-container">
@@ -15,7 +16,7 @@ const FundAnimal = () => {
           <p>Everything you need to help your fundraiser succeed is here.</p>
           <button className="hero-button">Start a Crowdfunding</button>
         </div>
-        <div className="hero-image">
+        <div className="heros-image">
           <img src={animal}alt="Family" />
         </div>
       </div>

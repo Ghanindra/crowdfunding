@@ -46,7 +46,7 @@ const Category = () => {
             className="category-cards"
           >
             <span className="category-icon">{category.icon}</span>
-            <p className="category-name">{category.name}</p>
+            <p className="category-names">{category.name}</p>
           </div>
             
         ))}

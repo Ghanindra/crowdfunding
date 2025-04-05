@@ -150,7 +150,8 @@ const AdminNotification = () => {
     setLoading(true);
     try {
       const response = await axios.get("http://localhost:5000/api/admin/notifications");
-      setNotifications(response.data);
+      const notificationsData = response.data;
+      setNotifications(notificationsData);
       setError(""); // Clear any previous errors
     } catch (error) {
       console.error("Error fetching notifications:", error);
@@ -186,6 +187,16 @@ const AdminNotification = () => {
         const response = await axios.get(`http://localhost:5000/api/admin/notifications/${notification._id}`);
         console.log("Fetched report details:", response.data);
         navigate(`/admin/reports/${notification.reportId}`, { state: { report: response.data } });
+    
+      }else if (notification.type === "contact") {
+        if (!notification.contactId) {
+          console.error("contact ID is missing.");
+          setError("contact ID is missing.");
+          return;
+        }
+        const response = await axios.get(`http://localhost:5000/api/admin/notifications/${notification._id}`);
+        console.log("Fetched contact details:", response.data);
+        navigate(`/admin/contact/${notification.contactId}`, { state: { contact: response.data } });
       }
 
       // Remove the clicked notification from the list
@@ -221,7 +232,8 @@ const AdminNotification = () => {
                 >
                   {notification.username} is requesting verification.
                 </p>
-              ) : notification.type === "campaign" ? (
+              ) 
+              : notification.type === "campaign" ? (
                 <p
                   className="message campaign-message"
                   onClick={() => handleNotificationClick(notification)}
@@ -234,6 +246,13 @@ const AdminNotification = () => {
                   onClick={() => handleNotificationClick(notification)}
                 >
                   {notification.message}
+                </p>
+              ) :notification.type === "contact" ? (
+                <p
+                  className="message campaign-message"
+                  onClick={() => handleNotificationClick(notification)}
+                >
+                 {notification.username} is requesting to contact.
                 </p>
               ) : (
                 <p>Unknown notification type.</p>

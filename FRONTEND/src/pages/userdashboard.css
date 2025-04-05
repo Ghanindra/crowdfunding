@@ -1,115 +1,510 @@
+/* Modern Dashboard Styling - Fixed for proper screen fitting */
+:root {
+  --primary-color: #4f46e5;
+  --primary-light: #6366f1;
+  --primary-dark: #4338ca;
+  --secondary-color: #10b981;
+  --text-primary: #1f2937;
+  --text-secondary: #4b5563;
+  --text-light: #6b7280;
+  --bg-light: #f9fafb;
+  --bg-white: #ffffff;
+  --bg-card: #ffffff;
+  --border-color: #e5e7eb;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --transition: all 0.3s ease;
+}
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
 
-/* userdashboard.css */
+html,
+body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  background-color: var(--bg-light);
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+/* Dashboard Container - Fixed width issues */
 .dashboard-container {
+  width: 100%;
   max-width: 1200px;
-  margin: 260px auto 40px auto; /* Keeps it centered and prevents movement */
-  padding: 20px;
-  background: #ffffff;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  border-radius: 12px;
-  text-align: center;
-  min-height: 100vh; /* Ensures it does not collapse when adding campaigns */
-  overflow-y: auto; /* Allows scrolling if there are many campaigns */
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-}
-.userdashboardh1 {
-  font-size: 4rem;
-  color: #333;
-  margin-bottom: 20px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  overflow: hidden;
 }
 
+/* Dashboard Header */
+.userdashboardh1 {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 1.5rem;
+  text-align: center;
+  position: relative;
+  padding-bottom: 0.75rem;
+margin-top:200px;}
+
+.userdashboardh1::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
+  border-radius: 2px;
+}
+
+/* Total Donations Section */
 .total-donations {
-  background: linear-gradient(135deg, #4CAF50, #2E7D32);
-  padding: 20px;
-  border-radius: 10px;
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
   color: white;
-  font-size: 1.2rem;
-  font-weight: bold;
-  margin-bottom: 30px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-lg);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+.total-donations::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+  z-index: 0;
+}
+
+.total-donations h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  position: relative;
+  z-index: 1;
+}
+
+/* User Campaigns Section */
+.user-campaigns {
+  margin-bottom: 2rem;
+  width: 100%;
 }
 
 .user-campaigns h2 {
-  font-size: 1.8rem;
-  color: #444;
-  margin-bottom: 15px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+  color: var(--text-primary);
+  position: relative;
+  display: inline-block;
+  padding-bottom: 0.5rem;
 }
 
+.user-campaigns h2::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
+  border-radius: 1.5px;
+}
+
+.user-campaigns p {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+/* Campaigns Grid - Fixed for better responsiveness */
 .campaigns-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 4 columns in one row */
-  gap: 20px; /* Space between grid items */
-  margin-top: 30px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
 }
 
-
+/* Campaign Card */
 .campaign-card {
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  width:100%;
+  background-color: var(--bg-card);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  padding: 1.25rem;
+  transition: var(--transition);
+  border: 1px solid var(--border-color);
+  position: relative;
+  overflow: hidden;
+  width: 100%;
 }
 
 .campaign-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
 }
 
 .campaign-card h3 {
-  font-size: 1.5rem;
-  color: #222;
-  margin-bottom: 10px;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: var(--primary-color);
+  word-wrap: break-word;
 }
 
 .campaign-card p {
-  font-size: 1rem;
-  color: #555;
-  margin-bottom: 8px;
+  margin-bottom: 0.5rem;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  word-wrap: break-word;
 }
-/* Fundraiser Image Styling */
+
+.campaign-card p:last-of-type {
+  margin-bottom: 1.25rem;
+}
+
+/* Campaign Image - Fixed sizing */
 .userdshboard-fundraiser-image {
-  width: 100%; /* Ensures all images take full width of the container */
-  height: 200px; /* Keeps images at a uniform height */
-  object-fit: cover; /* Crops images to maintain aspect ratio */
-  border-radius: 8px;
-  margin: 10px 0;
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  margin: 0.75rem 0;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
 }
-.back-button {
-  background-color: #007bff;
+
+.userdshboard-fundraiser-image:hover {
+  transform: scale(1.02);
+}
+
+/* Add Milestone Button */
+.add-milestone-button {
+  background-color: var(--primary-color);
   color: white;
-  width:10%;
   border: none;
-  padding: 10px 15px;
+  padding: 0.65rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border-radius: var(--radius-md);
   cursor: pointer;
-  font-size: 16px;
-  /* margin-bottom: 15px; */
-  border-radius: 5px;
-  position:absolute;
-  top:0px;
-  left:10px;
+  transition: var(--transition);
+  width: 100%;
+  margin-top: 0.75rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.add-milestone-button:hover {
+  background-color: var(--primary-dark);
+  box-shadow: var(--shadow-md);
+}
+
+/* Milestone Form - Fixed sizing and overflow */
+.milestone-form {
+  margin-top: 1.25rem;
+  padding: 1.25rem;
+  background-color: var(--bg-light);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  width: 100%;
+  overflow: hidden;
+}
+
+.milestone-form h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+  color: var(--text-primary);
+  text-align: center;
+}
+
+.milestone-form input[type="text"],
+.milestone-form input[type="number"],
+.milestone-form textarea {
+  width: 100%;
+  padding: 0.65rem;
+  margin-bottom: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  transition: var(--transition);
+}
+
+.milestone-form input:focus,
+.milestone-form textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.milestone-form textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+/* File Input Label */
+.file-input-label {
+  display: block;
+  background-color: var(--bg-white);
+  color: var(--text-secondary);
+  border: 1px dashed var(--primary-color);
+  padding: 0.65rem;
+  border-radius: var(--radius-sm);
+  text-align: center;
+  cursor: pointer;
+  margin-bottom: 0.75rem;
+  transition: var(--transition);
+  font-size: 0.95rem;
+}
+
+.file-input-label:hover {
+  background-color: rgba(79, 70, 229, 0.05);
+  color: var(--primary-color);
+}
+
+/* Selected Images - Fixed overflow */
+.selected-images {
+  margin-bottom: 0.75rem;
+  padding: 0.65rem;
+  background-color: var(--bg-white);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.selected-images p {
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+
+.selected-images ul {
+  list-style: none;
+  padding-left: 0.25rem;
+}
+
+.selected-images li {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  margin-bottom: 0.25rem;
+  position: relative;
+  padding-left: 1.25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.selected-images li::before {
+  content: "📎";
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+/* Submit Button */
+.milestone-form button {
+  background-color: var(--secondary-color);
+  color: white;
+  border: none;
+  padding: 0.65rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: var(--transition);
+  width: 100%;
+  box-shadow: var(--shadow-sm);
+}
+
+.milestone-form button:hover {
+  background-color: #0ea271;
+  box-shadow: var(--shadow-md);
+}
+
+/* Back Button */
+.back-button {
+  background-color: var(--bg-white);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  padding: 0.65rem 1.25rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  margin-top: 1.5rem;
+  box-shadow: var(--shadow-sm);
 }
 
 .back-button:hover {
-  background-color: #0056b3;
+  background-color: var(--bg-light);
+  color: var(--primary-color);
+  box-shadow: var(--shadow-md);
 }
+
+/* Loading State */
+.dashboard-container > div:first-child:not(.total-donations):not(.user-campaigns) {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  background-color: var(--bg-white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  position: relative;
+  width: 100%;
+}
+
+.dashboard-container > div:first-child:not(.total-donations):not(.user-campaigns)::after {
+  content: "";
+  display: block;
+  width: 36px;
+  height: 36px;
+  border: 3px solid rgba(79, 70, 229, 0.2);
+  border-radius: 50%;
+  border-top-color: var(--primary-color);
+  animation: spin 1s linear infinite;
+  margin: 1rem auto 0;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Improved Responsive Adjustments */
+@media (max-width: 1024px) {
+  .campaigns-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+}
+
 @media (max-width: 768px) {
   .dashboard-container {
-    padding: 15px;
+    padding: 1rem;
   }
 
-  h1 {
-    font-size: 1.8rem;
+  .userdashboardh1 {
+    font-size: 1.75rem;
+    margin-bottom: 1.25rem;
   }
 
   .campaigns-grid {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.25rem;
   }
+
+  .total-donations h2,
+  .user-campaigns h2 {
+    font-size: 1.35rem;
+  }
+
+  .campaign-card {
+    padding: 1rem;
+  }
+
   .userdshboard-fundraiser-image {
-    height: 150px; /* Adjusts image size for smaller screens */
+    height: 160px;
   }
 }
+
+@media (max-width: 640px) {
+  .campaigns-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .userdashboardh1 {
+    font-size: 1.5rem;
+  }
+
+  .total-donations {
+    padding: 1.25rem;
+  }
+
+  .total-donations h2 {
+    font-size: 1.25rem;
+  }
+
+  .user-campaigns h2 {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-container {
+    padding: 0.75rem;
+  }
+
+  .userdashboardh1 {
+    font-size: 1.35rem;
+  }
+
+  .campaign-card {
+    padding: 1rem;
+  }
+
+  .campaign-card h3 {
+    font-size: 1.15rem;
+  }
+
+  .campaign-card p {
+    font-size: 0.9rem;
+  }
+
+  .milestone-form {
+    padding: 1rem;
+  }
+
+  .milestone-form h3 {
+    font-size: 1rem;
+  }
+
+  .add-milestone-button,
+  .milestone-form button,
+  .back-button {
+    padding: 0.6rem 0.9rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Fix for very small screens */
+@media (max-width: 360px) {
+  .dashboard-container {
+    padding: 0.5rem;
+  }
+
+  .campaign-card {
+    padding: 0.75rem;
+  }
+
+  .userdshboard-fundraiser-image {
+    height: 140px;
+  }
+
+  .milestone-form {
+    padding: 0.75rem;
+  }
+}
+

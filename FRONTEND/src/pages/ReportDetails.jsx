@@ -199,7 +199,7 @@ const ReportDetails = () => {
       <h2 className="report-title">Report Details</h2>
       {report ? (
         <div className="report-details">
-          <img src={`http://localhost:5000/${report.campaignId.image}`} alt={report.campaignId.title} className="campaign-image" />
+          <img src={`http://localhost:5000/${report.campaignId.image}`} alt={report.campaignId.title} className="campaign-imagess" />
           <p><strong>Target Amount:</strong> ${report.campaignId.targetAmount}</p>
           <p><strong>Raised Amount:</strong> ${report.campaignId.raisedAmount}</p>
           <p><strong>Description:</strong> {report.campaignId.description}</p>

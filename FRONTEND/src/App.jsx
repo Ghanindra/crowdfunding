@@ -34,10 +34,13 @@ import AdminNotification from './components/AdminNotification';
 import Category from './pages/Category';
 import NotificationDetails from "./components/NotificationDetails";
 import Success from "./pages/Success";
+import Contact from "./pages/Contact";
+import AdminContact from "./pages/AdminContact";
 import Failure from "./pages/Failure";
 import SearchResults from "./pages/SearchResults";
 import UserNotification from "./pages/UserNotification";
 import ReportDetails from "./pages/ReportDetails";
+import Report from "./pages/Report";
 import UserDashboard from "./pages/UserDashboard";
 import ManageCampaign from "./pages/ManageCampaign";
 import CampaignDetails from "./components/CampaignDetails";
@@ -67,6 +70,9 @@ function App() {
         <Route path="/fundraiser" element={ <ProtectedRoute alllowed='restricted'>
                 <Fundraiser />
               </ProtectedRoute>} />
+              <Route path="/contact" element={<ProtectedRoute>     
+                <Contact />
+              </ProtectedRoute>} /> 
         <Route path="category/cause" element={ <ProtectedRoute alllowed='restricted'>
                 <Cause />
               </ProtectedRoute>} /> 
@@ -162,6 +168,14 @@ function App() {
       
         <Routes>
         <Route path="/admin/reports/:reportId" element={<ReportDetails />} />
+
+        </Routes>
+        <Routes>
+        <Route path="/admin/reports" element={<Report />} />
+
+        </Routes>
+        <Routes>
+        <Route path="/admin/contact/:contactId" element={<AdminContact />} />
 
         </Routes>
        

@@ -410,7 +410,7 @@ import axios from "axios";
 import { FaFileUpload } from "react-icons/fa";
 import "./campaignCreator.css";
 import { toast } from "react-toastify";
-
+import { useLocation, useNavigate } from "react-router-dom";
 const CampaignCreator = () => {
   const [campaignId, setCampaignId] = useState(null); // Store campaign ID
   const [formData, setFormData] = useState({
@@ -421,13 +421,15 @@ const CampaignCreator = () => {
     title: "",
     description: "",
     targetAmount: "",
+    startDate: "",
+    endDate: "",
   });
   const [step, setStep] = useState(1);
   const [errors, setErrors] = useState({});
   const [reviewMode, setReviewMode] = useState(false);
   const [isVerified, setIsVerified] = useState(false); // For account verification
   const [loading, setLoading] = useState(true); // Loading state
-
+ const Navigate = useNavigate();
   // Check account verification when component mounts
   useEffect(() => {
     const checkVerificationStatus = async () => {
@@ -466,7 +468,27 @@ const CampaignCreator = () => {
       </div>
     );
   }
-
+  const handleDateChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  
+    if (name === "endDate" && formData.startDate) {
+      const start = new Date(formData.startDate);
+      const end = new Date(value);
+      const maxEndDate = new Date(start);
+      maxEndDate.setMonth(maxEndDate.getMonth() + 6); // Add 6 months to start date
+  
+      if (end > maxEndDate) {
+        setErrors((prev) => ({
+          ...prev,
+          endDate: "Campaign duration cannot exceed 6 months.",
+        }));
+      } else {
+        setErrors((prev) => ({ ...prev, endDate: "" }));
+      }
+    }
+  };
+  
   // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -545,7 +567,7 @@ const CampaignCreator = () => {
       toast.error("Token is missing, please log in again.");
       return;
     }
-
+    
     // Final check: make sure all fields are filled before submission
     if (
       !formData.placeName ||
@@ -559,7 +581,7 @@ const CampaignCreator = () => {
       toast.error("Please fill all the fields.");
       return;
     }
-
+  
     try {
       const data = new FormData();
       Object.keys(formData).forEach((key) => {
@@ -577,6 +599,7 @@ const CampaignCreator = () => {
         setCampaignId(res.data.campaignId);
         localStorage.setItem("campaignId", res.data.campaignId);
         toast.success("Campaign successfully submitted ");
+        Navigate('/Fundraiser')
       } else {
         console.error("No campaign ID received in response.");
         toast.error("Campaign submission failed.");
@@ -755,6 +778,24 @@ const CampaignCreator = () => {
               className="input-field"
             />
             {errors.title && <p className="error">{errors.title}</p>}
+            <label>Start Date:</label>
+<input
+  type="date"
+  name="startDate"
+  value={formData.startDate}
+  onChange={handleDateChange}
+  className="input-field"
+/>
+
+<label>End Date:</label>
+<input
+  type="date"
+  name="endDate"
+  value={formData.endDate}
+  onChange={handleDateChange}
+  className="input-field"
+/>
+{errors.endDate && <p className="error">{errors.endDate}</p>}
 
             <label>Description:</label>
             <textarea
@@ -780,6 +821,8 @@ const CampaignCreator = () => {
             {errors.targetAmount && (
               <p className="error">{errors.targetAmount}</p>
             )}
+
+
 
             <button onClick={handlePreviousStep} className="btn-secondary">
               Back
