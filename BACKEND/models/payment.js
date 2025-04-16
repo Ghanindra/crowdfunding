@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const paymentSchema = new mongoose.Schema({
   fundraiserId: String,
- userId:String,
+//  userId:String,
   amount: Number,
   tipAmount: Number,
   totalAmount: Number,
@@ -17,6 +17,11 @@ const paymentSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Campaign",
     required: true,
+  },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: false,
   },
   product_id: {
     type: String,

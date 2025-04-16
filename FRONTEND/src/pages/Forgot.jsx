@@ -34,8 +34,8 @@ const Forgot = () => {
   };
 
   return (
-    <div className="forgot-container">
-      <form onSubmit={handleForgotPassword} className="forgot-form">
+    <div className="forgot-containers">
+      <form onSubmit={handleForgotPassword} className="forgots-forms">
         <h2>Forgot Password</h2>
 
         {/* Email input field */}

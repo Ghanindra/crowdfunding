@@ -56,6 +56,19 @@ profileStatus: {
   enum: ['pending', 'verified', 'rejected'],
   default: 'pending',  // Default to 'pending' until verification is done
 }, 
+status: {
+  type: String,
+  enum: ["active","blocked","inactive"],
+  default: "active", // Default to active status
+},
+blocked: { type: Boolean, default: false },
+lastLogin: { type: Date, default: Date.now },
+likedCampaigns: [
+  {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Campaign"
+  }
+],
 });
 
 const User = mongoose.model('User', userSchema);

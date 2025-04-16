@@ -316,7 +316,7 @@ const Navbar = () => {
             <li><Link to="/admin/dashboard"><FaChartBar /> Dashboard</Link></li>
             <li><Link to="/admin/campaigns"><FaClipboardList /> Manage Campaigns</Link></li>
             <li><Link to="/admin/users"><FaUsers /> User Management</Link></li>
-            <li><Link to="/admin/transactions"><FaMoneyBillWave /> Transactions</Link></li>
+            <li><Link to="/Allpayments"><FaMoneyBillWave /> Transactions</Link></li>
             <li><Link to="/admin/reports"><FaChartBar /> Reports</Link></li>
             <li><Link to="/admin/settings"><FaCog /> Settings</Link></li>
             {isAuthenticated && (

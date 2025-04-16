@@ -1,0 +1,125 @@
+.payment-history-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: #2d3748;
+}
+
+.payment-history-container h2 {
+  font-size: 1.875rem;
+  font-weight: 600;
+  margin-bottom: 1.75rem;
+  color: #1a202c;
+  letter-spacing: -0.025em;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 0.875rem;
+}
+
+.payment-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 1.25rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  background-color: #fff;
+}
+
+.payment-table thead {
+  background-color: #f7fafc;
+}
+
+.payment-table th {
+  text-align: left;
+  padding: 1.25rem 1.5rem;
+  font-weight: 600;
+  color: #4a5568;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid #edf2f7;
+  position: relative;
+}
+
+.payment-table td {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid #edf2f7;
+  color: #4a5568;
+  font-size: 0.9375rem;
+  transition: background-color 0.2s ease;
+}
+
+.payment-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.payment-table tbody tr:hover {
+  background-color: #f7fafc;
+}
+
+/* Amount column styling */
+.payment-table td:nth-child(2) {
+  font-weight: 600;
+  color: #2d3748;
+}
+
+/* Date column styling */
+.payment-table td:nth-child(4) {
+  color: #718096;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .payment-history-container {
+    padding: 1.5rem 1rem;
+  }
+
+  .payment-table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+
+  .payment-table th,
+  .payment-table td {
+    padding: 1rem;
+    white-space: nowrap;
+  }
+
+  .payment-history-container h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+}
+
+/* Loading and empty states */
+.payment-history-container p {
+  text-align: center;
+  padding: 2.5rem;
+  color: #718096;
+  background-color: #f7fafc;
+  border-radius: 0.5rem;
+  margin-top: 1.25rem;
+  font-size: 0.9375rem;
+  border: 1px solid #edf2f7;
+}
+
+/* Add subtle animation for loading state */
+@keyframes pulse {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
+
+.payment-history-container p:first-of-type {
+  animation: pulse 1.5s infinite ease-in-out;
+}

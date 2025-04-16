@@ -143,11 +143,11 @@ const handleViewDetails = () => {
     <div className="search-results">
       <h1>Search Results for: "{query}"</h1>
       {campaign ? (
-        <div className="campaign-card">
+        <div className="campaignn-card">
           <h2>{campaign.title}</h2>
            {/* Displaying the campaign image */}
            {campaign.image && (
-     <img src={`http://localhost:5000/${campaign.image}`} alt={campaign.title} className="campaign-image" />
+     <img src={`http://localhost:5000/${campaign.image}`} alt={campaign.title} className="campaignn-image" />
           )}
           <p>Location: {campaign.placeName}</p>
           <p>{campaign.description}</p>

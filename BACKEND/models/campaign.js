@@ -39,6 +39,8 @@ const campaignSchema = new mongoose.Schema({
   userId: { type: String, required: true },
   startDate: { type: Date, required: true }, // New start date field
   endDate: { type: Date, required: true },   // New end date field
+  likeCount: { type: Number, default: 0 }, // Like count field
+  
 });
 
 // Virtual field for remaining days

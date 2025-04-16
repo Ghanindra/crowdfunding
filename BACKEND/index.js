@@ -8,7 +8,9 @@ const authRoutes = require("./routes/auth");
 const userNotification = require("./routes/userNotification");
 const campaignRoutes = require("./routes/campaignRoutes");  // Correctly import the campaign routes
 const authenticate = require("./middleware/authenticate");
+const adminRoutes = require("./routes/Adminroutes");
 require('dotenv').config();
+
 // Load env vars
 // const errorHandler = require("./middleware/error")
 const User = require('./models/user');
@@ -80,7 +82,7 @@ app.use('/uploads', express.static('uploads'));
 app.use('/api', authRoutes);
 app.use('/api/user-notifications', userNotification);
 app.use("/api/campaigns", campaignRoutes);  // Ensure this is properly used
-
+app.use("/api/admin", adminRoutes);
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB connected'))

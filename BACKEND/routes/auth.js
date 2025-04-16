@@ -13,6 +13,7 @@ const Payment = require('../models/Payment');
 const Contact = require('../models/contact');
 const Notification = require('../models/Notification');
 const verifyAccount = require('../models/VerifyAccount');
+const ActivityLog = require("../models/ActivityLog");
 
 
 // const Profile = require('../models/profile');
@@ -74,6 +75,15 @@ router.post('/login', async (req, res) => {
         return res.status(400).json({ message: 'Invalid Email or username' });
       }
   
+    // ✅ Check if user is blocked
+    if (user.blocked) {
+      return res.status(403).json({ message: "Your account has been blocked." });
+    }
+
+    // ✅ Check if user is deactivated/inactive
+    if (user.status === "inactive") {
+      return res.status(403).json({ message: "Your account is deactivated." });
+    }
       // Log the stored hashed password for debugging purposes
       console.log('Stored Hashed Password:', user.password);
   
@@ -952,13 +962,6 @@ if (user) {
   user.profileStatus = status === 'approved' ? 'verified' : 'rejected';
   await user.save();
 }
-    // // Emit real-time update to the user
-    // if (global.io) {
-    //   global.io.emit('verification_update', {
-    //     userId: notification.userId,
-    //     status,
-    //   });
-    // }
 
   // Handle report-specific actions if the notification type is 'report'
   if (notification.type === 'report') {
@@ -1060,17 +1063,25 @@ router.get("/dashboard", async (req, res) => {
     const platformRevenue = await Payment.aggregate([
       { $group: { _id: null, revenue: { $sum: { $multiply: ["$amount", 0.05] } } } } // Assuming 5% platform fee
     ]);
-
-    const recentActivity = await Payment.find().sort({ createdAt: -1 }).limit(5).select("donorName amount campaignName createdAt");
-
-    const responseData = {
-      totalCampaigns,
-     
-      totalUsers,
-      totalDonations: totalDonations[0]?.total || 0,
-      platformRevenue: platformRevenue[0]?.revenue || 0,
-      recentActivity: recentActivity.map(d => ({ message: `${d.donorName} donated ${d.amount} to ${d.campaignName}` }))
-    };
+    const recentActivity = await Payment.find()
+    .sort({ createdAt: -1 })
+    .limit(5)
+    .populate('userId', 'username') // Populate the username from User
+    .populate('campaignId', 'title') // Populate the title from Campaign
+    .select('userId amount campaignId createdAt'); // Select necessary fields
+  
+  // Format the response for recent activity
+  const responseData = {
+    totalCampaigns,
+    totalUsers,
+    totalDonations: totalDonations[0]?.total || 0,
+    platformRevenue: platformRevenue[0]?.revenue || 0,
+    recentActivity: recentActivity.map(d => ({
+      message: `${d.userId.username} donated ${d.amount} to ${d.campaignId.title}  `,
+      createdAt: d.createdAt // Optionally, include the creation time in the message
+    }))
+  };
+  
 
     console.log("Dashboard Response Data:", responseData); // Log the response data before sending
     res.json(responseData);
@@ -1178,15 +1189,50 @@ router.get("/reports-campaign/:reportId", async (req, res) => {
     const { reportId } = req.params;
     console.log("Requested Report ID:", reportId);
     const report = await Report.findById(reportId).populate("campaignId"); // Assuming you are populating related campaign info
+    const reportedCampaignIds = [report.campaignId.toString()]; // Since you expect a single report, we wrap it in an array
     if (!report) {
       return res.status(404).json({ success: false, message: "Report not found" });
     }
-    res.json(report);
+    res.json(report|| reportedCampaignIds);
   } catch (error) {
     console.error("Error fetching report:", error);
     res.status(500).json({ success: false, message: "Internal server error." });
   }
 });
+router.get("/reports-campaign", async (req, res) => {
+  try {
+    console.log("Fetching all reports with associated campaign information.");
+
+    // Fetching all reports and populating the related campaign information
+    const reports = await Report.find().populate("campaignId");
+
+    // Log the reports to see the actual data
+    console.log("Reports:", reports);
+
+    // If no reports found
+    if (reports.length === 0) {
+      return res.status(404).json({ success: false, message: "No reports found" });
+    }
+
+    // Extracting the campaign IDs from each report
+    const reportedCampaignIds = reports.map(report => {
+      if (report.campaignId) {
+        console.log("Campaign ID:", report.campaignId);  // Log campaignId for debugging
+        return report.campaignId;
+      } else {
+        console.log("No campaignId found for report:", report._id);
+        return null;
+      }
+    }).filter(campaignId => campaignId !== null);  // Removing null values
+
+    // Respond with the reports and campaign IDs
+    res.json({ reports, reportedCampaignIds });
+  } catch (error) {
+    console.error("Error fetching reports:", error);
+    res.status(500).json({ success: false, message: "Internal server error." });
+  }
+});
+
 
 
 // / Route to send warning for a report
@@ -1356,5 +1402,165 @@ router.get('/contact-submissions/:id', async (req, res) => {
     res.status(500).json({ success: false, message: 'Failed to fetch contact submissions.' });
   }
 });
+
+//
+
+// POST request to update like (either add or remove like)
+router.post("/updateLike", authenticate, async (req, res) => {
+  const { campaignId } = req.body;
+  const userId = req.user.id;
+
+  try {
+    const user = await User.findById(userId);
+    const campaign = await Campaign.findById(campaignId);
+
+    if (!user || !campaign) {
+      return res.status(404).json({ message: "User or Campaign not found" });
+    }
+
+    const hasLiked = user.likedCampaigns.includes(campaignId);
+
+    if (hasLiked) {
+      user.likedCampaigns = user.likedCampaigns.filter(id => id.toString() !== campaignId.toString());
+      campaign.likeCount = Math.max(0, campaign.likeCount - 1); // prevent negative likeCount
+    } else {
+      user.likedCampaigns.push(campaignId);
+      campaign.likeCount += 1;
+    }
+
+    await user.save();
+    await campaign.save();
+
+    return res.status(200).json({
+      message: hasLiked ? "Like removed" : "Like added",
+      updatedLikeCount: campaign.likeCount,
+      liked: !hasLiked,
+    });
+
+  } catch (error) {
+    console.error("Like update error:", error);
+    return res.status(500).json({ message: "Server error" });
+  }
+});
+
+// GET: Fetch all campaigns sorted by like count (descending)
+router.get("/like/campaigns", async (req, res) => {
+  try {
+    const campaigns = await Campaign.find().sort({ likeCount: -1 }); // 🔝 Most liked first
+    res.status(200).json({ data: campaigns });
+  } catch (error) {
+    console.error("Error fetching campaigns:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+
+
+// Get payment history of logged-in user
+router.get('/my-payments', authenticate, async (req, res) => {
+  try {
+    const payments = await Payment.find({ userId: req.user.id })
+      .populate('campaignId', 'title') // get campaign title
+      .sort({ paymentDate: -1 });
+
+    res.status(200).json(payments);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch payment history' });
+  }
+});
+// Route to fetch all users (this should match the frontend request)
+router.get("/admins/users", async (req, res) => {
+  try {
+    const users = await User.find({role:"user"}); // Fetch all users from the database
+    res.status(200).json(users); // Send the users list as a response
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching users" }); // Handle errors
+  }
+})
+router.patch("/admins/users/:id/status", async (req, res) => {
+  const { status } = req.body;
+  console.log("Requested status update:", status)
+
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      console.log("User not found")
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    user.status = status;
+    const savedUser = await user.save();
+    console.log("Saved user:", savedUser)
+
+    res.status(200).json({ message: `User status updated to ${status}` });
+  } catch (error) {
+    console.error("Error while updating status:", error)
+    res.status(500).json({ message: "Error updating user status" });
+  }
+});
+
+
+router.patch("/admins/users/:id/block", (req, res) => {
+  console.log("Block route hit for user:", req.params.id);
+  const userId = req.params.id;
+
+  // Find the user and update the blocked status along with the status field
+  User.findByIdAndUpdate(userId, { 
+    blocked: true, 
+    status: "blocked"  // Updating the status field to "blocked"
+  }, { new: true })
+    .then(updatedUser => {
+      // Respond with the updated user info
+      res.json({ message: "User blocked successfully", user: updatedUser });
+    })
+    .catch(err => {
+      res.status(500).json({ message: "Error blocking user", error: err });
+    });
+});
+
+
+
+// Delete User
+router.delete("/admins/users/:id", async (req, res) => {
+  try {
+    const user = await User.findByIdAndDelete(req.params.id);
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    res.status(200).json({ message: "User deleted successfully." });
+  } catch (error) {
+    res.status(500).json({ message: "Error deleting user" });
+  }
+});
+
+// Track User Activity
+router.get("/admins/user-activity", async (req, res) => {
+  try {
+    const activityLogs = await ActivityLog.find().populate("userId");
+    res.status(200).json({ activityLogs });
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching activity logs" });
+  }
+});
+// Unblock a user
+router.patch("/admins/users/:id/unblock", async (req, res) => {
+  const userId = req.params.id;
+
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { blocked: false },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({ message: "User unblocked successfully", user: updatedUser });
+  } catch (err) {
+    res.status(500).json({ message: "Error unblocking user", error: err });
+  }
+});
+
 
 module.exports = router;

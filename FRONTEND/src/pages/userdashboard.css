@@ -1,510 +1,363 @@
-/* Modern Dashboard Styling - Fixed for proper screen fitting */
-:root {
-  --primary-color: #4f46e5;
-  --primary-light: #6366f1;
-  --primary-dark: #4338ca;
-  --secondary-color: #10b981;
-  --text-primary: #1f2937;
-  --text-secondary: #4b5563;
-  --text-light: #6b7280;
-  --bg-light: #f9fafb;
-  --bg-white: #ffffff;
-  --bg-card: #ffffff;
-  --border-color: #e5e7eb;
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --radius-sm: 0.375rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 0.75rem;
-  --transition: all 0.3s ease;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-}
-
-html,
-body {
-  width: 100%;
-  overflow-x: hidden;
-}
-
-body {
-  background-color: var(--bg-light);
-  color: var(--text-primary);
-  line-height: 1.5;
-}
-
-/* Dashboard Container - Fixed width issues */
+/* Main container styles */
 .dashboard-container {
-  width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 1.5rem;
-  overflow: hidden;
+  padding: 2rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: #333;
+  background-color: #f8f9fa;
+  min-height: 100vh;
 }
 
-/* Dashboard Header */
+/* Header styles */
 .userdashboardh1 {
   font-size: 2.25rem;
   font-weight: 700;
-  color: var(--text-primary);
+  color: #2d3748;
   margin-bottom: 1.5rem;
   text-align: center;
-  position: relative;
-  padding-bottom: 0.75rem;
-margin-top:200px;}
-
-.userdashboardh1::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 3px;
-  background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
-  border-radius: 2px;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 1rem;
+  margin-top:50rem;
 }
 
-/* Total Donations Section */
+/* Total donations section */
 .total-donations {
-  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-  color: white;
+  background-color: #fff;
+  border-radius: 8px;
   padding: 1.5rem;
-  border-radius: var(--radius-lg);
   margin-bottom: 2rem;
-  box-shadow: var(--shadow-lg);
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-}
-
-.total-donations::before {
-  content: "";
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
-  z-index: 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+  background-color: #8783f7;
 }
 
 .total-donations h2 {
   font-size: 1.5rem;
-  font-weight: 600;
-  position: relative;
-  z-index: 1;
+  color:white;
+  margin: 0;
 }
 
-/* User Campaigns Section */
-.user-campaigns {
-  margin-bottom: 2rem;
-  width: 100%;
-}
-
+/* Campaign section header */
 .user-campaigns h2 {
-  font-size: 1.5rem;
+  font-size: 1.75rem;
+  color: #2d3748;
+  margin-bottom: 1.5rem;
   font-weight: 600;
-  margin-bottom: 1.25rem;
-  color: var(--text-primary);
-  position: relative;
-  display: inline-block;
-  padding-bottom: 0.5rem;
 }
 
-.user-campaigns h2::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 3px;
-  background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
-  border-radius: 1.5px;
-}
-
-.user-campaigns p {
-  color: var(--text-secondary);
-  font-size: 1rem;
-  margin-bottom: 1.25rem;
-}
-
-/* Campaigns Grid - Fixed for better responsiveness */
-.campaigns-grid {
+/* Campaign grid layout - fixed height cards */
+.campaigns-grids {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
-  width: 100%;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
 }
 
-/* Campaign Card */
-.campaign-card {
-  background-color: var(--bg-card);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-md);
-  padding: 1.25rem;
-  transition: var(--transition);
-  border: 1px solid var(--border-color);
+/* Campaign card styles - fixed height with scroll for overflow */
+.campaign-cardss {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  height: 550px; /* Fixed height for all cards */
+  border: 1px solid #e2e8f0;
+  transition: transform 0.2s, box-shadow 0.2s;
   position: relative;
-  overflow: hidden;
-  width: 100%;
 }
 
-.campaign-card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-lg);
+.campaign-cardss:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
 }
 
-.campaign-card h3 {
+/* Campaign card content */
+.campaign-cardss h3 {
   font-size: 1.25rem;
-  font-weight: 600;
+  margin-top: 0;
   margin-bottom: 0.75rem;
-  color: var(--primary-color);
+  color: #2d3748;
+  font-weight: 600;
+}
+
+.campaign-cardss p {
+  margin: 0.5rem 0;
+  color: #4a5568;
+  line-height: 1.5;
+  overflow-wrap: break-word;
   word-wrap: break-word;
 }
 
-.campaign-card p {
-  margin-bottom: 0.5rem;
-  color: var(--text-secondary);
-  font-size: 0.95rem;
-  word-wrap: break-word;
-}
-
-.campaign-card p:last-of-type {
-  margin-bottom: 1.25rem;
-}
-
-/* Campaign Image - Fixed sizing */
+/* Campaign image - fixed height */
 .userdshboard-fundraiser-image {
   width: 100%;
   height: 180px;
   object-fit: cover;
-  border-radius: var(--radius-md);
+  border-radius: 6px;
   margin: 0.75rem 0;
-  box-shadow: var(--shadow-sm);
-  transition: var(--transition);
 }
 
-.userdshboard-fundraiser-image:hover {
-  transform: scale(1.02);
+/* Content container to allow scrolling if needed */
+.campaign-content {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 5px; /* Space for scrollbar */
 }
 
-/* Add Milestone Button */
+/* Campaign details section */
+.campaign-details {
+  margin-bottom: 1rem;
+}
+
+/* Add milestone button - fixed at bottom */
 .add-milestone-button {
-  background-color: var(--primary-color);
+  background-color: #4299e1;
   color: white;
   border: none;
-  padding: 0.65rem 1rem;
-  font-size: 0.95rem;
-  font-weight: 500;
-  border-radius: var(--radius-md);
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
   cursor: pointer;
-  transition: var(--transition);
+  font-weight: 600;
+  margin-top: auto; /* Push to bottom of flex container */
   width: 100%;
-  margin-top: 0.75rem;
-  box-shadow: var(--shadow-sm);
+  transition: background-color 0.2s;
 }
 
 .add-milestone-button:hover {
-  background-color: var(--primary-dark);
-  box-shadow: var(--shadow-md);
+  background-color: #3182ce;
 }
 
-/* Milestone Form - Fixed sizing and overflow */
+/* Milestone form - overlay instead of expanding card */
 .milestone-form {
-  margin-top: 1.25rem;
-  padding: 1.25rem;
-  background-color: var(--bg-light);
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border-color);
-  width: 100%;
-  overflow: hidden;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 500px;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 1.5rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  border: 1px solid #e2e8f0;
+}
+
+/* Overlay background */
+.milestone-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
 }
 
 .milestone-form h3 {
-  font-size: 1.1rem;
-  margin-bottom: 0.75rem;
-  color: var(--text-primary);
-  text-align: center;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  color: #2d3748;
 }
 
-.milestone-form input[type="text"],
-.milestone-form input[type="number"],
+.milestone-form input,
 .milestone-form textarea {
   width: 100%;
-  padding: 0.65rem;
-  margin-bottom: 0.75rem;
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-sm);
-  font-size: 0.95rem;
-  transition: var(--transition);
-}
-
-.milestone-form input:focus,
-.milestone-form textarea:focus {
-  outline: none;
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 0.9375rem;
 }
 
 .milestone-form textarea {
-  min-height: 90px;
+  min-height: 100px;
   resize: vertical;
 }
 
-/* File Input Label */
+/* Close button for milestone form */
+.close-milestone-form {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  color: #718096;
+}
+
+.close-milestone-form:hover {
+  color: #2d3748;
+}
+
+/* File input label */
 .file-input-label {
   display: block;
-  background-color: var(--bg-white);
-  color: var(--text-secondary);
-  border: 1px dashed var(--primary-color);
-  padding: 0.65rem;
-  border-radius: var(--radius-sm);
+  background-color: #4299e1;
+  color: white;
   text-align: center;
+  padding: 0.75rem;
+  border-radius: 4px;
   cursor: pointer;
-  margin-bottom: 0.75rem;
-  transition: var(--transition);
-  font-size: 0.95rem;
+  margin-bottom: 1rem;
+  font-weight: 500;
+  transition: background-color 0.2s;
 }
 
 .file-input-label:hover {
-  background-color: rgba(79, 70, 229, 0.05);
-  color: var(--primary-color);
+  background-color: #3182ce;
 }
 
-/* Selected Images - Fixed overflow */
+/* Selected images list */
 .selected-images {
-  margin-bottom: 0.75rem;
-  padding: 0.65rem;
-  background-color: var(--bg-white);
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border-color);
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background-color: #edf2f7;
+  border-radius: 4px;
   max-height: 150px;
   overflow-y: auto;
 }
 
 .selected-images p {
-  font-weight: 500;
+  margin-top: 0;
   margin-bottom: 0.5rem;
-  color: var(--text-primary);
-  font-size: 0.9rem;
+  font-weight: 500;
 }
 
 .selected-images ul {
-  list-style: none;
-  padding-left: 0.25rem;
+  margin: 0;
+  padding-left: 1.5rem;
 }
 
 .selected-images li {
-  font-size: 0.85rem;
-  color: var(--text-light);
+  font-size: 0.875rem;
   margin-bottom: 0.25rem;
-  position: relative;
-  padding-left: 1.25rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
-.selected-images li::before {
-  content: "📎";
-  position: absolute;
-  left: 0;
-  top: 0;
-}
-
-/* Submit Button */
+/* Submit milestone button */
 .milestone-form button {
-  background-color: var(--secondary-color);
+  background-color: #48bb78;
   color: white;
   border: none;
-  padding: 0.65rem 1rem;
-  font-size: 0.95rem;
-  font-weight: 500;
-  border-radius: var(--radius-md);
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
   cursor: pointer;
-  transition: var(--transition);
+  font-weight: 600;
   width: 100%;
-  box-shadow: var(--shadow-sm);
+  transition: background-color 0.2s;
 }
 
 .milestone-form button:hover {
-  background-color: #0ea271;
-  box-shadow: var(--shadow-md);
+  background-color: #38a169;
 }
 
-/* Back Button */
+/* Payment history and back buttons - fixed at bottom of page */
+.dashboard-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.payment-history-button,
 .back-button {
-  background-color: var(--bg-white);
-  color: var(--text-secondary);
-  border: 1px solid var(--border-color);
-  padding: 0.65rem 1.25rem;
-  font-size: 0.95rem;
-  font-weight: 500;
-  border-radius: var(--radius-md);
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 600;
   cursor: pointer;
-  transition: var(--transition);
-  display: inline-flex;
-  align-items: center;
-  margin-top: 1.5rem;
-  box-shadow: var(--shadow-sm);
+  transition: background-color 0.2s;
+  border: none;
+}
+
+.payment-history-button {
+  background-color: #4299e1;
+  color: white;
+  flex: 1;
+}
+
+.payment-history-button:hover {
+  background-color: #3182ce;
+}
+
+.back-button {
+  background-color: #718096;
+  color: white;
+  flex: 1;
 }
 
 .back-button:hover {
-  background-color: var(--bg-light);
-  color: var(--primary-color);
-  box-shadow: var(--shadow-md);
+  background-color: #4a5568;
 }
 
-/* Loading State */
-.dashboard-container > div:first-child:not(.total-donations):not(.user-campaigns) {
+/* Empty state */
+.user-campaigns p:first-of-type {
   text-align: center;
   padding: 2rem;
-  font-size: 1.1rem;
-  color: var(--text-secondary);
-  background-color: var(--bg-white);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
-  position: relative;
-  width: 100%;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  color: #718096;
 }
 
-.dashboard-container > div:first-child:not(.total-donations):not(.user-campaigns)::after {
-  content: "";
-  display: block;
-  width: 36px;
-  height: 36px;
-  border: 3px solid rgba(79, 70, 229, 0.2);
-  border-radius: 50%;
-  border-top-color: var(--primary-color);
-  animation: spin 1s linear infinite;
-  margin: 1rem auto 0;
+/* Loading state */
+.dashboard-container > div:first-child:not(.total-donations) {
+  text-align: center;
+  padding: 3rem;
+  font-size: 1.25rem;
+  color: #718096;
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* Improved Responsive Adjustments */
-@media (max-width: 1024px) {
-  .campaigns-grid {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  }
-}
-
+/* Responsive adjustments */
 @media (max-width: 768px) {
   .dashboard-container {
     padding: 1rem;
   }
 
-  .userdashboardh1 {
-    font-size: 1.75rem;
-    margin-bottom: 1.25rem;
-  }
-
-  .campaigns-grid {
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 1.25rem;
-  }
-
-  .total-donations h2,
-  .user-campaigns h2 {
-    font-size: 1.35rem;
-  }
-
-  .campaign-card {
-    padding: 1rem;
-  }
-
-  .userdshboard-fundraiser-image {
-    height: 160px;
-  }
-}
-
-@media (max-width: 640px) {
-  .campaigns-grid {
+  .campaigns-grids {
     grid-template-columns: 1fr;
   }
 
   .userdashboardh1 {
-    font-size: 1.5rem;
+    font-size: 1.75rem;
   }
 
-  .total-donations {
-    padding: 1.25rem;
+  .dashboard-actions {
+    flex-direction: column;
   }
 
-  .total-donations h2 {
-    font-size: 1.25rem;
-  }
-
-  .user-campaigns h2 {
-    font-size: 1.25rem;
+  .campaign-cardss {
+    height: 500px;
   }
 }
 
-@media (max-width: 480px) {
-  .dashboard-container {
-    padding: 0.75rem;
-  }
-
-  .userdashboardh1 {
-    font-size: 1.35rem;
-  }
-
-  .campaign-card {
-    padding: 1rem;
-  }
-
-  .campaign-card h3 {
-    font-size: 1.15rem;
-  }
-
-  .campaign-card p {
-    font-size: 0.9rem;
-  }
-
-  .milestone-form {
-    padding: 1rem;
-  }
-
-  .milestone-form h3 {
-    font-size: 1rem;
-  }
-
-  .add-milestone-button,
-  .milestone-form button,
-  .back-button {
-    padding: 0.6rem 0.9rem;
-    font-size: 0.9rem;
-  }
+/* Custom scrollbar for better UX */
+.campaign-content::-webkit-scrollbar,
+.milestone-form::-webkit-scrollbar,
+.selected-images::-webkit-scrollbar {
+  width: 6px;
 }
 
-/* Fix for very small screens */
-@media (max-width: 360px) {
-  .dashboard-container {
-    padding: 0.5rem;
-  }
-
-  .campaign-card {
-    padding: 0.75rem;
-  }
-
-  .userdshboard-fundraiser-image {
-    height: 140px;
-  }
-
-  .milestone-form {
-    padding: 0.75rem;
-  }
+.campaign-content::-webkit-scrollbar-track,
+.milestone-form::-webkit-scrollbar-track,
+.selected-images::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
 }
 
+.campaign-content::-webkit-scrollbar-thumb,
+.milestone-form::-webkit-scrollbar-thumb,
+.selected-images::-webkit-scrollbar-thumb {
+  background: #cbd5e0;
+  border-radius: 10px;
+}
+
+.campaign-content::-webkit-scrollbar-thumb:hover,
+.milestone-form::-webkit-scrollbar-thumb:hover,
+.selected-images::-webkit-scrollbar-thumb:hover {
+  background: #a0aec0;
+}

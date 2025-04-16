@@ -8,7 +8,7 @@
     margin-bottom: 20px;
   }
   
-  .campaign-card {
+  .campaignn-card {
     background: #fff;
     border: 1px solid #ddd;
     padding: 15px;
@@ -18,12 +18,12 @@
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
   }
   
-  .campaign-card h2 {
+  .campaignn-card h2 {
     font-size: 1.5rem;
     color: #333;
   }
   
-  .campaign-card p {
+  .campaignn-card p {
     color: #666;
   }
   
@@ -36,7 +36,7 @@
     text-decoration: none;
     border-radius: 5px;
   }
-  
+ 
   .view-details:hover {
     background: #0056b3;
   }

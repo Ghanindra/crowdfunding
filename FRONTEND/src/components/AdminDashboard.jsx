@@ -83,7 +83,11 @@ const AdminDashboard = () => {
               {stats.recentActivity.map((activity, index) => (
                 <li key={index}>
                   <Activity className="activity-icon" />
-                  <span className="activity-message">{activity.message || "Activity details unavailable"}</span>
+                  <span className="activity-message">{(activity.message) || "Activity details unavailable"} at <span className="activity-message">
+  {activity.createdAt ? new Date(activity.createdAt).toLocaleDateString() : "Date unavailable"}
+</span></span>
+                  
+
                 </li>
               ))}
             </ul>

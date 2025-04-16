@@ -25,6 +25,7 @@ import FundBusiness from './pages/FundBusiness'
 import CampaignCreator from './pages/CampaignCreator'
 import DonationPage from './pages/DonationPage'
 import Paymentpage from './pages/Paymentpage'
+
 import { AuthProvider } from './context/AuthContext';
 import Home from './pages/Home'
 import VerifyAccount from './pages/VerifyAccount'
@@ -44,7 +45,10 @@ import Report from "./pages/Report";
 import UserDashboard from "./pages/UserDashboard";
 import ManageCampaign from "./pages/ManageCampaign";
 import CampaignDetails from "./components/CampaignDetails";
-
+import PaymentHistory from "./pages/PaymentHistory";
+import AllPayments from "./pages/AllPayments";
+import UserManagement from "./components/UserManagement";
+import "./App.css";
 
 // import ResetPassword from './pages/ResetPassword'
 function App() {
@@ -53,136 +57,70 @@ function App() {
 
     <AuthProvider> 
       
-    <Router>
-      <Routes>
-      <Route path="/" element={<Home />} /> {/* Root will display the Auth component */}
-        <Route path="/login" element={<Auth />} /> {/* Root will display the Auth component */}
-        <Route path="/restriction" element={<Restriction allowed='restricted' />} /> {/* Root will display the Auth component */}
-       
-        {/* <Route path="/dashboard" element={<AdminDashboard />} /> Protected route after login */}
-        <Route path="/admindashboard" element={<ProtectedRoute>
-                <AdminDashboard />
-              </ProtectedRoute>} /> 
-   
-        <Route path="/creatordashboard" element={ <ProtectedRoute alllowed='restricted'>
-                <CreatorDashboard />
-              </ProtectedRoute>} />
-        <Route path="/fundraiser" element={ <ProtectedRoute alllowed='restricted'>
-                <Fundraiser />
-              </ProtectedRoute>} />
-              <Route path="/contact" element={<ProtectedRoute>     
-                <Contact />
-              </ProtectedRoute>} /> 
-        <Route path="category/cause" element={ <ProtectedRoute alllowed='restricted'>
-                <Cause />
-              </ProtectedRoute>} /> 
-        <Route path="category/education" element={ <ProtectedRoute alllowed='restricted'>
-                <Education />
-              </ProtectedRoute>} /> 
-        <Route path="category/medical" element={ <ProtectedRoute alllowed='restricted'>
-                <Medical/>
-              </ProtectedRoute>} /> 
-        <Route path="category/animal" element={ <ProtectedRoute alllowed='restricted'>
-                <Animal />
-              </ProtectedRoute>} /> 
-        <Route path="category/emergency" element={ <ProtectedRoute alllowed='restricted'>
-                <Emergency />
-              </ProtectedRoute>} /> 
-        <Route path="category/business" element={ <ProtectedRoute alllowed='restricted'>
-                <Business />
-              </ProtectedRoute>} /> 
-        <Route path="/donordashboard" element={  <ProtectedRoute>
-                <DonorDashboard />
-              </ProtectedRoute>} /> 
-        <Route path="/forgot" element={<Forgot />} /> 
-        <Route path="/verify" element={<Verify />} /> 
-        <Route path="/profile" element={<ProtectedRoute>
-                <Profile />
-              </ProtectedRoute>} />
-        <Route path="/campaignCreator" element={<ProtectedRoute>
-                <CampaignCreator />
-              </ProtectedRoute>} /> 
-        <Route path="admin/notifications" element={<ProtectedRoute>
-                <AdminNotification />
-              </ProtectedRoute>} />
-              <Route path="admin/notifications/:id" element={<ProtectedRoute>
-                <NotificationDetails />
-              </ProtectedRoute>} />
+      <Router>
+  <Routes>
+    {/* Public Routes */}
+    <Route path="/" element={<Home />} />
+    <Route path="/login" element={<Auth />} />
+    <Route path="/forgot" element={<Forgot />} />
+    <Route path="/verify" element={<Verify />} />
+    <Route path="/donate/:category" element={<Category />} />
+    
+    {/* Admin Routes */}
+    <Route path="/admindashboard" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
+    <Route path="/admin/notifications" element={<ProtectedRoute><AdminNotification /></ProtectedRoute>} />
+    <Route path="/admin/notifications/:id" element={<ProtectedRoute><NotificationDetails /></ProtectedRoute>} />
+    <Route path="/admin/reports" element={<ProtectedRoute><Report /></ProtectedRoute>} />
+    <Route path="/admin/reports/:reportId" element={<ProtectedRoute><ReportDetails /></ProtectedRoute>} />
+    <Route path="/admin/contact/:contactId" element={<ProtectedRoute><AdminContact /></ProtectedRoute>} />
+    <Route path="/admin/campaigns" element={<ProtectedRoute><ManageCampaign /></ProtectedRoute>} />
+    <Route path="/admin/campaigns/:id" element={<ProtectedRoute><CampaignDetails /></ProtectedRoute>} />
+    <Route path="/AllPayments" element={<ProtectedRoute><AllPayments/></ProtectedRoute>} />
+    <Route path="/admin/users" element={<ProtectedRoute><UserManagement/></ProtectedRoute>} />
 
-              <Route path="/verify_account" element={<ProtectedRoute>
-                <VerifyAccount />
-              </ProtectedRoute>} /> 
-              <Route path="/start" element={<ProtectedRoute>
-                <Start />
-              </ProtectedRoute>} /> 
-              <Route path="/fundraiser/animal" element={<ProtectedRoute>
-                <FundAnimal />
-              </ProtectedRoute>} /> 
-              <Route path="/fundraiser/business" element={<ProtectedRoute>
-                <FundBusiness />
-              </ProtectedRoute>} /> 
-              <Route path="/fundraiser/emergency" element={<ProtectedRoute>
-                <FundEmergency />
-              </ProtectedRoute>} /> 
-              <Route path="/fundraiser/education" element={<ProtectedRoute>
-                <FundEducation />
-              </ProtectedRoute>} /> 
-              <Route path="/fundraiser/medical" element={<ProtectedRoute>
-                <FundMedical />
-              </ProtectedRoute>} /> 
-              <Route path="/donationpage" element={<ProtectedRoute>
-                <DonationPage />
-              </ProtectedRoute>} /> 
-              <Route path="/donationpage/payment" element={<ProtectedRoute>
-                <Paymentpage />
-              </ProtectedRoute>} /> 
-              <Route path="/success" element={<ProtectedRoute>
-                <Success/>
-              </ProtectedRoute>} /> 
-              <Route path="/failure" element={<ProtectedRoute>
-                <Failure/>
-              </ProtectedRoute>} /> 
-              {/* <Route path="/donationpage/:campaignId" component={DonationPage} /> */}
+    {/* User Routes */}
+    <Route path="/donordashboard" element={<ProtectedRoute><DonorDashboard /></ProtectedRoute>} />
+    <Route path="/usernotification" element={<ProtectedRoute><UserNotification /></ProtectedRoute>} />
+    <Route path="/userdashboard" element={<ProtectedRoute><UserDashboard /></ProtectedRoute>} />
+    <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+    <Route path="/contact" element={<ProtectedRoute><Contact /></ProtectedRoute>} />
+    <Route path="/paymentHistory" element={<ProtectedRoute><PaymentHistory/></ProtectedRoute>} />
 
-              <Route path="/search" element={<ProtectedRoute>
-                <SearchResults/>
-              </ProtectedRoute>} /> 
-              <Route path="/usernotification" element={<ProtectedRoute>
-                <UserNotification/>
-  
-              </ProtectedRoute>} /> 
-              <Route path="/userdashboard" element={<ProtectedRoute>
-                <UserDashboard/>
-  
-              </ProtectedRoute>} /> 
-              <Route path="/admin/campaigns" element={<ProtectedRoute>
-                <ManageCampaign />
-              </ProtectedRoute>} /> 
-      </Routes>
-      {/* <Route path="admin/campaign" element={ <ProtectedRoute alllowed='restricted'> */}
-                {/* <ManageCampaign /> */}
-              {/* </ProtectedRoute>} />  */}
-      <Routes>
-          <Route path="donate/:category" element={<Category />} />
-        </Routes>
-      
-        <Routes>
-        <Route path="/admin/reports/:reportId" element={<ReportDetails />} />
+    {/* Campaign Creator Routes */}
+    <Route path="/creatordashboard" element={<ProtectedRoute><CreatorDashboard /></ProtectedRoute>} />
+    <Route path="/fundraiser" element={<ProtectedRoute><Fundraiser /></ProtectedRoute>} />
+    <Route path="/campaignCreator" element={<ProtectedRoute><CampaignCreator /></ProtectedRoute>} />
+    <Route path="/start" element={<ProtectedRoute><Start /></ProtectedRoute>} />
+    
+    {/* Fundraiser Categories */}
+    <Route path="/fundraiser/animal" element={<ProtectedRoute><FundAnimal /></ProtectedRoute>} />
+    <Route path="/fundraiser/business" element={<ProtectedRoute><FundBusiness /></ProtectedRoute>} />
+    <Route path="/fundraiser/emergency" element={<ProtectedRoute><FundEmergency /></ProtectedRoute>} />
+    <Route path="/fundraiser/education" element={<ProtectedRoute><FundEducation /></ProtectedRoute>} />
+    <Route path="/fundraiser/medical" element={<ProtectedRoute><FundMedical /></ProtectedRoute>} />
 
-        </Routes>
-        <Routes>
-        <Route path="/admin/reports" element={<Report />} />
+    {/* Category Pages */}
+    <Route path="/category/cause" element={<ProtectedRoute><Cause /></ProtectedRoute>} />
+    <Route path="/category/education" element={<ProtectedRoute><Education /></ProtectedRoute>} />
+    <Route path="/category/medical" element={<ProtectedRoute><Medical /></ProtectedRoute>} />
+    <Route path="/category/animal" element={<ProtectedRoute><Animal /></ProtectedRoute>} />
+    <Route path="/category/emergency" element={<ProtectedRoute><Emergency /></ProtectedRoute>} />
+    <Route path="/category/business" element={<ProtectedRoute><Business /></ProtectedRoute>} />
 
-        </Routes>
-        <Routes>
-        <Route path="/admin/contact/:contactId" element={<AdminContact />} />
+    {/* Donation & Payment */}
+    <Route path="/donationpage" element={<ProtectedRoute><DonationPage /></ProtectedRoute>} />
+    <Route path="/donationpage/payment" element={<ProtectedRoute><Paymentpage /></ProtectedRoute>} />
+    <Route path="/donationpage/:id" element={<DonationPage />} />
 
-        </Routes>
-       
-        <Routes>
-        <Route path="/admin/campaigns/:id" element={<CampaignDetails />} />
-        </Routes>
-    </Router>
+    {/* Misc */}
+    <Route path="/success" element={<ProtectedRoute><Success /></ProtectedRoute>} />
+    <Route path="/failure" element={<ProtectedRoute><Failure /></ProtectedRoute>} />
+    <Route path="/search" element={<ProtectedRoute><SearchResults /></ProtectedRoute>} />
+    <Route path="/restriction" element={<Restriction allowed="restricted" />} />
+    <Route path="/verify_account" element={<ProtectedRoute><VerifyAccount /></ProtectedRoute>} />
+  </Routes>
+</Router>
+
     </AuthProvider>
   );
 }

@@ -1,0 +1,206 @@
+/* UserManagement.css */
+
+.user-management-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #333;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+  
+  .user-management-header {
+    margin-bottom: 2rem;
+    border-bottom: 2px solid #e9ecef;
+    padding-bottom: 1rem;
+  }
+  
+  .user-management-header h2 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #2d3748;
+    margin: 0;
+  }
+  
+  .user-table-container {
+    overflow-x: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  }
+  
+  .user-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    font-size: 0.95rem;
+  }
+  
+  .user-table thead {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #e9ecef;
+  }
+  
+  .user-table th {
+    text-align: left;
+    padding: 1rem;
+    font-weight: 600;
+    color: #4a5568;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+  }
+  
+  .user-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #e9ecef;
+    vertical-align: middle;
+  }
+  
+  .user-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+  
+  .user-table tbody tr:hover {
+    background-color: #f8f9fa;
+  }
+  
+  .user-email {
+    color: #718096;
+    font-size: 0.9rem;
+  }
+  
+  .user-status {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-transform: capitalize;
+  }
+  
+  .status-active {
+    background-color: #e6fffa;
+    color: #047857;
+  }
+  
+  .status-suspended {
+    background-color: #fef3c7;
+    color: #92400e;
+  }
+  
+  .status-deactivated {
+    background-color: #e5e7eb;
+    color: #6b7280;
+  }
+  
+  .status-blocked {
+    background-color: #fee2e2;
+    color: #b91c1c;
+  }
+  
+  .action-buttons {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  
+  .btn {
+    padding: 0.5rem 0.75rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+  
+  .btn-suspend {
+    background-color: #fef3c7;
+    color: #92400e;
+  }
+  
+  .btn-suspend:hover {
+    background-color: #fde68a;
+  }
+  
+  .btn-deactivate {
+    background-color: #e5e7eb;
+    color: #4b5563;
+  }
+  
+  .btn-deactivate:hover {
+    background-color: #d1d5db;
+  }
+  
+  .btn-block {
+    background-color: #fee2e2;
+    color: #b91c1c;
+  }
+  
+  .btn-block:hover {
+    background-color: #fecaca;
+  }
+  
+  .btn-delete {
+    background-color: #ef4444;
+    color: white;
+  }
+  
+  .btn-delete:hover {
+    background-color: #dc2626;
+  }
+  
+  .empty-state {
+    text-align: center;
+    padding: 3rem;
+    color: #6b7280;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .user-management-container {
+      padding: 1rem;
+    }
+  
+    .action-buttons {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  
+    .user-table th,
+    .user-table td {
+      padding: 0.75rem 0.5rem;
+    }
+  
+    .user-table th:nth-child(3),
+    .user-table td:nth-child(3) {
+      display: none; /* Hide status column on small screens */
+    }
+  }
+  
+  /* Loading state */
+  .loading-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+  }
+  
+  .loading-spinner::after {
+    content: "";
+    width: 40px;
+    height: 40px;
+    border: 4px solid #e2e8f0;
+    border-top-color: #3b82f6;
+    border-radius: 50%;
+    animation: spinner 0.8s linear infinite;
+  }
+  
+  @keyframes spinner {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  

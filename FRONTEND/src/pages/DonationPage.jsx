@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { toast } from "react-toastify"; // ✅ Import toast
 import "./donationpage.css";
 
 const DonationPage = () => {
   const [raisedAmount, setRaisedAmount] = useState(0);
-  const [milestones, setMilestones] = useState([]); // Store milestone details
+  const [milestones, setMilestones] = useState([]);
   const [showReportModal, setShowReportModal] = useState(false);
   const [reportReason, setReportReason] = useState("");
   const location = useLocation();
@@ -18,8 +19,7 @@ const DonationPage = () => {
     const fetchCampaignDetails = async () => {
       try {
         if (!activeCampaignId) return;
-        
-        // Fetch raised amount
+
         const amountResponse = await fetch(`http://localhost:5000/api/update-raised-amount`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -32,7 +32,6 @@ const DonationPage = () => {
           console.error("Failed to fetch raised amount");
         }
 
-        // Fetch milestone details
         const milestoneResponse = await fetch(`http://localhost:5000/api/milestones/${activeCampaignId}`);
         const milestoneData = await milestoneResponse.json();
         if (milestoneData.success) {
@@ -79,30 +78,35 @@ const DonationPage = () => {
 
   const handleSubmitReport = async () => {
     if (!reportReason) {
-      alert("Please enter a reason for the report.");
+      toast.warn("Please enter a reason for the report.");
       return;
     }
+
     const token = localStorage.getItem("auth-token");
-    
     if (!token) {
-      alert("You must be logged in to report a campaign.");
+      toast.error("You must be logged in to report a campaign.");
       return;
     }
+
     try {
       const response = await fetch(`http://localhost:5000/api/report-campaign/${activeCampaignId}`, {
         method: "POST",
-        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify({ campaignId: activeCampaignId, reason: reportReason }),
       });
+
       const data = await response.json();
       if (data.success) {
-        alert("Report submitted successfully.");
+        toast.success("Report submitted successfully.");
         handleCloseReport();
       } else {
-        alert("Failed to submit report.");
+        toast.error("Failed to submit report.");
       }
-    
     } catch (error) {
+      toast.error("Something went wrong while submitting the report.");
       console.error("Error submitting report:", error);
     }
   };
@@ -111,12 +115,14 @@ const DonationPage = () => {
     <div>
       <Navbar />
       <div className="donation-container">
+        {/* Campaign Details */}
         <div className="donation-left">
           <h1 className="donation-title">{fundraiser.title}</h1>
           <img src={`http://localhost:5000/${fundraiser.image}`} alt={fundraiser.title} className="donation-image" />
           <p className="donation-description">{fundraiser.description}</p>
         </div>
 
+        {/* Right Panel */}
         <div className="donation-right">
           <p className="donation-amount">${raisedAmount} USD raised</p>
           <p className="donation-goal">${fundraiser.targetAmount} goal</p>
@@ -132,14 +138,14 @@ const DonationPage = () => {
         </div>
       </div>
 
-      {/* Milestone Section */}
+      {/* Milestones */}
       <div className="milestone-section">
         <h2>Milestones</h2>
         {milestones.length > 0 ? (
           <ul className="milestone-list">
             {milestones.map((milestone) => (
               <li key={milestone._id} className="milestone-item">
-                   <img src={`http://localhost:5000/${milestone.imageUrls}`} alt={milestone.title} className="donation-image" />
+                <img src={`http://localhost:5000/${milestone.imageUrls}`} alt={milestone.title} className="donation-image" />
                 <h3>{milestone.title}</h3>
                 <p>{milestone.description}</p>
                 <p><strong>Goal:</strong> ${milestone.amountSpent} USD</p>
@@ -151,6 +157,7 @@ const DonationPage = () => {
         )}
       </div>
 
+      {/* Report Modal */}
       {showReportModal && (
         <div className="report-modal">
           <div className="report-content">

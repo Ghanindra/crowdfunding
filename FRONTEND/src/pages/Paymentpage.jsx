@@ -73,7 +73,11 @@ const PaymentPage = () => {
       toast.info("Please select a payment method.");
       return;
     }
-
+    if (tipAmount < 0 || donationAmount < 0) {
+      toast.error("Amounts must be positive.");
+      return;
+    }
+    
   // if (!storedCampaignId) {
   //   toast.error("Campaign ID is missing. Please try again.");
   //   return;

@@ -1,248 +1,267 @@
-/* Global Styles */
-:root {
-  --primary-color: #4361ee;
-  --primary-hover: #3a56d4;
-  --secondary-color: #48bfe3;
-  --success-color: #57cc99;
-  --danger-color: #e63946;
-  --danger-hover: #d32f3a;
-  --text-color: #333333;
-  --text-light: #6c757d;
-  --background-light: #f8f9fa;
-  --border-color: #dee2e6;
-  --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  --border-radius: 8px;
-}
+/* managecampaign.css */
 
-* {
-  margin: 0;
-  padding: 0;
+.manage-campaigns {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 2rem;
+  background-color: #f8f9fa;
   box-sizing: border-box;
 }
 
-body {
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
-    "Helvetica Neue", sans-serif;
-  color: var(--text-color);
-  line-height: 1.6;
-  background-color: var(--background-light);
-}
-
-/* Manage Campaigns Container */
-.manage-campaigns {
-  max-width: 1200px;
-  margin: 2rem auto;
-  padding: 0 1.5rem;
-}
-
 .manage-campaigns h2 {
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 2rem;
-  color: var(--text-color);
-  position: relative;
-  padding-bottom: 0.75rem;
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
 }
 
-.manage-campaigns h2:after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 60px;
-  height: 3px;
-  background-color: var(--primary-color);
-}
-
-/* Campaign List */
-.campaign-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+/* Make the cards section take the rest of the height and scroll */
+.campaign-lists {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
   gap: 2rem;
- display:flex;
+  justify-content: center;
 }
 
-/* Campaign Card */
+/* Individual card with fixed height */
 .campaign-card {
+  width: 300px;
+  height: 550px; /* Increased height for better content visibility */
   background-color: white;
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow);
-  overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  text-align: center;
+  transition: transform 0.3s ease;
   display: flex;
   flex-direction: column;
-  height: 100%;
+  overflow: hidden; /* Critical: prevent content from spilling out */
 }
 
 .campaign-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+.scroll-container {
+  flex: 1;
+  position: relative;
+  margin-bottom: 0.75rem;
+  overflow: hidden;
 }
 
-.campaign-images{
+.campaign-contents {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow-y: scroll !important;
+  padding: 0 0.25rem;
+  padding-right: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e0 #f1f1f1;
+  scroll-padding-top: 1rem;
+  scroll-padding-bottom: 1rem;
+  text-align: left;
+}
+
+.campaign-images {
   width: 100%;
-  height: 200px;
+  height: 180px;
   object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  flex-shrink: 0; /* Prevent image from shrinking */
 }
 
-.campaign-card h3 {
+/* Card title with fixed height */
+.campaign-title {
   font-size: 1.25rem;
   font-weight: 600;
-  margin: 1.25rem 1.25rem 0.75rem;
-  color: var(--text-color);
+  margin: 0.5rem 0;
+  color: #2d3748;
+  flex-shrink: 0; /* Prevent title from shrinking */
 }
 
-.campaigncard p {
-  font-size: 0.95rem;
-  color: var(--text-light);
-  margin: 0 1.25rem 1.25rem;
-  flex-grow: 1;
-  display: block;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+/* THIS IS THE KEY PART - Scroll container */
+.scroll-container {
+  flex: 1;
+  position: relative;
+  margin-bottom: 0.75rem;
+  overflow: hidden; /* Hide overflow at container level */
 }
 
 
-/* Buttons */
-.campaign-card button {
-  padding: 0.75rem 1.25rem;
+
+/* Paragraph styling within the scrollable area */
+.campaign-contents {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow-y: auto;
+  padding: 1rem 1rem 0.75rem 1rem; /* More padding for better spacing */
+  text-align: left;
+  scroll-behavior: smooth;
+}
+
+/* Paragraph styling inside the scrollable area */
+.campaign-contents p {
+  margin-bottom: 1rem;
+  font-size: 1rem; /* Slightly larger for better readability */
+  line-height: 1.7;
+  color: #2d3748; /* Darker for better contrast */
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  text-align: justify;
+}
+
+/* Custom scrollbar - more subtle */
+.campaign-contents::-webkit-scrollbar {
+  width: 5px;
+}
+
+.campaign-contents::-webkit-scrollbar-track {
+  background: #edf2f7;
+  border-radius: 10px;
+}
+
+.campaign-contents::-webkit-scrollbar-thumb {
+  background: #a0aec0;
+  border-radius: 10px;
+}
+
+.campaign-contents::-webkit-scrollbar-thumb:hover {
+  background: #718096;
+}
+
+/* Firefox */
+@-moz-document url-prefix() {
+  .campaign-contents {
+    scrollbar-width: thin;
+    scrollbar-color: #a0aec0 #edf2f7;
+  }
+}
+
+
+/* Scroll indicator */
+.scroll-indicator {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 12px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23718096' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+/* For Webkit browsers like Chrome/Safari */
+.campaign-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.campaign-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.campaign-content::-webkit-scrollbar-thumb {
+  background: #cbd5e0;
+  border-radius: 10px;
+}
+
+.campaign-content::-webkit-scrollbar-thumb:hover {
+  background: #a0aec0;
+}
+
+/* Button container to keep buttons at bottom */
+.campaign-actions {
+  margin-top: auto;
+  flex-shrink: 0; /* Prevent buttons from shrinking */
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.view-btn,
+.delete-btn {
+  padding: 0.5rem 1rem;
   border: none;
-  border-radius: var(--border-radius);
-  font-weight: 600;
-  font-size: 0.95rem;
+  border-radius: 8px;
   cursor: pointer;
-  transition: all 0.2s ease;
-  margin: 0 1.25rem 1.25rem;
+  transition: background-color 0.3s ease;
+  width: 100%;
 }
 
 .view-btn {
-  background-color: var(--primary-color);
+  background-color: #007bff;
   color: white;
+  margin-left:3px;
 }
 
 .view-btn:hover {
-  background-color: var(--primary-hover);
+  background-color: #0056b3;
 }
 
 .delete-btn {
-  background-color: white;
-  color: var(--danger-color);
-  border: 1px solid var(--danger-color);
+  background-color: #dc3545;
+  color: white;
 }
 
 .delete-btn:hover {
-  background-color: var(--danger-color);
-  color: white;
+  background-color: #a71d2a;
 }
 
-/* Button Container */
-.campaign-card .button-container {
-  display: flex;
-  gap: 0.75rem;
-  margin: 0 1.25rem 1.25rem;
+/* Alternative approach for browsers that might have issues */
+/*  */
+.reported-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  border-radius: 50%;
+  margin-left: 8px;
+  vertical-align: middle;
+  cursor: help;
 }
-
-/* Empty State */
-.manage-campaigns p {
-  font-size: 1.1rem;
-  color: var(--text-light);
+.custom-confirm-box {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 400px;
+  margin: auto;
   text-align: center;
-  padding: 2rem;
-  background-color: white;
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow);
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  position: fixed;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1001;
 }
 
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-  .campaign-list {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1.5rem;
-  }
-
-  .manage-campaigns h2 {
-    font-size: 1.75rem;
-    margin-bottom: 1.5rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .campaign-list {
-    grid-template-columns: 1fr;
-  }
-
-  .campaign-card {
-    max-width: 100%;
-  }
-
-  .campaign-card button {
-    width: calc(50% - 1.875rem);
-  }
-
-  .campaign-card .button-container {
-    display: flex;
-    justify-content: space-between;
-  }
-}
-
-/* Animation for card hover */
-@keyframes cardLift {
-  0% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(-5px);
-  }
-}
-
-/* Updated Campaign Card with Button Container */
-.campaign-card {
-  position: relative;
-}
-
-.campaign-card .button-group {
-  display: flex;
-  gap: 0.75rem;
-  margin: 0 1.25rem 1.25rem;
-}
-
-/* Loading State */
-.loading {
-  text-align: center;
-  padding: 2rem;
-  font-size: 1.1rem;
-  color: var(--text-light);
-}
-
-/* Empty State with Call to Action */
-.empty-state {
-  text-align: center;
-  padding: 3rem 2rem;
-  background-color: white;
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow);
-}
-
-.empty-state p {
-  font-size: 1.1rem;
-  color: var(--text-light);
-  margin-bottom: 1.5rem;
-}
-
-.empty-state button {
-  padding: 0.75rem 1.5rem;
-  background-color: var(--primary-color);
-  color: white;
+.custom-confirm-box button {
+  margin: 10px;
+  padding: 8px 15px;
   border: none;
-  border-radius: var(--border-radius);
-  font-weight: 600;
-  font-size: 1rem;
+  border-radius: 5px;
   cursor: pointer;
-  transition: all 0.2s ease;
 }
 
-.empty-state button:hover {
-  background-color: var(--primary-hover);
+.custom-confirm-box button:first-child {
+  background-color: #d9534f;
+  color: white;
 }
 
+.custom-confirm-box button:last-child {
+  background-color: #5bc0de;
+  color: white;
+}

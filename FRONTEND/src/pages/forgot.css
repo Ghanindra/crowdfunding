@@ -88,10 +88,11 @@ body {
   align-items: center;
   height: 100vh;
   background-color: #f0f2f5;
+
 }
 
 /* Container for the forgot password form */
-.forgot-container {
+.forgot-containers {
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -99,34 +100,35 @@ body {
   max-width: 400px;
   padding: 20px;
   text-align: center;
+  margin: 131px auto;
 }
 
 /* Form and input field styles */
-.forgot-form {
+.forgots-forms {
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
 
-.forgot-form h2 {
+.forgots-forms h2 {
   font-size: 24px;
   margin-bottom: 20px;
   color: #333;
 }
 
-.forgot-form input {
+.forgots-forms input {
   padding: 12px;
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 16px;
 }
 
-.forgot-form input:focus {
+.forgots-forms input:focus {
   border-color: #007bff;
   outline: none;
 }
 
-.forgot-form button {
+.forgots-forms button {
   padding: 12px;
   background-color: #007bff;
   color: white;
@@ -137,26 +139,26 @@ body {
   transition: background-color 0.3s ease;
 }
 
-.forgot-form button:hover {
+.forgots-forms button:hover {
   background-color: #0056b3;
 }
 
-.forgot-form .submit-button:disabled {
+.forgots-forms .submit-button:disabled {
   background-color: #b0d4ff;
   cursor: not-allowed;
 }
 
-.forgot-form p {
+.forgots-forms p {
   font-size: 14px;
   color: #555;
 }
 
-.forgot-form a {
+.forgots-forms a {
   color: #007bff;
   text-decoration: none;
 }
 
-.forgot-form a:hover {
+.forgots-forms a:hover {
   text-decoration: underline;
 }
 

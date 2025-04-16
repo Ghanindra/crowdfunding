@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./report.css";
-
+import { ToastContainer, toast } from "react-toastify";
 const ReportList = () => {
+  // const { id } = useParams(); // Get report ID from URL
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -19,10 +20,12 @@ const ReportList = () => {
         setReports(response.data);
       } catch (error) {
         setError("Failed to load reports.");
+        toast.error("Error loading reports!"); // Toast here
       } finally {
         setLoading(false);
       }
     };
+    
 
     fetchReports();
   }, [token]);
