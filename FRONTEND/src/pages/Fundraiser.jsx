@@ -15,7 +15,7 @@ import { FaThumbsUp, FaThumbsDown } from "react-icons/fa";
 
 // Categories for the fundraising
 const categories = [
-  { name: "Your cause", image: cause, path: "/start" },
+  { name: "Project", image: cause, path: "/start" },
   { name: "Medical", image: medical, path: "/fundraiser/medical" },
   { name: "Education", image: education, path: "/fundraiser/education" },
   { name: "Animal", image: animal, path: "/fundraiser/animal" },
@@ -63,15 +63,7 @@ const Fundraiser = () => {
     fetchCampaigns();
   }, [token]); // Adding token to dependency array ensures the effect reruns if the token changes
 
-  // const handleLike = async (campaignId) => {
-  //   if (likedCampaigns.includes(campaignId)) {
-  //     // If the campaign is already liked by the user, remove the like
-  //     await removeLike(campaignId);
-  //   } else {
-  //     // Otherwise, add the like to the campaign
-  //     await addLike(campaignId);
-  //   }
-  // };
+ 
   const handleLike = async (campaignId) => {
     try {
       const response = await axios.post(
@@ -106,71 +98,7 @@ const Fundraiser = () => {
       console.error("Error updating like:", error);
     }
   };
-  // const addLike = async (campaignId) => {
-  //   try {
-  //     // Send a POST request to the backend to add a like with Bearer token
-  //     const response = await axios.post(
-  //       "http://localhost:5000/api/updateLike",
-  //       { campaignId },
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`, // Attach token to the request headers
-  //         },
-  //       }
-  //     );
-
-  //     if (response.status === 200) {
-  //       const updatedCampaigns = campaigns.map((campaign) =>
-  //         campaign._id === campaignId ? { ...campaign, likeCount: Math.max(campaign.likeCount + 1, 0) } : campaign
-  //       );
-
-  //       const updatedLikedCampaigns = [...likedCampaigns, campaignId];
-  //       setLikedCampaigns(updatedLikedCampaigns);
-
-  //       // Save the updated liked campaigns in local storage or session
-  //       localStorage.setItem("likedCampaigns", JSON.stringify(updatedLikedCampaigns));
-
-  //       setCampaigns(updatedCampaigns); // Update the campaigns list
-  //     }
-  //   } catch (error) {
-  //     console.error("Error liking campaign:", error);
-  //   }
-  // };
-
-  // const removeLike = async (campaignId) => {
-  //   try {
-  //     // Send a POST request to the backend to remove a like with Bearer token
-  //     const response = await axios.post(
-  //       "http://localhost:5000/api/updateLike",
-  //       { campaignId },
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`, // Attach token to the request headers
-  //         },
-  //       }
-  //     );
-
-  //     if (response.status === 200) {
-  //       const updatedCampaigns = campaigns.map((campaign) =>
-  //         campaign._id === campaignId ? { ...campaign, likeCount: Math.max(campaign.likeCount - 1, 0) } : campaign
-  //       );
-
-  //       const updatedLikedCampaigns = likedCampaigns.filter((id) => id !== campaignId);
-  //       setLikedCampaigns(updatedLikedCampaigns);
-
-  //       // Save the updated liked campaigns in local storage or session
-  //       localStorage.setItem("likedCampaigns", JSON.stringify(updatedLikedCampaigns));
-
-  //       setCampaigns(updatedCampaigns); // Update the campaigns list
-  //     }
-  //   } catch (error) {
-  //     console.error("Error unliking campaign:", error);
-  //   }
-  // };
-
-  // console.log("Campaigns state:", campaigns); // Log campaigns state before rendering
-
-  return (
+return (
     <div>
       <Navbar />
       <section className="hero-section">

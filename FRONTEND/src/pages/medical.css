@@ -4,6 +4,10 @@
     display: flex;
     flex-direction: column;
     min-height: 100vh; /* Ensure the page takes full viewport height */
+
+      overflow-y: auto;
+    
+    
   } 
   .medical-hero {
     display: flex;
@@ -14,7 +18,7 @@
     padding: 20px;
     max-width: 1200px;
     margin: 40px auto;
-    margin-top: 1400px;
+    margin-top: 900px;
     background-color: #ffffff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
@@ -49,6 +53,7 @@
        overflow: hidden; /* Prevents overflow issues */
        width: 100%; /* Ensures it takes the full available width */
        max-width: 1000px; /* Increases the max width */
+       /* margin-top:220px; */
      }
      
      .animal-hero-title {
@@ -70,9 +75,9 @@
   }
  
   /* Make sure the main content stretches */
-.medical-content {
+/* .medical-content {
     flex: 1;  /* Pushes footer to the bottom */
-  }
+  /* } */ */
   /* Left Side - Image */
   .medical-hero-image {
     flex: 1;
@@ -136,7 +141,7 @@
   .medical-hero-content {
     flex: 2;
     padding: 20px;
-    margin-top:-80px;
+    margin-top:0px;
   }
   
   .medical-hero-title {

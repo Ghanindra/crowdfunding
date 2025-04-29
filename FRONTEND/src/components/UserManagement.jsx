@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import axios from "axios"
 import "./userManagement.css"
-
+import { toast } from "react-toastify";
 const UserManagement = () => {
   const [users, setUsers] = useState([])
   const [loading, setLoading] = useState(true)
@@ -26,7 +26,7 @@ const UserManagement = () => {
     axios
       .patch(`http://localhost:5000/api/admins/users/${userId}/block`)
       .then((response) => {
-        alert(response.data.message)
+        toast.success(response.data.message)
         setUsers(users.map((user) => (user._id === userId ? { ...user, status: "blocked" } : user)))
       })
       .catch((error) => console.error("Error blocking user:", error))
@@ -37,7 +37,7 @@ const UserManagement = () => {
       axios
         .delete(`http://localhost:5000/api/admins/users/${userId}`)
         .then((response) => {
-          alert(response.data.message)
+          toast.success(response.data.message)
           setUsers(users.filter((user) => user._id !== userId))
         })
         .catch((error) => console.error("Error deleting user:", error))
@@ -45,9 +45,9 @@ const UserManagement = () => {
   }
   const handleUnblockUser = (userId) => {
     axios
-      .patch(`http://localhost:5000/api/admin/users/${userId}/unblock`)
+      .patch(`http://localhost:5000/api/admins/users/${userId}/unblock`)
       .then((response) => {
-        alert(response.data.message)
+        toast.success(response.data.message)
         setUsers(users.map((user) => (user._id === userId ? { ...user, status: "active" } : user)))
       })
       .catch((error) => console.error("Error unblocking user:", error))

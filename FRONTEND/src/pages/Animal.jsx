@@ -4,8 +4,8 @@ import './medical.css';  // Importing the external CSS file
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
-// import animal from "../assets/animal.jpg"; // Change to correct file name
-import animal from "../assets/animal.jpg"; // make sure this is correct
+// import animal from "../assets/animal.jpg"; 
+import animal from "../assets/animal.jpg"; 
 
 
 const Animal = () => {
@@ -77,7 +77,7 @@ return (
             <div className="medical-fundraiser-card-content">
               <p className="medical-fundraiser-money">${fundraiser.targetAmount}</p>
               <p className="medical-fundraiser-location">{fundraiser.placeName}</p>
-              <p className="medical-fundraiser-description">{fundraiser.description}</p>
+              {/* <p className="medical-fundraiser-description">{fundraiser.description}</p> */}
               <p className="medical-fundraiser-description">{fundraiser.endDate}</p>
             </div>
             

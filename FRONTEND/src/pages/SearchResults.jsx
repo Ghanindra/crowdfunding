@@ -1,68 +1,3 @@
-// import React, { useState, useEffect } from "react";
-// import { useLocation } from "react-router-dom";
-// import axios from "axios";
-// import "./searchResults.css";
-
-// const SearchResults = () => {
-//   const [campaigns, setCampaigns] = useState([]);
-//   const [query, setQuery] = useState(null); // Add a state to hold the query value
-//   const location = useLocation();
-  
-//   // When location changes, update the query
-//   useEffect(() => {
-//     const queryParams = new URLSearchParams(location.search);
-//     const newQuery = queryParams.get("query");
-//     if (newQuery !== query) {  // Only set the query if it is different
-//       setQuery(newQuery);
-//     }
-//   }, [location, query]); // Dependency on location to detect query change
-
-//   // Fetch search results when query changes
-//   useEffect(() => {
-//     if (query) {
-//       const fetchResults = async () => {
-//         try {
-//           const encodedQuery = encodeURIComponent(query);
-//           console.log('Encoded query:', encodedQuery);
-          
-//           const response = await axios.get(`http://localhost:5000/api/search?query=${encodedQuery}`);
-//           console.log('Search results:', response.data);
-          
-//           setCampaigns(response.data); // Update the state
-//         } catch (error) {
-//           console.error("Error fetching search results:", error);
-//         }
-//       };
-
-//       fetchResults(); // Fetch the results when query changes
-//     }
-//   }, [query]); // Only re-run when query changes
-
-//   return (
-//     <div className="search-results">
-//       <h1>Search Results for: "{query}"</h1>
-//       {campaigns.length > 0 ? (
-//         <ul>
-//           {campaigns.map((campaign) => (
-//             <li key={campaign._id} className="campaign-card">
-//               <h2>{campaign.title}</h2>
-//               <p>Location: {campaign.location}</p>
-//               <p>{campaign.description}</p>
-//               <a href={`/category/${campaign._id}`} className="view-details">View Details</a>
-//             </li>
-//           ))}
-//         </ul>
-//       ) : (
-//         <p>No campaigns found.</p>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default SearchResults;
-
-
-
 import React, { useState, useEffect } from "react";
 import { useLocation,useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -82,29 +17,7 @@ const SearchResults = () => {
     }
   }, [location, query]);
 
-  // Fetch the matched campaign
-  // useEffect(() => {
-  //   if (query) {
-  //     const fetchCampaign = async () => {
-  //       try {
-  //         const encodedQuery = encodeURIComponent(query);
-  //         console.log("Encoded query:", encodedQuery);
 
-  //         // Fetch the matched campaign from backend
-  //         const response = await axios.get(`http://localhost:5000/api/search?query=${encodedQuery}`);
-  //         console.log("Search result:", response.data);
-
-  //         // Ensure a single matched campaign is stored
-  //         setCampaign(response.data);
-  //       } catch (error) {
-  //         console.error("Error fetching campaign:", error);
-  //         setCampaign(null);
-  //       }
-  //     };
-
-  //     fetchCampaign();
-  //   }
-  // }, [query]);
   useEffect(() => {
     if (query) {
       const fetchCampaign = async () => {

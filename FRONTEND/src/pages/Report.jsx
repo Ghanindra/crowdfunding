@@ -17,14 +17,24 @@ const ReportList = () => {
         const response = await axios.get("http://localhost:5000/api/reports-campaign", {
           headers: { Authorization: `Bearer ${token}` },
         });
-        setReports(response.data);
+    
+        if (response.status === 200 && response.data.reports) {
+          setReports(response.data.reports);
+        } else {
+          setReports([]); // no reports, but not an error
+        }
       } catch (error) {
-        setError("Failed to load reports.");
-        toast.error("Error loading reports!"); // Toast here
+        if (error.response && error.response.status === 404) {
+          setReports([]); // show "No reports found."
+        } else {
+          setError("Failed to load reports.");
+          toast.error("Error loading reports!");
+        }
       } finally {
         setLoading(false);
       }
     };
+    
     
 
     fetchReports();
@@ -54,7 +64,7 @@ const ReportList = () => {
               )}
               <p><strong>Reason:</strong> {report.reason}</p>
               <p><strong>Reported on:</strong> {new Date(report.createdAt).toLocaleDateString()}</p>
-              <button onClick={() => navigate(`/report/${report._id}`)} className="view-btn">
+              <button onClick={() => navigate(`/admin/reports/${report._id}`)} className="view-btn">
                 View Details
               </button>
             </li>

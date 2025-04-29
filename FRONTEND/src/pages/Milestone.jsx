@@ -6,7 +6,7 @@ const Milestone = ({ campaignId, addMilestone }) => {
   const [amountSpent, setAmountSpent] = useState("");
   const [status, setStatus] = useState("In Progress");
   const [imageUrl, setImageUrl] = useState("");
-
+ 
   const handleSubmit = (e) => {
     e.preventDefault();
     const milestoneData = { campaignId, title, description, amountSpent, status, imageUrl };

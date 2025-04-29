@@ -42,7 +42,9 @@ section {
   text-align: center;
   padding: 5rem 1rem; /* Increased padding for more spacious look */
   background-color: #f9fafb;
-  margin-top: 2200px; /* Removed excessive margin */
+  /* margin-top: 0px; Removed excessive margin
+   */
+   margin-top:1280px;
   background: linear-gradient(135deg, #5375f0 0%, #6746fb 100%);
   color: white;
   position: relative;
@@ -222,7 +224,8 @@ color:black;
 
 .category-card:hover .category-name {
   transform: translateY(0);
-color:white;}
+color:white;
+}
 
 /* Donation Campaigns Section */
 .donation-campaigns-section {
@@ -311,24 +314,7 @@ color:white;}
   color: #666;
 }
 
-/* .like-button {
-  background-color: #ff6b6b;
-  color: white;
-  border: none;
-  border-radius: 50px;
-  padding: 0.5rem 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  margin-right: 1rem;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 10px rgba(255, 107, 107, 0.3);
-}
 
-.like-button:hover {
-  background-color: #ff5252;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(255, 107, 107, 0.4);
-} */
 .like-button {
   background: none;
   border: none;

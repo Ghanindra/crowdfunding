@@ -1,5 +1,3 @@
-
-
 // index.js
 const express = require("express");
 const mongoose = require("mongoose");
@@ -11,13 +9,12 @@ const authenticate = require("./middleware/authenticate");
 const adminRoutes = require("./routes/Adminroutes");
 require('dotenv').config();
 
-// Load env vars
+
 // const errorHandler = require("./middleware/error")
 const User = require('./models/user');
-const { initSocket } = require('./socket');
+
 const http = require('http');
-// const contactRoutes = require("./routes/contactRoutes")
-const { Server } = require('socket.io');
+
 const path = require('path');
 // const notificationRoutes = require("./routes/notificationRoutes")
 const { EsewaInitiatePayment, paymentStatus } = require("./controllers/esewaController");
@@ -26,28 +23,7 @@ const { EsewaInitiatePayment, paymentStatus } = require("./controllers/esewaCont
 const app = express();
 const server = http.createServer(app);
 
-initSocket(server);
 
-// Initialize Socket.io AFTER the server is created
-const io = new Server(server, {
-  cors: {
-    origin: "http://localhost:5173", // Adjust frontend URL if needed
-    methods: ["GET", "POST"]
-  }
-});
-
-// Store `io` globally (if needed in routes)
-global.io = io;
-
-// Handle WebSocket connection
-io.on('connection', (socket) => {
-  console.log('A client connected:', socket.id);
-
-  // Listen for disconnection
-  socket.on('disconnect', () => {
-    console.log('A client disconnected:', socket.id);
-  });
-});
 
 const PORT = process.env.PORT || 5000;
 const session = require('express-session');
@@ -69,15 +45,12 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-// Error handler middleware
-// app.use(errorHandler)
-// Handle OPTIONS preflight requests (if not already handled)
+
 app.options('*', cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // To parse URL-encoded bodies
 app.use('/uploads', express.static('uploads'));
-// app.use("/api/contact", contactRoutes)
-// app.use("/api/notifications", notificationRoutes)
+
 // Use routes
 app.use('/api', authRoutes);
 app.use('/api/user-notifications', userNotification);

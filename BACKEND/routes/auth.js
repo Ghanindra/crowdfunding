@@ -77,7 +77,7 @@ router.post('/login', async (req, res) => {
   
     // ✅ Check if user is blocked
     if (user.blocked) {
-      return res.status(403).json({ message: "Your account has been blocked." });
+      return res.status(403).json({ message: "Your account has been blocked.Please contact through contact page" });
     }
 
     // ✅ Check if user is deactivated/inactive
@@ -131,7 +131,7 @@ router.post('/forgots',async(req,res)=>{
   try {
    
     const generateOtp=Math.floor(Math.random()*10000);//four digit otp
-    // Looking to send emails in production? Check out our Email API/SMTP product!
+
    
     var transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
@@ -299,52 +299,7 @@ console.log(req.body)
 
 
 
-// Notification route
 
-// router.post('/campaigns', authenticate,upload.single('image'),async (req, res) => {
-//   try {
-//     const userId = req.user.id; // Get userId from decoded token
-//     console.log('user',userId);
-    
-//     // Code to create a campaign
-//     const { placeName, category, beneficiary, title, description, targetAmount } = req.body;
-//     console.log('subit',req.body);
-    
-//     const image = req.file ? req.file.path : null;
-
-//     if (!placeName || !category || !beneficiary || !image || !title || !description || !targetAmount) {
-//       return res.status(400).json({ message: 'All fields are required.' });
-//     }
-
-//     const newCampaign = new Campaign({
-  
-//       placeName,
-//       category,
-//       beneficiary,
-//       title,
-//       description,
-//       targetAmount,
-//       raisedAmount: 0, // Set to zero initially,
-//       image,
-//       status: 'pending', // Set the initial status to 'pending'
-//       userId:userId
-//     });
-
-//     await newCampaign.save();
-// // Create a notification for the admin
-// const notification = new Notification({
-//   message: `New campaign created: ${title} `,
-//   type: 'campaign',
-//   campaignId: newCampaign._id,
-//   userId:userId
-// });
-
-// await notification.save();
-//     res.status(201).json({ message: 'Campaign created successfully', campaignId: newCampaign._id,  campaign: newCampaign });
-//   } catch (err) {
-//     res.status(500).json({ error: 'Failed to create campaign', details: err.message });
-//   }
-// });
 router.post('/campaigns', authenticate, upload.single('image'), async (req, res) => {
   try {
     const userId = req.user.id; // Get userId from decoded token
@@ -634,62 +589,6 @@ router.put('/notifications/mark-as-read/:id', async (req, res) => {
 });
 
 
-// // Route to get unread notification count for a specific user
-// router.get('/user-notifications/count/:userId', async (req, res) => {
-//   try {
-//     const { userId } = req.params;
-
-//     // Count unread notifications for 'verification_result' and 'report-deleted'
-//     const unreadNotificationsCount = await Notification.countDocuments({
-//       userId,
-//       isRead: false,
-//       $in: ['verification_result', 'report-deleted'] // Filter for both types
-//     });
-
-//     // Send the count as a response
-//     res.json({ count: unreadNotificationsCount });
-//   } catch (error) {
-//     console.error("Error fetching user notifications count:", error);
-//     res.status(500).json({ message: 'Failed to fetch notifications count.' });
-//   }
-// });
-// Route to get unread notification count for a specific user
-// router.get('/user-notifications/count/:userId', async (req, res) => {
-//   try {
-//     const { userId } = req.params;
-//     console.log("Received userId:", userId); // ✅ Log the userId
-//     // Use aggregation to count unread notifications for 'verification_result' and 'report-deleted' types
-//     // const unreadNotificationsCount = await Notification.aggregate([
-//     //   {
-//     //     $match: {
-//     //       userId: userId,
-//     //       isRead: false,
-//     //       $or: [
-//     //         { type: 'verification_result' },
-//     //         { type: 'report-deleted' }
-//     //       ]
-//     //     }
-//     //   },
-//     //   {
-//     //     $count: "count"
-//     //   }
-//     // ]);
-//     console.log("Aggregation result:", unreadNotificationsCount); // ✅ Log aggregation result
-
-//     // If no notifications are found, default to 0
-//     const count = unreadNotificationsCount.length > 0 ? unreadNotificationsCount[0].count : 0;
-
-//     // Send the count as a response
-//     res.json({ count });
-//   } catch (error) {
-//     console.error("Error fetching user notifications count:", error);
-//     res.status(500).json({ message: 'Failed to fetch notifications count.' });
-//   }
-// });
-
-
-// const mongoose = require('mongoose');
-// const { ObjectId } = mongoose.Types;
 router.get('/user-notifications/count/:userId', async (req, res) => {
   try {
     const { userId } = req.params;
@@ -797,13 +696,7 @@ const notification = new Notification({
 
 console.log(notification)
 await notification.save();
-    // Emit notification to admin
-     // Ensure io is defined before emitting
-    //  if (global.io) {
-    //   global.io.emit('new_verification', notification);
-    // } else {
-    //   console.warn('Socket.io is not initialized.');
-    // }
+ 
 
     res.status(201).json({ message: 'Verification submitted successfully and admin notified in real-time.' });
   } catch (error) {
@@ -811,7 +704,7 @@ await notification.save();
     res.status(500).json({ message: 'Verification submission failed.', error });
   }
 });
-// Example route to fetch the user's verification status
+// route to fetch the user's verification status
 router.get('/user/verification-status', authenticate, async (req, res) => {
   try {
     const verification = await verifyAccount.findOne({ userId: req.user.id });
@@ -881,12 +774,7 @@ router.post('/update_verification', authenticate, upload.single('citizenshipImag
     await notification.save();
     console.log('Notification Sent:', notification);
 
-    if (global.io) {
-      global.io.emit('verification_updated', notification);
-    } else {
-      console.warn('Socket.io is not initialized.');
-    }
-
+   
     res.status(200).json({ message: 'Verification updated successfully and admin notified.' });
   } catch (error) {
     console.error('Error updating verification:', error);
@@ -940,13 +828,7 @@ router.put('/admin/notifications/:id', async (req, res) => {
     notification.isRead = true; // Mark as read
     await notification.save();
 
-    // Update verification status in verifyAccount model (if needed)
-    // const verification = await verifyAccount.findOne({ userId: notification.userId });
-    // if (verification) {
-    //   verification.status = status;
-    //   await verification.save();
-    //   console.log('Updated verification status:', verification.status); // Debugging line
-    // }
+   
     // Handle different notification types
     if (notification.type === 'verification') {
       // Update verification status in verifyAccount model
@@ -1054,9 +936,7 @@ router.get("/user",authenticate, async (req, res) => {
 router.get("/dashboard", async (req, res) => {
   try {
     const totalCampaigns = await Campaign.countDocuments();
-    // const activeCampaigns = await Campaign.countDocuments({ status: "active" });
-    // const completedCampaigns = await Campaign.countDocuments({ status: "completed" });
-    // const pendingCampaigns = await Campaign.countDocuments({ status: "pending" });
+    
 
     const totalUsers = await User.countDocuments();
     const totalDonations = await Payment.aggregate([{ $group: { _id: null, total: { $sum: "$amount" } } }]);
@@ -1188,7 +1068,7 @@ router.get("/reports-campaign/:reportId", async (req, res) => {
   try {
     const { reportId } = req.params;
     console.log("Requested Report ID:", reportId);
-    const report = await Report.findById(reportId).populate("campaignId"); // Assuming you are populating related campaign info
+    const report = await Report.findById(reportId).populate("campaignId") .populate("userId");  ; // Assuming you are populating related campaign info
     const reportedCampaignIds = [report.campaignId.toString()]; // Since you expect a single report, we wrap it in an array
     if (!report) {
       return res.status(404).json({ success: false, message: "Report not found" });
@@ -1204,8 +1084,11 @@ router.get("/reports-campaign", async (req, res) => {
     console.log("Fetching all reports with associated campaign information.");
 
     // Fetching all reports and populating the related campaign information
-    const reports = await Report.find().populate("campaignId");
+    ;
+    const reports = await Report.find()
+    .populate("campaignId")   // gets full campaign details
 
+  
     // Log the reports to see the actual data
     console.log("Reports:", reports);
 

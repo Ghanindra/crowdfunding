@@ -6,6 +6,7 @@ import { faEye, faEyeSlash, faCheckCircle } from '@fortawesome/free-solid-svg-ic
 import './profile.css';
 import { useAuth } from '../context/AuthContext';
 import { toast } from "react-toastify";
+import Swal from 'sweetalert2';
 const Profile = () => {
   const { authData } = useAuth();
   const [username, setUsername] = useState('');
@@ -108,11 +109,22 @@ const Profile = () => {
     setShowPassword(!showPassword);
   };
 
-  const handlePasswordClick = () => {
-    if (window.confirm("To change password go to forgot page by clicking ok")) {
-      navigate('/forgot'); // Navigate to the Forgot Password page
+ 
+  
+const handlePasswordClick = () => {
+  Swal.fire({
+    title: 'Change Password?',
+    text: "To change your password, you'll be redirected to the Forgot Password page.",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Yes, go',
+    cancelButtonText: 'Cancel'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      navigate('/forgot');
     }
-  };
+  });
+};
   console.log(isVerified);
   return (
     <div className="profile-container">

@@ -49,6 +49,7 @@ body {
 .navbar-links li {
   margin: 0 0.5rem;
   position: relative;
+  list-style: none;
 }
 
 .navbar-links li a {

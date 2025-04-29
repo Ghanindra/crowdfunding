@@ -1,0 +1,41 @@
+.donate-container {
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 30px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+    color: #333;
+  }
+  
+  .donate-title {
+    text-align: center;
+    font-size: 32px;
+    color: #4b0082;
+    margin-bottom: 20px;
+  }
+  
+  .donate-steps {
+    list-style: decimal inside;
+    font-size: 18px;
+    line-height: 1.8;
+    margin-bottom: 30px;
+  }
+  
+  .donate-steps li strong {
+    color: #000;
+  }
+  
+  .donate-tips {
+    background-color: #f0f8ff;
+    padding: 20px;
+    border-left: 4px solid #4b0082;
+    border-radius: 8px;
+  }
+  
+  .donate-tips ul {
+    list-style: disc inside;
+    margin-top: 10px;
+  }
+  

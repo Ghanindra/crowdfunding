@@ -31,24 +31,7 @@ const ManageCampaign = () => {
     fetchCampaigns()
   }, [])
 
-  // useEffect(() => {
-  //   const fetchReportedCampaigns = async () => {
-  //     try {
-  //       const res = await axios.get("http://localhost:5000/api/reported-campaigns/")
-  //       if (res.data && Array.isArray(res.data.reportedCampaignIds)) {
-  //         setReportedCampaignIds(res.data.reportedCampaignIds)
-  //       } else {
-  //         console.error("Invalid report data format:", res.data)
-  //       }
-  //     } catch (error) {
-  //       toast.error("Error fetching reported campaigns")
-  //       console.error("Error fetching reported campaigns:", error)
-  //     }
-  //   }
-
-  //   fetchReportedCampaigns()
-  // }, [])
-
+ 
   const handleDeleteClick = (id) => {
     setSelectedCampaignId(id)
     setShowModal(true)

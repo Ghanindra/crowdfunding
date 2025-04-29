@@ -12,6 +12,7 @@ import Cause from './pages/Cause'
 import Animal from './pages/Animal'
 import Medical from './pages/Medical'
 import Emergency from './pages/Emergency'
+import Environment from './pages/Environment'
 import Business from './pages/Business'
 import Education from './pages/Education'
 import Profile from './pages/Profile'
@@ -48,9 +49,11 @@ import CampaignDetails from "./components/CampaignDetails";
 import PaymentHistory from "./pages/PaymentHistory";
 import AllPayments from "./pages/AllPayments";
 import UserManagement from "./components/UserManagement";
+import HowToDonate from './pages/HowToDonate';
+import CampaignGuidelines from './pages/CampaignGuidelines';
+import AboutUs from './pages/AboutUs';
 import "./App.css";
 
-// import ResetPassword from './pages/ResetPassword'
 function App() {
   return (
 
@@ -65,6 +68,10 @@ function App() {
     <Route path="/forgot" element={<Forgot />} />
     <Route path="/verify" element={<Verify />} />
     <Route path="/donate/:category" element={<Category />} />
+    <Route path="/how-to-donate" element={<HowToDonate />} />
+    <Route path="/campaign-guidelines" element={<CampaignGuidelines />} />
+    <Route path="/about-us" element={<AboutUs />} />
+    <Route path="/contact" element={<Contact />} />
     
     {/* Admin Routes */}
     <Route path="/admindashboard" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
@@ -83,7 +90,7 @@ function App() {
     <Route path="/usernotification" element={<ProtectedRoute><UserNotification /></ProtectedRoute>} />
     <Route path="/userdashboard" element={<ProtectedRoute><UserDashboard /></ProtectedRoute>} />
     <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-    <Route path="/contact" element={<ProtectedRoute><Contact /></ProtectedRoute>} />
+   
     <Route path="/paymentHistory" element={<ProtectedRoute><PaymentHistory/></ProtectedRoute>} />
 
     {/* Campaign Creator Routes */}
@@ -100,11 +107,12 @@ function App() {
     <Route path="/fundraiser/medical" element={<ProtectedRoute><FundMedical /></ProtectedRoute>} />
 
     {/* Category Pages */}
-    <Route path="/category/cause" element={<ProtectedRoute><Cause /></ProtectedRoute>} />
+    <Route path="/category/project" element={<ProtectedRoute><Cause /></ProtectedRoute>} />
     <Route path="/category/education" element={<ProtectedRoute><Education /></ProtectedRoute>} />
     <Route path="/category/medical" element={<ProtectedRoute><Medical /></ProtectedRoute>} />
     <Route path="/category/animal" element={<ProtectedRoute><Animal /></ProtectedRoute>} />
     <Route path="/category/emergency" element={<ProtectedRoute><Emergency /></ProtectedRoute>} />
+    <Route path="/category/environment" element={<ProtectedRoute><Environment /></ProtectedRoute>} />
     <Route path="/category/business" element={<ProtectedRoute><Business /></ProtectedRoute>} />
 
     {/* Donation & Payment */}

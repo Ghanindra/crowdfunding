@@ -13,10 +13,8 @@ const categories = [
   { name: "Animal", icon: "🐶" },
   { name: "Environment", icon: "🌱" },
   { name: "Business", icon: "🏢" },
-  { name: "cause", icon: "🤝" },
-  // { name: "Competition", icon: "🏆" },
-  // { name: "Creative", icon: "💡" },
-  // { name: "Event", icon: "📅" },
+  { name: "Project", icon: "🤝" },
+
 ];
 
 const Category = () => {

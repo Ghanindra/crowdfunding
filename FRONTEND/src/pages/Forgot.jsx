@@ -22,7 +22,7 @@ const Forgot = () => {
 
       // If successful, set the success message and navigate to the verify page
       setMessage(response.data.message);
-      toast.success('otp sent successfully')
+      toast.success('otp sent successfully to your email')
       navigate('/verify');
     } catch (error) {
       // If there's an error, display the error message

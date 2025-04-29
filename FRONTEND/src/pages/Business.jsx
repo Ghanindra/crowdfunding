@@ -72,7 +72,7 @@ return (
             <div className="medical-fundraiser-card-content">
               <p className="medical-fundraiser-money">${fundraiser.targetAmount}</p>
               <p className="medical-fundraiser-location">{fundraiser.placeName}</p>
-              <p className="medical-fundraiser-description">{fundraiser.description}</p>
+              {/* <p className="medical-fundraiser-description">{fundraiser.description}</p> */}
             </div>
           </div>
         ))}

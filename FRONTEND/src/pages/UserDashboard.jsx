@@ -1,10 +1,10 @@
-"use client"
+
 
 import { useEffect, useState } from "react"
 import axios from "axios"
 import "./userdashboard.css"
 import { useNavigate } from "react-router-dom"
-
+import { toast } from "react-toastify";
 const UserDashboard = () => {
   const [campaigns, setCampaigns] = useState([])
   const [totalDonation, setTotalDonation] = useState(0)
@@ -85,7 +85,7 @@ const UserDashboard = () => {
     try {
       let { title, description, amountSpent, images } = newMilestone
       if (!title || !description || !amountSpent || images.length === 0) {
-        alert("All fields and at least one image are required!")
+        toast.error("All fields and at least one image are required!")
         return
       }
 
@@ -110,7 +110,7 @@ const UserDashboard = () => {
         },
       })
 
-      alert("Milestone added successfully!")
+      toast.success("Milestone added successfully!")
       setNewMilestone({ title: "", description: "", amountSpent: "", images: [] })
       setSelectedCampaignId(null) // Close the form
       fetchCampaigns()

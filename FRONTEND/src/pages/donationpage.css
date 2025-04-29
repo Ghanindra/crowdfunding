@@ -35,7 +35,7 @@ body {
   max-width: 1200px;
   margin: 2rem auto;
   padding: 0 1.5rem;
-margin-top:1000px;
+margin-top:1500px;
 }
 
 @media (min-width: 992px) {
@@ -227,14 +227,14 @@ margin-top:1000px;
 }
 
 .milestone-item h3 {
-  font-size: 1.25rem;
+  font-size: 1.35rem;
   font-weight: 600;
   margin-bottom: 0.75rem;
   color: var(--text-color);
 }
 
 .milestone-item p {
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: var(--text-light);
   margin-bottom: 1rem;
 }
@@ -270,6 +270,20 @@ margin-top:1000px;
   max-width: 500px;
   box-shadow: var(--shadow);
   animation: modalFadeIn 0.3s ease;
+}
+.campaign-url {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #555;
+}
+
+.campaign-url a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.campaign-url a:hover {
+  text-decoration: underline;
 }
 
 @keyframes modalFadeIn {

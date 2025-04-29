@@ -23,7 +23,7 @@ const Home = () => {
         <h1>
         Make a difference begins now.</h1>
         <p>
-          {/* Support the causes you believe in. We’ll cover your transaction fees<sup>1</sup> when you give in the app or on our website. */}
+ 
           Contribute to the causes you care about. We’ll take care of transaction fees<sup>1</sup> when you donate through our app or website."
         </p>
         <div className="button-group">

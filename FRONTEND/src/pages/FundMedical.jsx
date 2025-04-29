@@ -1,24 +1,58 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import './start.css';
 import Navbar from '../components/Navbar';
-import medical from '../assets/fundMedical.webp'
+import { useNavigate } from 'react-router-dom';
+import medical from '../assets/fundMedical.webp';
+import axios from 'axios';
+
 const FundMedical = () => {
+  const [featuredFundraiser, setFeaturedFundraiser] = useState(null);
+  const navigate = useNavigate();
+  const handleCardClick = () => {
+    navigate('/donationpage', { state: { fundraiser: featuredFundraiser } }); // 👈 passing fundraiser as state
+  };
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    axios
+      .get("http://localhost:5000/api/category/Medical?limit=1", {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+      })
+      .then((response) => {
+        // Assuming the API returns an array
+        const fundraiser = response.data[0];
+        console.log("Fetched fundraiser:", fundraiser); // ✅ Logs the full object
+        console.log("Fundraiser image path:", fundraiser?.image); // ✅ Logs the image path
+        setFeaturedFundraiser(fundraiser);
+      })
+      .catch((error) => {
+        console.error("Error fetching featured fundraiser:", error);
+      });
+  }, []);
+
   return (
     <div className="start-container">
-      {/* Navbar at the top */}
       <Navbar />
 
       {/* Hero Section */}
       <div className="hero-sections">
         <div className="hero-text">
           <h1>Start a Medical Fundraiser on Crowdfunding</h1>
-          <p>Raise money to help cover the cost of medical bills, treatment, or care. Crowdfunding is the trusted place to fundraise for medical cost assistance.
-
-</p>
-          <button className="hero-button">Start a Crowdfunding</button>
+          <p>
+            Raise money to help cover the cost of medical bills, treatment, or care.
+            Crowdfunding is the trusted place to fundraise for medical cost assistance.
+          </p>
+          <button 
+  className="hero-button" 
+  onClick={() => navigate('/campaignCreator')}
+>
+  Start a Crowdfunding
+</button>
         </div>
         <div className="hero-image">
-          <img src={medical}alt="Family" />
+          <img src={medical} alt="Family" />
         </div>
       </div>
 
@@ -31,10 +65,9 @@ const FundMedical = () => {
 
       {/* Stats Section */}
       <div className="stats-section">
-      <p>
-      Everything you need to help your fundraiser succeed is here. Start fundraising on Crowdfunding today
-
-  </p>
+        <p>
+          Everything you need to help your fundraiser succeed is here. Start fundraising on Crowdfunding today
+        </p>
         <div className="stats-icons">
           <div className="icon green"></div>
           <div className="icon gray"></div>
@@ -63,8 +96,37 @@ const FundMedical = () => {
           </div>
         </div>
       </div>
+
+      {/* 🩺 Featured Medical Campaign */}
+      {featuredFundraiser && (
+
+        <div className="featured-campaign">
+          
+          <h2>Example of  Medical Fundraiser</h2>
+          <div className="campaign-cardd" onClick={handleCardClick} style={{ cursor: "pointer" }}>
+          <img
+  src={`http://localhost:5000/${featuredFundraiser.image.replace(/\\/g, '/')}`}
+  alt={featuredFundraiser.title}
+  className="campaign-picture"
+/>
+
+     
+            
+            <h3>{featuredFundraiser.title}</h3>
+            <p><strong>Target:</strong> ${featuredFundraiser.targetAmount}</p>
+            <p><strong>Raised Amount:</strong> ${featuredFundraiser.raisedAmount}</p>
+            <p><strong>Location:</strong> {featuredFundraiser.placeName}</p>
+            {/* <p className="campaign-description">{featuredFundraiser.description?.slice(0, 100)}...</p> */}
+          </div>
+          
+        </div>
+            
+      )}
+   
     </div>
+
   );
+
 };
 
 export default FundMedical;

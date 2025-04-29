@@ -1,8 +1,35 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import './start.css';
 import Navbar from '../components/Navbar';
 import family from '../assets/families.webp'
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 const Start = () => {
+    const [featuredFundraiser, setFeaturedFundraiser] = useState(null);
+    const navigate = useNavigate();
+    const handleCardClick = () => {
+      navigate('/donationpage', { state: { fundraiser: featuredFundraiser } }); // 👈 passing fundraiser as state
+    };
+    useEffect(() => {
+      const token = localStorage.getItem("token");
+  
+      axios
+        .get("http://localhost:5000/api/category/Project?limit=1", {
+          headers: {
+            Authorization: `Bearer ${token}`
+          },
+        })
+        .then((response) => {
+          // Assuming the API returns an array
+          const fundraiser = response.data[0];
+          console.log("Fetched fundraiser:", fundraiser); // ✅ Logs the full object
+          console.log("Fundraiser image path:", fundraiser?.image); // ✅ Logs the image path
+          setFeaturedFundraiser(fundraiser);
+        })
+        .catch((error) => {
+          console.error("Error fetching featured fundraiser:", error);
+        });
+    }, []);
   return (
     <div className="start-container">
       {/* Navbar at the top */}
@@ -13,7 +40,12 @@ const Start = () => {
         <div className="hero-text">
           <h1>Start a funding in Minutes</h1>
           <p>Everything you need to help your fundraiser succeed is here.</p>
-          <button className="hero-button">Start a Crowdfunding</button>
+          <button 
+  className="hero-button" 
+  onClick={() => navigate('/campaignCreator')}
+>
+  Start a Crowdfunding
+</button>
         </div>
         <div className="cause-image">
           <img src={family}alt="Family" />
@@ -61,6 +93,31 @@ const Start = () => {
           </div>
         </div>
       </div>
+         {/* 🩺 Featured Medical Campaign */}
+         {featuredFundraiser && (
+
+<div className="featured-campaign">
+  
+  <h2>Example of  Project Fundraiser</h2>
+  <div className="campaign-cardd" onClick={handleCardClick} style={{ cursor: "pointer" }}>
+  <img
+src={`http://localhost:5000/${featuredFundraiser.image.replace(/\\/g, '/')}`}
+alt={featuredFundraiser.title}
+className="campaign-picture"
+/>
+
+
+    
+    <h3>{featuredFundraiser.title}</h3>
+    <p><strong>Target:</strong> ${featuredFundraiser.targetAmount}</p>
+    <p><strong>Raised Amount:</strong> ${featuredFundraiser.raisedAmount}</p>
+    <p><strong>Location:</strong> {featuredFundraiser.placeName}</p>
+    {/* <p className="campaign-description">{featuredFundraiser.description?.slice(0, 100)}...</p> */}
+  </div>
+  
+</div>
+    
+)}
     </div>
   );
 };
